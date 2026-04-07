@@ -1,12 +1,19 @@
 import FontAwesome from '@expo/vector-icons/FontAwesome';
+import { Cairo_400Regular, Cairo_700Bold } from '@expo-google-fonts/cairo';
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
+import { I18nManager } from 'react-native';
 import 'react-native-reanimated';
 
+import "../global.css";
 import { useColorScheme } from '@/components/useColorScheme';
+
+// Support RTL for Arabic
+I18nManager.allowRTL(true);
+I18nManager.forceRTL(true);
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -23,6 +30,8 @@ SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
   const [loaded, error] = useFonts({
+    Cairo_400Regular,
+    Cairo_700Bold,
     SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
     ...FontAwesome.font,
   });
