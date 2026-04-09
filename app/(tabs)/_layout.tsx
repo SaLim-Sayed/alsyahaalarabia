@@ -1,9 +1,11 @@
 import React from 'react';
 import { Tabs } from 'expo-router';
-import { Home, Grid, Bookmark, Search } from 'lucide-react-native';
-import { View } from 'react-native';
+import { useTranslation } from 'react-i18next';
+import { Home, Grid, Bookmark } from 'lucide-react-native';
 
 export default function TabLayout() {
+  const { t } = useTranslation();
+
   return (
     <Tabs
       screenOptions={{
@@ -25,21 +27,21 @@ export default function TabLayout() {
       <Tabs.Screen
         name="index"
         options={{
-          title: 'الرئيسية',
+          title: t('common.home'),
           tabBarIcon: ({ color }) => <Home size={24} color={color} />,
         }}
       />
       <Tabs.Screen
         name="categories"
         options={{
-          title: 'الأقسام',
+          title: t('common.categories'),
           tabBarIcon: ({ color }) => <Grid size={24} color={color} />,
         }}
       />
       <Tabs.Screen
         name="saved"
         options={{
-          title: 'المحفوظات',
+          title: t('common.saved'),
           tabBarIcon: ({ color }) => <Bookmark size={24} color={color} />,
         }}
       />

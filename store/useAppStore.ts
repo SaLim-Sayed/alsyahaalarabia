@@ -2,6 +2,9 @@ import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+import { I18nManager } from 'react-native';
+import * as Updates from 'expo-updates';
+
 interface Article {
   id: string;
   title: string;
@@ -16,9 +19,11 @@ interface Article {
 interface AppState {
   savedArticles: Article[];
   theme: 'light' | 'dark';
+  language: 'ar' | 'en';
   toggleSaveArticle: (article: Article) => void;
   isArticleSaved: (id: string) => boolean;
   setTheme: (theme: 'light' | 'dark') => void;
+  setLanguage: (lang: 'ar' | 'en') => void;
 }
 
 export const useAppStore = create<AppState>()(
@@ -26,6 +31,7 @@ export const useAppStore = create<AppState>()(
     (set, get) => ({
       savedArticles: [],
       theme: 'light',
+      language: 'ar',
       toggleSaveArticle: (article) => {
         const { savedArticles } = get();
         const isSaved = savedArticles.some((a) => a.id === article.id);
@@ -39,6 +45,20 @@ export const useAppStore = create<AppState>()(
         return get().savedArticles.some((a) => a.id === id);
       },
       setTheme: (theme) => set({ theme }),
+      setLanguage: async (lang) => {
+        const isRTL = lang === 'ar';
+        if (I18nManager.isRTL !== isRTL) {
+          I18nManager.allowRTL(isRTL);
+          I18nManager.forceRTL(isRTL);
+          set({ language: lang });
+          // Force reload to apply RTL/LTR switch
+          setTimeout(() => {
+            Updates.reloadAsync();
+          }, 100);
+        } else {
+          set({ language: lang });
+        }
+      },
     }),
     {
       name: 'app-storage',

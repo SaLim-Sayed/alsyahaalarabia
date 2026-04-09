@@ -6,6 +6,8 @@ import { Link } from 'expo-router';
 
 const { width } = Dimensions.get('window');
 
+import { useTranslation } from 'react-i18next';
+
 interface Article {
   id: string;
   title: string;
@@ -22,8 +24,10 @@ interface ArticleCardProps {
 }
 
 export const ArticleCard: React.FC<ArticleCardProps> = ({ article, variant = 'list' }) => {
+  const { i18n } = useTranslation();
   const { toggleSaveArticle, isArticleSaved } = useAppStore();
   const isSaved = isArticleSaved(article.id);
+  const isRTL = i18n.language === 'ar';
 
   if (variant === 'hero') {
     return (
@@ -35,17 +39,18 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({ article, variant = 'li
             resizeMode="cover"
           />
           <View className="p-5">
-            <View className="flex-row items-center mb-2">
+            <View className={`flex-row items-center mb-2 ${isRTL ? '' : 'flex-row-reverse'}`}>
               <View className="bg-accent/10 px-3 py-1 rounded-full">
                 <Text className="text-accent text-[12px] font-[Cairo_700Bold]">
                   {article.category}
                 </Text>
               </View>
-              <Text className="text-gray-400 text-[12px] mx-3 flex-row items-center">
-                <Clock size={12} color="#9ca3af" /> {article.date}
-              </Text>
+              <View className={`flex-row items-center mx-3 ${isRTL ? '' : 'flex-row-reverse'}`}>
+                <Clock size={12} color="#9ca3af" />
+                <Text className={`text-gray-400 text-[12px] ${isRTL ? 'mr-1' : 'ml-1'}`}>{article.date}</Text>
+              </View>
             </View>
-            <Text className="text-xl font-[Cairo_700Bold] text-gray-900 leading-8 text-right">
+            <Text className={`text-xl font-[Cairo_700Bold] text-gray-900 leading-8 ${isRTL ? 'text-right' : 'text-left'}`}>
               {article.title}
             </Text>
           </View>
@@ -56,7 +61,7 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({ article, variant = 'li
 
   return (
     <Link href={`/article/${article.id}`} asChild>
-      <TouchableOpacity className="flex-row mb-5 bg-white rounded-2xl overflow-hidden border border-gray-100 p-3 shadow-sm">
+      <TouchableOpacity className={`flex-row mb-5 bg-white rounded-2xl overflow-hidden border border-gray-100 p-3 shadow-sm ${isRTL ? '' : 'flex-row-reverse'}`}>
         <Image 
           source={{ uri: article.image }} 
           className="w-28 h-28 rounded-xl"
@@ -64,17 +69,17 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({ article, variant = 'li
         />
         <View className="flex-1 px-4 justify-between py-1">
           <View>
-            <Text className="text-accent text-[12px] font-[Cairo_700Bold] text-right mb-1">
+            <Text className={`text-accent text-[12px] font-[Cairo_700Bold] mb-1 ${isRTL ? 'text-right' : 'text-left'}`}>
               {article.category}
             </Text>
             <Text 
-              className="text-base font-[Cairo_700Bold] text-gray-900 leading-6 text-right"
+              className={`text-base font-[Cairo_700Bold] text-gray-900 leading-6 ${isRTL ? 'text-right' : 'text-left'}`}
               numberOfLines={2}
             >
               {article.title}
             </Text>
           </View>
-          <View className="flex-row items-center justify-end">
+          <View className={`flex-row items-center ${isRTL ? 'justify-end' : 'justify-start'}`}>
             <Text className="text-[11px] text-gray-400 font-[Cairo_400Regular]">
               {article.date}
             </Text>

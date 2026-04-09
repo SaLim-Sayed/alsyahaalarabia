@@ -1,11 +1,13 @@
 import React from 'react';
-import { View, Text, FlatList, Image, TouchableOpacity } from 'react-native';
+import { View, Text, FlatList } from 'react-native';
+import { useTranslation } from 'react-i18next';
 import { AppHeader } from '@/components/AppHeader';
 import { ArticleCard } from '@/components/ArticleCard';
 import { useAppStore } from '@/store/useAppStore';
 import { Bookmark } from 'lucide-react-native';
 
 export default function SavedScreen() {
+  const { t } = useTranslation();
   const { savedArticles } = useAppStore();
 
   return (
@@ -22,7 +24,7 @@ export default function SavedScreen() {
           )}
           ListHeaderComponent={
             <Text className="text-2xl font-[Cairo_700Bold] text-gray-900 mb-6 text-right">
-              المقالات المحفوظة
+              {t('saved.title')}
             </Text>
           }
         />
@@ -31,11 +33,8 @@ export default function SavedScreen() {
           <View className="bg-gray-50 p-10 rounded-full mb-6">
             <Bookmark size={48} color="#9ca3af" />
           </View>
-          <Text className="text-xl font-[Cairo_700Bold] text-gray-900 mb-2 text-center">
-            لا توجد مقالات محفوظة
-          </Text>
           <Text className="text-gray-500 font-[Cairo_400Regular] text-center">
-            ابدأ بحفظ مقالاتك المفضلة للرجوع إليها لاحقاً بسهولة.
+            {t('saved.empty')}
           </Text>
         </View>
       )}

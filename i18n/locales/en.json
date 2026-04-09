@@ -1,0 +1,39 @@
+{
+  "common": {
+    "all": "All",
+    "latestNews": "Latest News",
+    "categories": "Categories",
+    "home": "Home",
+    "search": "Search",
+    "saved": "Saved",
+    "error": "Error",
+    "retry": "Retry",
+    "loading": "Loading...",
+    "magazineName": "Arab Tourism",
+    "magazineSub": "Arab Tourism Magazine",
+    "goBack": "Go Back"
+  },
+  "home": {
+    "loadingNews": "Loading news..."
+  },
+  "search": {
+    "placeholder": "Search for travel & tourism...",
+    "searching": "Searching...",
+    "minChars": "Type at least 3 characters",
+    "startNow": "Start searching now",
+    "noResults": "No results match your search"
+  },
+  "categories": {
+    "articlesCount": "{{count}} Articles",
+    "loadError": "Error loading categories."
+  },
+  "article": {
+    "editor": "Editor",
+    "loadError": "Could not load article details.",
+    "shareMessage": "Read more in Arab Tourism Magazine"
+  },
+  "saved": {
+    "title": "Saved Articles",
+    "empty": "You have no saved articles. Start exploring inspiring stories!"
+  }
+}

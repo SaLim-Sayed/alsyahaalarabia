@@ -1,0 +1,39 @@
+{
+  "common": {
+    "all": "الكل",
+    "latestNews": "آخر الأخبار",
+    "categories": "اكتشف الأقسام",
+    "home": "الرئيسية",
+    "search": "بحث",
+    "saved": "المحفوظات",
+    "error": "حدث خطأ",
+    "retry": "إعادة المحاولة",
+    "loading": "جاري التحميل...",
+    "magazineName": "السياحة العربية",
+    "magazineSub": "Arab Tourism Magazine",
+    "goBack": "العودة للخلف"
+  },
+  "home": {
+    "loadingNews": "جاري تحميل الأخبار..."
+  },
+  "search": {
+    "placeholder": "ابحث عن السفر والسياحة...",
+    "searching": "جاري البحث...",
+    "minChars": "اكتب 3 أحرف على الأقل للبحث",
+    "startNow": "ابدأ البحث الآن",
+    "noResults": "لا توجد نتائج تطابق بحثك"
+  },
+  "categories": {
+    "articlesCount": "{{count}} مقال",
+    "loadError": "حدث خطأ أثناء تحميل الأقسام."
+  },
+  "article": {
+    "editor": "المحرر",
+    "loadError": "تعذر تحميل تفاصيل المقال.",
+    "shareMessage": "نقر المزيد في مجلة السياحة العربية"
+  },
+  "saved": {
+    "title": "المقالات المحفوظة",
+    "empty": "ليس لديك مقالات محفوظة حالياً. ابدأ باستكشاف القصص الملهمة!"
+  }
+}
