@@ -31,7 +31,10 @@ export default function CategoriesScreen() {
               key={cat.id}
               className="w-[48%] bg-gray-50 rounded-3xl p-6 mb-4 items-center justify-center border border-gray-100"
               onPress={() => {
-                router.push({ pathname: '/', params: { categoryId: cat.id } });
+                router.push({ 
+                  pathname: '/category/[id]', 
+                  params: { id: cat.id, name: cat.name } 
+                });
               }}
             >
               <View className="bg-primary/10 p-4 rounded-2xl mb-4">
