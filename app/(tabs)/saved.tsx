@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { AppHeader } from '@/components/AppHeader';
 import { ArticleCard } from '@/components/ArticleCard';
 import { useAppStore } from '@/store/useAppStore';
-import { Bookmark } from 'lucide-react-native';
+import { BookmarkIcon } from 'react-native-heroicons/outline';
 
 export default function SavedScreen() {
   const { t } = useTranslation();
@@ -31,7 +31,7 @@ export default function SavedScreen() {
       ) : (
         <View className="flex-1 items-center justify-center px-10">
           <View className="bg-gray-50 p-10 rounded-full mb-6">
-            <Bookmark size={48} color="#9ca3af" />
+            <BookmarkIcon size={48} color="#9ca3af" />
           </View>
           <Text className="text-gray-500 font-[Cairo_400Regular] text-center">
             {t('saved.empty')}

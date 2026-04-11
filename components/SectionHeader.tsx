@@ -1,6 +1,5 @@
 import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
-import { ChevronLeft, ChevronRight } from 'lucide-react-native';
 import { useTranslation } from 'react-i18next';
 
 interface SectionHeaderProps {
@@ -13,23 +12,16 @@ export const SectionHeader: React.FC<SectionHeaderProps> = ({ title, onSeeAll })
   const isRTL = i18n.language === 'ar';
 
   return (
-    <View className={`flex-row items-center justify-between px-6 mb-4 ${isRTL ? '' : 'flex-row-reverse'}`}>
-      <TouchableOpacity 
-        onPress={onSeeAll}
-        className={`flex-row items-center ${isRTL ? '' : 'flex-row-reverse'}`}
-      >
-        {isRTL ? (
-          <ChevronLeft size={16} color="#ca8a04" />
-        ) : (
-          <ChevronRight size={16} color="#ca8a04" />
-        )}
-        <Text className={`text-accent text-sm font-[Cairo_700Bold] ${isRTL ? 'ml-1' : 'mr-1'}`}>
-          {t('common.all')}
-        </Text>
-      </TouchableOpacity>
-      <Text className={`text-lg font-[Cairo_700Bold] text-gray-900 border-r-4 border-primary pr-3 ${isRTL ? 'text-right' : 'text-left border-r-0 border-l-4 pl-3'}`}>
-        {title}
-      </Text>
+    <View className={`px-6 mb-6 flex-row items-center ${isRTL ? 'justify-end' : 'justify-start'}`}>
+      {onSeeAll && (
+        <TouchableOpacity onPress={onSeeAll} className={isRTL ? 'mr-auto' : 'ml-auto'}>
+          <Text className="text-accent text-[12px] font-[Cairo_700Bold]">
+            {isRTL ? 'عرض الكل' : 'View All'}
+          </Text>
+        </TouchableOpacity>
+      )}
+      <View className={`w-1.5 h-6 bg-accent rounded-full ${isRTL ? 'ml-3' : 'mr-3'}`} />
+      <Text className="text-xl font-[Cairo_700Bold] text-primary">{title}</Text>
     </View>
   );
 };

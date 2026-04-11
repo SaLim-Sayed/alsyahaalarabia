@@ -12,8 +12,9 @@ module.exports = {
         cairo: ["Cairo_400Regular", "Cairo_700Bold"], // Added later via Google Fonts
       },
       colors: {
-        primary: "#14532d", // Dark Green (Arab Tourism theme)
-        accent: "#ca8a04", // Gold/Yellow
+        primary: "#1a3c34", // Deep Green
+        accent: "#fbbf24",  // Gold/Amber
+        secondary: "#f8fdfc", // Subtle greenish background
       },
     },
   },

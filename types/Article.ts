@@ -7,6 +7,7 @@ export interface Article {
   category: string;
   date: string;
   author: string;
+  categoryId: string;
   link?: string;
 }
 

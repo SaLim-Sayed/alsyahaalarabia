@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, TextInput, FlatList, Text, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { useTranslation } from 'react-i18next';
-import { Search as SearchIcon, X, ArrowRight } from 'lucide-react-native';
+import { MagnifyingGlassIcon, XMarkIcon, ArrowRightIcon, ArrowLeftIcon } from 'react-native-heroicons/outline';
 import { useRouter } from 'expo-router';
 import { ArticleCard } from '@/components/ArticleCard';
 import { useSearchPosts } from '@/hooks/usePosts';
@@ -20,11 +20,11 @@ export default function SearchScreen() {
           onPress={() => router.back()}
           className="mr-4 p-2"
         >
-          <ArrowRight size={24} color="#14532d" />
+          <ArrowRightIcon size={24} color="#14532d" />
         </TouchableOpacity>
         
         <View className="flex-1 bg-gray-100 rounded-2xl flex-row items-center px-4 py-2">
-          <SearchIcon size={20} color="#9ca3af" />
+          <MagnifyingGlassIcon size={20} color="#9ca3af" />
           <TextInput
             placeholder={t('search.placeholder')}
             className="flex-1 ml-3 h-10 text-right font-[Cairo_400Regular] text-gray-900"
@@ -34,7 +34,7 @@ export default function SearchScreen() {
           />
           {query.length > 0 && (
             <TouchableOpacity onPress={() => setQuery('')}>
-              <X size={20} color="#9ca3af" />
+              <XMarkIcon size={20} color="#9ca3af" />
             </TouchableOpacity>
           )}
         </View>

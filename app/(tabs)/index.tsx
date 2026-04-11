@@ -2,36 +2,20 @@ import { ScrollView, View, Text, ActivityIndicator, RefreshControl } from 'react
 import React, { useState, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { AppHeader } from '@/components/AppHeader';
-import { CategoryChip } from '@/components/CategoryChip';
 import { ArticleCard } from '@/components/ArticleCard';
 import { SectionHeader } from '@/components/SectionHeader';
+import { ExploreGrid } from '@/components/ExploreGrid';
+import { CulturalPulse } from '@/components/CulturalPulse';
 import { usePostsByCategory } from '@/hooks/usePosts';
 import { useAppCategories } from '@/hooks/useCategories';
 
 export default function HomeScreen() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const isRTL = i18n.language === 'ar';
   const [selectedCategoryId, setSelectedCategoryId] = useState('all');
   const [refreshing, setRefreshing] = useState(false);
 
-  const { 
-    data: categoriesData, 
-  } = useAppCategories();
-
-  const { 
-    data: articles, 
-    isLoading: isLoadingArticles, 
-    isError, 
-    refetch,
-    isRefetching
-  } = usePostsByCategory(selectedCategoryId === 'all' ? null : selectedCategoryId, 15);
-
-  const categories = useMemo(() => {
-    const base = [{ id: 'all', name: t('common.all') }];
-    if (categoriesData) {
-      return [...base, ...categoriesData];
-    }
-    return base;
-  }, [categoriesData, t]);
+  const { data: articles, isLoading: isLoadingArticles, isError, refetch, isRefetching } = usePostsByCategory(null, 15);
 
   const onRefresh = React.useCallback(async () => {
     setRefreshing(true);
@@ -41,43 +25,50 @@ export default function HomeScreen() {
 
   if (isLoadingArticles && !isRefetching && !refreshing) {
     return (
-      <View className="flex-1 bg-white justify-center items-center">
-        <ActivityIndicator size="large" color="#14532d" />
-        <Text className="mt-4 text-gray-500 font-cairo">{t('home.loadingNews')}</Text>
+      <View className="flex-1 bg-primary justify-center items-center">
+        <ActivityIndicator size="large" color="#fbbf24" />
+        <Text className="mt-4 text-accent font-cairo">{t('home.loadingNews')}</Text>
       </View>
     );
   }
 
   return (
-    <View className="flex-1 bg-white">
+    <View className="flex-1 bg-secondary">
       <AppHeader />
       
       <ScrollView 
         showsVerticalScrollIndicator={false} 
         className="flex-1"
         refreshControl={
-          <RefreshControl refreshing={refreshing || isRefetching} onRefresh={onRefresh} tintColor="#14532d" />
+          <RefreshControl refreshing={refreshing || isRefetching} onRefresh={onRefresh} tintColor="#1a3c34" />
         }
       >
-        <CategoryChip 
-          categories={categories} 
-          selectedId={selectedCategoryId} 
-          onSelect={setSelectedCategoryId} 
-        />
-
         {articles && articles.length > 0 && (
           <>
-            <View className="px-6 mb-6">
+            {/* Hero Section */}
+            <View className="px-6 mt-6">
               <ArticleCard article={articles[0]} variant="hero" />
             </View>
 
+            {/* Explore Grid */}
+            <ExploreGrid />
+
+            {/* Trending Section */}
+            <SectionHeader title={isRTL ? 'التريند الحالي' : 'Current Trend'} />
+            <View className="px-6 mb-8">
+              <ArticleCard article={articles[1] || articles[0]} variant="trending" />
+            </View>
+
+            {/* Latest News */}
             <SectionHeader title={t('common.latestNews')} />
-            
-            <View className="px-6 pb-20">
-              {articles.slice(1).map((article) => (
+            <View className="px-6 mb-8">
+              {articles.slice(2, 6).map((article) => (
                 <ArticleCard key={article.id} article={article} variant="list" />
               ))}
             </View>
+
+            {/* Cultural Pulse Banner */}
+            <CulturalPulse />
           </>
         )}
 

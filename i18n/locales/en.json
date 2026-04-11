@@ -11,7 +11,9 @@
     "loading": "Loading...",
     "magazineName": "Arab Tourism",
     "magazineSub": "Arab Tourism Magazine",
-    "goBack": "Go Back"
+    "goBack": "Go Back",
+    "gallery": "Gallery",
+    "settings": "Settings"
   },
   "home": {
     "loadingNews": "Loading news..."
@@ -30,7 +32,12 @@
   "article": {
     "editor": "Editor",
     "loadError": "Could not load article details.",
-    "shareMessage": "Read more in Arab Tourism Magazine"
+    "shareMessage": "Read more in Arab Tourism Magazine",
+    "readMore": "Read More",
+    "writtenBy": "Written by",
+    "aboutAuthor": "About the Author",
+    "relatedItems": "Related Articles",
+    "seeMore": "See More"
   },
   "saved": {
     "title": "Saved Articles",

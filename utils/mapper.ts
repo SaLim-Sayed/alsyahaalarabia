@@ -40,6 +40,7 @@ export const mapWPPostToArticle = (post: WPPost): Article => {
     content: post.content.rendered,
     image: image,
     category: category,
+    categoryId: (post.categories?.[0] || '0').toString(),
     date: date,
     author: author,
     link: post.link,

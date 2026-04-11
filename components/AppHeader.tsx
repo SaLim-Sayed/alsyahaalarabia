@@ -1,50 +1,37 @@
 import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTranslation } from 'react-i18next';
-import { Search, Globe } from 'lucide-react-native';
-import { Link } from 'expo-router';
-import { useAppStore } from '@/store/useAppStore';
+import { MagnifyingGlassIcon, Bars3BottomRightIcon } from 'react-native-heroicons/outline';
+import { useRouter } from 'expo-router';
 
 export const AppHeader = () => {
   const { t, i18n } = useTranslation();
-  const { setLanguage } = useAppStore();
-
-  const toggleLanguage = () => {
-    const newLang = i18n.language === 'en' ? 'ar' : 'en';
-    setLanguage(newLang);
-  };
+  const isRTL = i18n.language === 'ar';
+  const router = useRouter();
 
   return (
-    <SafeAreaView className="bg-white border-b border-gray-100">
-      <View className="px-6 py-4 flex-row items-center justify-between">
+    <View className="bg-primary pt-14 pb-4 px-6 shadow-sm border-b border-white/5">
+      <View className={`flex-row items-center justify-between ${isRTL ? '' : 'flex-row-reverse'}`}>
         <TouchableOpacity 
-          onPress={toggleLanguage}
-          className="flex-row items-center bg-gray-100 px-3 py-1.5 rounded-full"
+          onPress={() => router.push('/search')}
+          className="w-10 h-10 items-center justify-center rounded-full bg-white/10"
         >
-          <Globe size={16} color="#14532d" />
-          <Text className="ml-2 font-[Cairo_700Bold] text-primary uppercase text-xs">
-            {i18n.language === 'en' ? 'AR' : 'EN'}
-          </Text>
+          <MagnifyingGlassIcon size={22} color="white" />
         </TouchableOpacity>
 
         <View className="items-center">
-          <Text className="text-xl font-[Cairo_700Bold] text-primary">
+          <Text className="text-white text-2xl font-[Cairo_700Bold]">
             {t('common.magazineName')}
           </Text>
-          <Text className="text-[10px] font-[Cairo_400Regular] text-gray-500 uppercase tracking-widest">
+          <Text className="text-accent text-[10px] font-[Cairo_400Regular] tracking-[3px] uppercase -mt-1 opacity-80">
             {t('common.magazineSub')}
           </Text>
         </View>
 
-        <View className="flex-row">
-          <Link href="/search" asChild>
-            <TouchableOpacity className="p-2">
-              <Search size={24} color="#14532d" />
-            </TouchableOpacity>
-          </Link>
-        </View>
+        <TouchableOpacity className="w-10 h-10 items-center justify-center rounded-full bg-white/10">
+          <Bars3BottomRightIcon size={22} color="white" />
+        </TouchableOpacity>
       </View>
-    </SafeAreaView>
+    </View>
   );
 };
