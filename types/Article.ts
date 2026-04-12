@@ -14,6 +14,7 @@ export interface Article {
 export interface Category {
   id: string;
   name: string;
+  image?: any;
   icon?: string;
   count?: number;
 }

@@ -47,11 +47,29 @@ export const mapWPPostToArticle = (post: WPPost): Article => {
   };
 };
 
+const CATEGORY_IMAGES: Record<string, any> = {
+  'default': require('../assets/images/categories/default.png'),
+  'أخبار': require('../assets/images/categories/news.png'),
+  'سياحة': require('../assets/images/categories/tourism.png'),
+  'الثقافة': require('../assets/images/categories/culture.png'),
+  'وجهات': require('../assets/images/categories/tourism.png'), // Reuse for destinations
+  'فنادق': require('../assets/images/categories/hotels.png'),
+  'مطاعم': { uri: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=800&auto=format&fit=crop' },
+  'فعاليات': { uri: 'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?q=80&w=800&auto=format&fit=crop' },
+  'تراث': require('../assets/images/categories/culture.png'),
+};
+
+const getCategoryImage = (name: string): any => {
+  const normalized = name.trim();
+  return CATEGORY_IMAGES[normalized] || CATEGORY_IMAGES['default'];
+};
+
 export const mapWPCategoryToAppCategory = (wpCat: WPCategory): Category => {
   return {
     id: wpCat.id.toString(),
     name: decodeHtmlEntities(wpCat.name),
     count: wpCat.count,
+    image: getCategoryImage(decodeHtmlEntities(wpCat.name)),
   };
 };
 
