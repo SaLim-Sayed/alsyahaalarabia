@@ -70,13 +70,13 @@ export default function SettingsScreen() {
       <AppHeader />
 
       <ScrollView className="flex-1 px-6 pt-6" showsVerticalScrollIndicator={false}>
-        <Text className={`text-2xl font-[Cairo_700Bold] text-primary mb-6 ${isRTL ? 'text-right' : 'text-left'}`}>
+        <Text className="text-2xl font-[Cairo_700Bold] text-primary mb-6 text-start">
           {t('settings.title')}
         </Text>
 
         {/* Language Section */}
         <View className="mb-6">
-          <Text className={`text-gray-400 font-[Cairo_700Bold] text-xs uppercase tracking-widest mb-4 ${isRTL ? 'text-right' : 'text-left'}`}>
+          <Text className="text-gray-400 font-[Cairo_700Bold] text-xs uppercase tracking-widest mb-4 text-start">
             {t('settings.language')}
           </Text>
           <SettingItem
@@ -90,7 +90,7 @@ export default function SettingsScreen() {
 
         {/* Appearance Section */}
         <View className="mb-6">
-          <Text className={`text-gray-400 font-[Cairo_700Bold] text-xs uppercase tracking-widest mb-4 ${isRTL ? 'text-right' : 'text-left'}`}>
+          <Text className="text-gray-400 font-[Cairo_700Bold] text-xs uppercase tracking-widest mb-4 text-start">
             {t('settings.theme')}
           </Text>
           <View className="flex-row items-center justify-between p-5 bg-white mb-3 rounded-3xl shadow-sm border border-gray-100">
@@ -113,7 +113,7 @@ export default function SettingsScreen() {
 
         {/* About Section */}
         <View className="mb-6">
-          <Text className={`text-gray-400 font-[Cairo_700Bold] text-xs uppercase tracking-widest mb-4 ${isRTL ? 'text-right' : 'text-left'}`}>
+          <Text className="text-gray-400 font-[Cairo_700Bold] text-xs uppercase tracking-widest mb-4 text-start">
             {t('settings.about')}
           </Text>
           <SettingItem icon={ShareIcon} title={t('settings.contact')} onPress={handleShare} isRTL={isRTL} />

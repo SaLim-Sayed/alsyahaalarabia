@@ -7,7 +7,8 @@ import { ArticleCard } from '@/components/ArticleCard';
 import { useSearchPosts } from '@/hooks/usePosts';
 
 export default function SearchScreen() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const isRTL = i18n.language === 'ar';
   const [query, setQuery] = useState('');
   const router = useRouter();
 
@@ -18,16 +19,16 @@ export default function SearchScreen() {
       <View className="pt-16 px-6 pb-6 border-b border-gray-100 flex-row items-center">
         <TouchableOpacity 
           onPress={() => router.back()}
-          className="mr-4 p-2"
+          className={`${isRTL ? 'ml-4' : 'mr-4'} p-2`}
         >
-          <ArrowRightIcon size={24} color="#14532d" />
+          {isRTL ? <ArrowRightIcon size={24} color="#14532d" /> : <ArrowLeftIcon size={24} color="#14532d" />}
         </TouchableOpacity>
         
         <View className="flex-1 bg-gray-100 rounded-2xl flex-row items-center px-4 py-2">
           <MagnifyingGlassIcon size={20} color="#9ca3af" />
           <TextInput
             placeholder={t('search.placeholder')}
-            className="flex-1 ml-3 h-10 text-right font-[Cairo_400Regular] text-gray-900"
+            className={`flex-1 ${isRTL ? 'mr-3' : 'ml-3'} h-10 text-start font-[Cairo_400Regular] text-gray-900`}
             value={query}
             onChangeText={setQuery}
             autoFocus

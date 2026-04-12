@@ -141,7 +141,7 @@ export default function ArticleDetailScreen() {
             </View>
 
             <Text 
-              className={`text-3xl font-[Cairo_700Bold] text-white leading-[48px] mb-6 ${isRTL ? 'text-right' : 'text-left'}`}
+              className={`text-3xl font-[Cairo_700Bold] text-white leading-[48px] mb-6 text-start`}
               numberOfLines={3}
             >
               {article.title}
@@ -152,7 +152,7 @@ export default function ArticleDetailScreen() {
                 source={{ uri: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=100&auto=format&fit=crop' }} 
                 className="w-10 h-10 rounded-full border-2 border-accent"
               />
-              <View className={`mx-3 ${isRTL ? 'items-end' : 'items-start'}`}>
+              <View className="mx-3 items-start">
                 <Text className="text-white font-[Cairo_700Bold] text-sm">{article.author || t('article.editor')}</Text>
                 <View className="flex-row items-center opacity-70">
                    <ClockIcon size={10} color="white" />
@@ -165,7 +165,7 @@ export default function ArticleDetailScreen() {
 
         {/* Content Section */}
         <View className="bg-white rounded-t-[40px] -mt-10 px-8 pt-12 pb-16">
-          <View className={isRTL ? 'items-end' : 'items-start'}>
+          <View className="items-start">
             <RenderHtml
               contentWidth={width - 64}
               source={{ html: article.content || '' }}
