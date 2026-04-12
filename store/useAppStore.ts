@@ -54,20 +54,24 @@ export const useAppStore = create<AppState>()(
           set({ language: lang });
           // Force reload to apply RTL/LTR switch
           setTimeout(() => {
-            try {
-              // Try DevSettings first - most reliable for Expo Go / Dev Builds
-              if (__DEV__) {
-                DevSettings.reload();
-              } else if (RNRestart && RNRestart.restart) {
-                RNRestart.restart();
-              } else if (Updates && Updates.reloadAsync) {
-                Updates.reloadAsync();
-              } else {
-                DevSettings.reload();
+            const reload = async () => {
+              try {
+                if (__DEV__) {
+                  DevSettings.reload();
+                } else if (RNRestart && typeof RNRestart.restart === 'function') {
+                  RNRestart.restart();
+                } else if (Updates && typeof Updates.reloadAsync === 'function') {
+                  await Updates.reloadAsync();
+                } else {
+                  DevSettings.reload();
+                }
+              } catch (error) {
+                console.error('Failed to restart app:', error);
+                // Last ditch effort
+                try { DevSettings.reload(); } catch (e) {}
               }
-            } catch (error) {
-              console.error('Failed to restart app:', error);
-            }
+            };
+            reload();
           }, 100);
         } else {
           set({ language: lang });

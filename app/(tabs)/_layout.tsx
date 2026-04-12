@@ -2,8 +2,8 @@ import React from 'react';
 import { Tabs } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { HomeIcon as HomeSolid } from 'react-native-heroicons/solid';
-import { HomeIcon as HomeOutline, Squares2X2Icon as CategoriesOutline, PhotoIcon as PhotoOutline, Cog6ToothIcon as SettingsOutline } from 'react-native-heroicons/outline';
-import { Squares2X2Icon as CategoriesSolid, PhotoIcon as PhotoSolid, Cog6ToothIcon as SettingsSolid } from 'react-native-heroicons/solid';
+import { HomeIcon as HomeOutline, Squares2X2Icon as CategoriesOutline, PhotoIcon as PhotoOutline, Cog6ToothIcon as SettingsOutline, BookmarkIcon as BookmarkOutline } from 'react-native-heroicons/outline';
+import { Squares2X2Icon as CategoriesSolid, PhotoIcon as PhotoSolid, Cog6ToothIcon as SettingsSolid, BookmarkIcon as BookmarkSolid } from 'react-native-heroicons/solid';
 
 export default function TabLayout() {
   const { t, i18n } = useTranslation();
@@ -44,11 +44,11 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="gallery"
+        name="saved"
         options={{
-          title: t('common.gallery'),
+          title: t('common.saved'),
           tabBarIcon: ({ color, focused }) => 
-            focused ? <PhotoSolid size={24} color={color} /> : <PhotoOutline size={24} color={color} />,
+            focused ? <BookmarkSolid size={24} color={color} /> : <BookmarkOutline size={24} color={color} />,
         }}
       />
       <Tabs.Screen
