@@ -6,7 +6,8 @@ import { useAppCategories } from '@/hooks/useCategories';
 import { router } from 'expo-router';
 
 export default function CategoriesScreen() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const isRTL = i18n.language === 'ar';
   const { data: categories, isLoading, isError } = useAppCategories();
 
   if (isLoading) {
@@ -21,7 +22,7 @@ export default function CategoriesScreen() {
     <View className="flex-1 bg-white">
       <AppHeader />
       <ScrollView className="flex-1 px-6 pt-6">
-        <Text className="text-2xl font-[Cairo_700Bold] text-gray-900 mb-6 text-right">
+        <Text className="text-2xl font-[Cairo_700Bold] text-gray-900 mb-6 text-start">
           {t('common.categories')}
         </Text>
         

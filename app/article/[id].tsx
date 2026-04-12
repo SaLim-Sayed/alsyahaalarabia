@@ -107,7 +107,7 @@ export default function ArticleDetailScreen() {
             className="absolute inset-0 px-8 pb-20 justify-end"
           >
              {/* Header Buttons */}
-            <View className={`absolute top-14 left-6 right-6 flex-row items-center justify-between ${isRTL ? '' : 'flex-row-reverse'}`}>
+            <View className="absolute top-14 left-6 right-6 flex-row items-center justify-between">
               <TouchableOpacity 
                 onPress={() => router.back()}
                 className="bg-black/30 w-12 h-12 rounded-full items-center justify-center backdrop-blur-md"
@@ -131,7 +131,7 @@ export default function ArticleDetailScreen() {
               </View>
             </View>
 
-            <View className={`flex-row mb-4 ${isRTL ? 'justify-end' : 'justify-start'}`}>
+            <View className="flex-row mb-4">
                <View className="bg-accent px-3 py-1 rounded-lg mr-2">
                  <Text className="text-primary text-[10px] font-[Cairo_700Bold]">{article.category}</Text>
                </View>
@@ -147,7 +147,7 @@ export default function ArticleDetailScreen() {
               {article.title}
             </Text>
 
-            <View className={`flex-row items-center ${isRTL ? 'justify-end' : 'justify-start'}`}>
+            <View className="flex-row items-center">
               <Image 
                 source={{ uri: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=100&auto=format&fit=crop' }} 
                 className="w-10 h-10 rounded-full border-2 border-accent"
@@ -178,12 +178,14 @@ export default function ArticleDetailScreen() {
 
           {/* Related Articles */}
           <View className="mt-8">
-            <View className={`flex-row items-center mb-8 ${isRTL ? 'justify-end' : 'justify-start'}`}>
-               <TouchableOpacity className={isRTL ? 'mr-auto' : 'ml-auto'}>
+            <View className="flex-row items-center mb-8">
+               <View className="w-1.5 h-6 bg-accent rounded-full mx-3" />
+               <Text className="text-2xl font-[Cairo_700Bold] text-primary flex-1">
+                 {t('article.relatedItems')}
+               </Text>
+               <TouchableOpacity>
                  <Text className="text-accent text-xs font-[Cairo_700Bold]">{t('article.seeMore')}</Text>
                </TouchableOpacity>
-               <View className={`w-1.5 h-6 bg-accent rounded-full ${isRTL ? 'ml-3' : 'mr-3'}`} />
-               <Text className="text-2xl font-[Cairo_700Bold] text-primary">{t('article.relatedItems')}</Text>
             </View>
 
             <View>

@@ -11,10 +11,9 @@ const resources = {
   en: { translation: en },
 };
 
-// Detect system language
-const systemLanguage = Localization.getLocales()[0].languageCode ?? 'ar';
-// Fallback to 'ar' since it's the primary market
-const defaultLanguage = ['ar', 'en'].includes(systemLanguage) ? systemLanguage : 'ar';
+// Detect initial language based on the native I18nManager state
+const initialIsRTL = I18nManager.isRTL;
+const defaultLanguage = initialIsRTL ? 'ar' : 'en';
 
 i18n
   .use(initReactI18next)
@@ -30,7 +29,7 @@ i18n
     },
   });
 
-// Handle RTL
+// Re-verify RTL on every boot to ensure consistency
 const isRTL = i18n.language === 'ar';
 if (I18nManager.isRTL !== isRTL) {
   I18nManager.allowRTL(isRTL);

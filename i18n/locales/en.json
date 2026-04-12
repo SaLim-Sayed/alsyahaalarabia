@@ -42,5 +42,21 @@
   "saved": {
     "title": "Saved Articles",
     "empty": "You have no saved articles. Start exploring inspiring stories!"
+  },
+  "settings": {
+    "title": "Settings",
+    "language": "Language",
+    "languageDescription": "Choose your preferred app language",
+    "arabic": "العربية",
+    "english": "English",
+    "theme": "Appearance",
+    "light": "Light",
+    "dark": "Dark",
+    "about": "About App",
+    "version": "Version",
+    "developer": "Developer",
+    "contact": "Contact Us",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Use"
   }
 }

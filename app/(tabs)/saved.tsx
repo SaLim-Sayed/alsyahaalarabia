@@ -7,7 +7,8 @@ import { useAppStore } from '@/store/useAppStore';
 import { BookmarkIcon } from 'react-native-heroicons/outline';
 
 export default function SavedScreen() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const isRTL = i18n.language === 'ar';
   const { savedArticles } = useAppStore();
 
   return (
@@ -23,9 +24,9 @@ export default function SavedScreen() {
             <ArticleCard article={item} variant="list" />
           )}
           ListHeaderComponent={
-            <Text className="text-2xl font-[Cairo_700Bold] text-gray-900 mb-6 text-right">
-              {t('saved.title')}
-            </Text>
+        <Text className="text-2xl font-[Cairo_700Bold] text-gray-900 mb-6 text-start">
+          {t('saved.title')}
+        </Text>
           }
         />
       ) : (

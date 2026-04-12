@@ -2,7 +2,8 @@ import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import { I18nManager } from 'react-native';
+import { I18nManager, DevSettings } from 'react-native';
+import RNRestart from 'react-native-restart';
 import * as Updates from 'expo-updates';
 
 interface Article {
@@ -53,7 +54,20 @@ export const useAppStore = create<AppState>()(
           set({ language: lang });
           // Force reload to apply RTL/LTR switch
           setTimeout(() => {
-            Updates.reloadAsync();
+            try {
+              // Try DevSettings first - most reliable for Expo Go / Dev Builds
+              if (__DEV__) {
+                DevSettings.reload();
+              } else if (RNRestart && RNRestart.restart) {
+                RNRestart.restart();
+              } else if (Updates && Updates.reloadAsync) {
+                Updates.reloadAsync();
+              } else {
+                DevSettings.reload();
+              }
+            } catch (error) {
+              console.error('Failed to restart app:', error);
+            }
           }, 100);
         } else {
           set({ language: lang });

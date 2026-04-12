@@ -32,12 +32,12 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({ article, variant = 'li
             className="h-48 w-full rounded-[24px] mb-4"
             resizeMode="cover"
           />
-          <View className={`${isRTL ? 'items-end' : 'items-start'}`}>
+          <View className="items-start">
             <Text className="text-accent text-[11px] font-[Cairo_700Bold] mb-1">
               {article.category}
             </Text>
             <Text 
-              className={`text-lg font-[Cairo_700Bold] text-gray-800 leading-7 ${isRTL ? 'text-right' : 'text-left'}`}
+              className="text-lg font-[Cairo_700Bold] text-gray-800 leading-7 text-start"
               numberOfLines={2}
             >
               {article.title}
@@ -61,27 +61,27 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({ article, variant = 'li
             colors={['transparent', 'rgba(0,0,0,0.8)']}
             className="absolute inset-0 px-6 pb-8 justify-end"
           >
-            <View className={`bg-accent/90 self-start px-4 py-1.5 rounded-xl mb-4 ${isRTL ? 'ml-auto' : ''}`}>
+            <View className="bg-accent/90 self-start px-4 py-1.5 rounded-xl mb-4">
               <Text className="text-white text-[12px] font-[Cairo_700Bold]">
                 {article.category}
               </Text>
             </View>
             
             <Text 
-              className={`text-2xl font-[Cairo_700Bold] text-white leading-[38px] mb-4 ${isRTL ? 'text-right' : 'text-left'}`}
+              className="text-2xl font-[Cairo_700Bold] text-white leading-[38px] mb-4 text-start"
               numberOfLines={3}
             >
               {article.title}
             </Text>
 
             <Text 
-              className={`text-gray-300 text-[14px] font-[Cairo_400Regular] mb-6 leading-6 ${isRTL ? 'text-right' : 'text-left'}`}
+              className="text-gray-300 text-[14px] font-[Cairo_400Regular] mb-6 leading-6 text-start"
               numberOfLines={2}
             >
               {article.excerpt || "اكتشف أسرار الحضارات القديمة في قلب الصحراء العربية، حيث تلتقي الفخامة بالتاريخ في تجربة لا تنسى."}
             </Text>
 
-            <View className={`flex-row ${isRTL ? 'justify-end' : 'justify-start'}`}>
+            <View className="flex-row">
               <TouchableOpacity className="bg-accent px-8 py-3 rounded-2xl shadow-lg flex-row items-center">
                 <Text className="text-primary font-[Cairo_700Bold] text-base mr-2">
                   {t('article.readMore') || 'اقرأ المزيد'}
@@ -108,12 +108,12 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({ article, variant = 'li
             className="absolute inset-0 p-5 justify-end"
           >
              <Text 
-              className={`text-lg font-[Cairo_700Bold] text-white ${isRTL ? 'text-right' : 'text-left'}`}
+              className="text-lg font-[Cairo_700Bold] text-white text-start"
               numberOfLines={2}
             >
               {article.title}
             </Text>
-            <View className={`flex-row items-center mt-2 ${isRTL ? 'justify-end' : 'justify-start'}`}>
+            <View className="flex-row items-center mt-2">
                <ClockIcon size={12} color="#fbbf24" />
                <Text className="text-accent text-[11px] font-[Cairo_400Regular] mx-1">
                  {article.date}
@@ -128,7 +128,7 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({ article, variant = 'li
   return (
     <Link href={`/article/${article.id}`} asChild>
       <TouchableOpacity 
-        className={`flex-row mb-4 bg-white rounded-3xl overflow-hidden p-3 shadow-sm border border-secondary/50 ${isRTL ? '' : 'flex-row-reverse'}`}
+        className="flex-row mb-4 bg-white rounded-3xl overflow-hidden p-3 shadow-sm border border-secondary/50"
       >
         <Image 
           source={{ uri: article.image }} 
@@ -137,12 +137,12 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({ article, variant = 'li
         />
         <View className="flex-1 px-4 justify-center">
           <Text 
-            className={`text-base font-[Cairo_700Bold] text-gray-800 leading-6 mb-1 ${isRTL ? 'text-right' : 'text-left'}`}
+            className="text-base font-[Cairo_700Bold] text-gray-800 leading-6 mb-1 text-start"
             numberOfLines={2}
           >
             {article.title}
           </Text>
-          <View className={`flex-row items-center ${isRTL ? 'justify-end' : 'justify-start'}`}>
+          <View className="flex-row items-center">
             <Text className="text-[11px] text-gray-400 font-[Cairo_400Regular]">
               {article.date}
             </Text>
