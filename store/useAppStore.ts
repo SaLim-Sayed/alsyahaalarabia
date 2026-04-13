@@ -69,43 +69,40 @@ export const useAppStore = create<AppState>()(
       setTheme: (theme) => set({ theme }),
       setLanguage: async (lang) => {
         const isRTL = lang === 'ar';
-        const { lastSyncTimestamp } = get();
+        const { lastSyncTimestamp, language: currentLang } = get();
         const now = Date.now();
         
-        // Cooldown and safety checks
-        const canRestart = (now - lastSyncTimestamp) > 3000;
-
-        if (I18nManager.isRTL !== isRTL && canRestart) {
+        // Safety: If it's a simple language toggle without direction change (or recently synced), 
+        // just update state.
+        const directionMismatch = I18nManager.isRTL !== isRTL;
+        
+        if (directionMismatch) {
+          console.log('[Store] Direction mismatch, forcing RTL:', isRTL);
           I18nManager.allowRTL(isRTL);
           I18nManager.forceRTL(isRTL);
           
           set({ language: lang, lastSyncTimestamp: now });
           
-          // Small delay to ensure state and I18nManager are ready
+          // Delay to ensure persistence finishes before restart
           setTimeout(async () => {
             try {
-              // Priority 1: Native Restart (Capital R)
               if (RNRestart && typeof (RNRestart as any).Restart === 'function') {
                 return (RNRestart as any).Restart();
               }
-              
-              // Priority 2: Standard restart if Capital R is missing
               if (RNRestart && typeof (RNRestart as any).restart === 'function') {
                 return (RNRestart as any).restart();
               }
-              
-              // Priority 3: Expo Updates
               if (Updates && typeof Updates.reloadAsync === 'function') {
                 return await Updates.reloadAsync();
               }
-              
               DevSettings.reload();
             } catch (error) {
-              console.warn('[Store] Restart phase 1 failed, trying fallback...', error);
+              console.warn('[Store] Restart failed, falling back to reload', error);
               DevSettings.reload();
             }
-          }, 400);
+          }, 300);
         } else {
+          // If native direction is already correct (or no change), just swap i18n
           set({ language: lang });
         }
       },

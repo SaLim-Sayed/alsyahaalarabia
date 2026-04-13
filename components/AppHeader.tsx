@@ -14,7 +14,7 @@ export const AppHeader = () => {
 
   return (
     <View className="bg-primary pt-14 pb-4 px-6 shadow-sm border-b border-white/5">
-      <View className={`flex-row items-center justify-between ${isRTL ? "flex-row-reverse" : ""}`}>
+      <View className="flex-row items-center justify-between">
         <TouchableOpacity
           onPress={() => router.push("/search")}
           className="w-10 h-10 items-center justify-center rounded-full bg-white/10"

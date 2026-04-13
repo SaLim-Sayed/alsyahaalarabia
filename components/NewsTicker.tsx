@@ -74,9 +74,7 @@ export const NewsTicker: React.FC<NewsTickerProps> = ({ articles }) => {
 
   return (
     <View className="mb-6 bg-white overflow-hidden border-y-[1.5px] border-[#c5a059] shadow-sm">
-      <View
-        className={`flex-row items-center h-12 ${isRTL ? "flex-row-reverse" : ""}`}
-      >
+      <View className={`flex-row items-center h-12  `}>
         {/* Fixed Title Label */}
         <LinearGradient
           colors={["#1a3c34", "#122a24"]}
@@ -84,7 +82,7 @@ export const NewsTicker: React.FC<NewsTickerProps> = ({ articles }) => {
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 1 }}
         >
-          <Text className="text-accent font-[Cairo_700Bold] text-[13px] ">
+          <Text className="text-accent   text-[13px] ">
             {t("common.latestNews")}
           </Text>
         </LinearGradient>
@@ -98,18 +96,20 @@ export const NewsTicker: React.FC<NewsTickerProps> = ({ articles }) => {
                   opacity: fadeAnim,
                   transform: [{ translateX: slideAnim }],
                 }}
-                className={`flex-row items-center justify-between ${isRTL ? "flex-row-reverse" : ""}`}
+                className="flex-row items-center justify-between"
               >
-                <View
-                  className={`flex-1 flex-row items-center ${isRTL ? "flex-row-reverse" : ""}`}
-                >
+                <View className="flex-1 flex-row items-center">
                   <Text className="text-[#c5a059] text-[10px] font-[Cairo_700Bold]">
                     {currentArticle.date}
                   </Text>
                   <View className="w-1 h-1 rounded-full bg-[#c5a059] opacity-40 mx-2" />
                   <Text
-                    className={`flex-1 text-gray-800 font-[Cairo_700Bold] text-[13px] ${isRTL ? "text-right" : "text-left"}`}
+                    className="flex-1 text-gray-800 font-[Cairo_700Bold] text-[13px]"
                     numberOfLines={1}
+                    style={{
+                      textAlign: isRTL ? "right" : "left",
+                      writingDirection: isRTL ? "rtl" : "ltr",
+                    }}
                   >
                     {currentArticle.title}
                   </Text>

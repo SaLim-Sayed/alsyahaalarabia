@@ -18,20 +18,20 @@ import {
 const SettingItem = ({ icon: Icon, title, value, onPress, showChevron = true, isRTL }: any) => (
   <TouchableOpacity
     onPress={onPress}
-    className={`flex-row items-center justify-between p-5 bg-white mb-3 rounded-3xl shadow-sm border border-gray-100 ${isRTL ? 'flex-row-reverse' : ''}`}
+    className="flex-row items-center justify-between p-5 bg-white mb-3 rounded-3xl shadow-sm border border-gray-100"
   >
-    <View className={`flex-row items-center ${isRTL ? 'flex-row-reverse' : ''}`}>
+    <View className="flex-row items-center">
       <View className="bg-primary/5 w-10 h-10 rounded-2xl items-center justify-center">
         <Icon size={22} color="#1a3c34" strokeWidth={1.5} />
       </View>
-      <Text className={`text-gray-800 font-[Cairo_700Bold] text-base ${isRTL ? 'me-4' : 'ms-4'}`}>
+      <Text className="text-gray-800 font-[Cairo_700Bold] text-base ms-4">
         {title}
       </Text>
     </View>
 
-    <View className={`flex-row items-center ${isRTL ? 'flex-row-reverse' : ''}`}>
+    <View className="flex-row items-center">
       {value && (
-        <Text className={`text-accent font-[Cairo_700Bold] text-sm ${isRTL ? 'ms-2' : 'me-2'}`}>
+        <Text className="text-accent font-[Cairo_700Bold] text-sm me-2">
           {value}
         </Text>
       )}
@@ -72,7 +72,7 @@ export default function SettingsScreen() {
 
       <ScrollView className="flex-1 px-6 pt-6" showsVerticalScrollIndicator={false}>
         {/* Profile Card */}
-        <View className={`mb-10 bg-primary p-6 rounded-[32px] flex-row items-center shadow-lg border border-white/5 ${isRTL ? 'flex-row-reverse' : ''}`}>
+        <View className="mb-10 bg-primary p-6 rounded-[32px] flex-row items-center shadow-lg border border-white/5">
           <View className="w-16 h-16 rounded-3xl bg-accent items-center justify-center border-2 border-white/20">
             {user ? (
                <Text className="text-primary text-2xl font-[Cairo_700Bold]">
@@ -82,15 +82,21 @@ export default function SettingsScreen() {
                 <InformationCircleIcon size={30} color="#1a3c34" />
             )}
           </View>
-          <View className={`${isRTL ? 'me-5 items-end' : 'ms-5 items-start'} flex-1`}>
-            <Text className="text-white text-xl font-[Cairo_700Bold]">
+          <View className="ms-5 flex-1">
+            <Text 
+                className="text-white text-xl font-[Cairo_700Bold]"
+                style={{ textAlign: isRTL ? 'right' : 'left' }}
+            >
               {user ? user.name : t('auth.guest')}
             </Text>
             <TouchableOpacity 
               onPress={() => user ? logout() : router.push('/(auth)/login')}
               className="mt-1"
             >
-              <Text className="text-accent text-xs font-[Cairo_700Bold]">
+              <Text 
+                className="text-accent text-xs font-[Cairo_700Bold]"
+                style={{ textAlign: isRTL ? 'right' : 'left' }}
+              >
                 {user ? t('auth.logout') : t('auth.login')}
               </Text>
             </TouchableOpacity>
@@ -120,12 +126,12 @@ export default function SettingsScreen() {
           <Text className={`text-gray-400 font-[Cairo_700Bold] text-xs uppercase tracking-widest mb-4 ${isRTL ? 'text-right' : 'text-left'}`}>
             {t('settings.theme')}
           </Text>
-          <View className={`flex-row items-center justify-between p-5 bg-white mb-3 rounded-3xl shadow-sm border border-gray-100 ${isRTL ? 'flex-row-reverse' : ''}`}>
-            <View className={`flex-row items-center ${isRTL ? 'flex-row-reverse' : ''}`}>
+          <View className="flex-row items-center justify-between p-5 bg-white mb-3 rounded-3xl shadow-sm border border-gray-100">
+            <View className="flex-row items-center">
               <View className="bg-primary/5 w-10 h-10 rounded-2xl items-center justify-center">
                 <MoonIcon size={22} color="#1a3c34" strokeWidth={1.5} />
               </View>
-              <Text className={`text-gray-800 font-[Cairo_700Bold] text-base ${isRTL ? 'me-4' : 'ms-4'}`}>
+              <Text className="text-gray-800 font-[Cairo_700Bold] text-base ms-4">
                 {t('settings.theme')}
               </Text>
             </View>

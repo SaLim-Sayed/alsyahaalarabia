@@ -70,11 +70,11 @@ export const HomeSlider: React.FC<HomeSliderProps> = ({
       />
 
       {/* Pagination Dots */}
-      <View className="flex-row justify-center items-center -mt-10 mb-4 h-10">
+      <View className={`flex-row justify-center items-center -mt-10 mb-4 h-10 ${isRTL ? 'flex-row-reverse' : ''}`}>
         {articles.map((_, index) => (
           <View
             key={index}
-            className={`h-1.5 rounded-full mx-1 transition-all duration-300 ${
+            className={`h-1.5 rounded-full mx-1 ${
               activeIndex === index ? "w-6 bg-accent" : "w-1.5 bg-white/50"
             }`}
           />

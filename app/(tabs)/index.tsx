@@ -71,6 +71,10 @@ export default function HomeScreen() {
             <HomeSlider articles={articles.slice(0, 5)} />
 
             {/* Explore Grid */}
+            <SectionHeader
+              title={isRTL ? "استكشف الأقسام" : "Explore Sections"}
+            />
+
             <ExploreGrid />
 
             {/* Trending Section */}

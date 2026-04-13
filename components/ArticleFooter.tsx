@@ -21,7 +21,7 @@ export const ArticleFooter = () => {
           {t('common.magazineName')}
         </Text>
         
-        <View className={`flex-row my-8 ${isRTL ? 'flex-row-reverse' : ''}`}>
+        <View className="flex-row my-8">
           {socialLinks.map((social) => (
             <TouchableOpacity 
               key={social.name}
