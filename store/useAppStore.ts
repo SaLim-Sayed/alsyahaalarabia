@@ -17,14 +17,26 @@ interface Article {
   content?: string;
 }
 
+interface User {
+  id: string;
+  name: string;
+  email: string;
+  avatar?: string;
+  role?: string;
+}
+
 interface AppState {
   savedArticles: Article[];
   theme: 'light' | 'dark';
   language: 'ar' | 'en';
+  user: User | null;
+  token: string | null;
   toggleSaveArticle: (article: Article) => void;
   isArticleSaved: (id: string) => boolean;
   setTheme: (theme: 'light' | 'dark') => void;
   setLanguage: (lang: 'ar' | 'en') => void;
+  setUser: (user: User | null, token: string | null) => void;
+  logout: () => void;
 }
 
 export const useAppStore = create<AppState>()(
@@ -33,6 +45,10 @@ export const useAppStore = create<AppState>()(
       savedArticles: [],
       theme: 'light',
       language: 'ar',
+      user: null,
+      token: null,
+      setUser: (user, token) => set({ user, token }),
+      logout: () => set({ user: null, token: null }),
       toggleSaveArticle: (article) => {
         const { savedArticles } = get();
         const isSaved = savedArticles.some((a) => a.id === article.id);

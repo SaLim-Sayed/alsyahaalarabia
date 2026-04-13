@@ -58,5 +58,20 @@
     "contact": "Contact Us",
     "privacy": "Privacy Policy",
     "terms": "Terms of Use"
+  },
+  "auth": {
+    "welcomeBack": "Welcome Back",
+    "signInToContinue": "Sign in to continue",
+    "usernameOrEmail": "Username or Email",
+    "password": "Password",
+    "login": "Login",
+    "forgotPassword": "Forgot Password?",
+    "noAccount": "Don't have an account?",
+    "signUp": "Sign Up",
+    "requiredFields": "Please fill in all required fields",
+    "invalidCredentials": "Invalid username or password",
+    "logout": "Logout",
+    "profile": "Profile",
+    "guest": "Guest"
   }
 }

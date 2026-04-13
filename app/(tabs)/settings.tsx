@@ -3,9 +3,9 @@ import { useAppStore } from '@/store/useAppStore';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { ScrollView, Share, Switch, Text, TouchableOpacity, View } from 'react-native';
+import { useRouter } from 'expo-router';
 import {
   ArrowPathIcon,
-  ChevronLeftIcon,
   ChevronRightIcon,
   DocumentTextIcon,
   InformationCircleIcon,
@@ -47,7 +47,8 @@ const SettingItem = ({ icon: Icon, title, value, onPress, showChevron = true, is
 export default function SettingsScreen() {
   const { t, i18n } = useTranslation();
   const isRTL = i18n.language === 'ar';
-  const { language, setLanguage, theme, setTheme } = useAppStore();
+  const router = useRouter();
+  const { language, setLanguage, theme, setTheme, user, logout } = useAppStore();
 
   const toggleLanguage = () => {
     const nextLang = language === 'ar' ? 'en' : 'ar';
@@ -70,6 +71,32 @@ export default function SettingsScreen() {
       <AppHeader />
 
       <ScrollView className="flex-1 px-6 pt-6" showsVerticalScrollIndicator={false}>
+        {/* Profile Card */}
+        <View className="mb-10 bg-primary p-6 rounded-[32px] flex-row items-center shadow-lg border border-white/5">
+          <View className="w-16 h-16 rounded-3xl bg-accent items-center justify-center border-2 border-white/20">
+            {user ? (
+               <Text className="text-primary text-2xl font-[Cairo_700Bold]">
+                 {user.name.charAt(0).toUpperCase()}
+               </Text>
+            ) : (
+                <InformationCircleIcon size={30} color="#1a3c34" />
+            )}
+          </View>
+          <View className={`mx-5 flex-1 ${isRTL ? 'items-end' : 'items-start'}`}>
+            <Text className="text-white text-xl font-[Cairo_700Bold]">
+              {user ? user.name : t('auth.guest')}
+            </Text>
+            <TouchableOpacity 
+              onPress={() => user ? logout() : router.push('/(auth)/login')}
+              className="mt-1"
+            >
+              <Text className="text-accent text-xs font-[Cairo_700Bold]">
+                {user ? t('auth.logout') : t('auth.login')}
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+
         <Text className="text-2xl font-[Cairo_700Bold] text-primary mb-6 text-start">
           {t('settings.title')}
         </Text>
