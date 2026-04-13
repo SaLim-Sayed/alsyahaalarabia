@@ -11,10 +11,12 @@ const resources = {
   en: { translation: en },
 };
 
-// Detect initial language based on the native I18nManager state
-const initialIsRTL = I18nManager.isRTL;
-const defaultLanguage = initialIsRTL ? 'ar' : 'en';
+// Detect device language
+const locales = Localization.getLocales();
+const deviceLanguage = locales[0]?.languageCode || 'ar';
+const defaultLanguage = (deviceLanguage === 'ar' || deviceLanguage === 'en') ? deviceLanguage : 'ar';
 
+// Initialize i18n without forcing RTL here to avoid race conditions with the Store
 i18n
   .use(initReactI18next)
   .init({
@@ -28,12 +30,5 @@ i18n
       useSuspense: false,
     },
   });
-
-// Re-verify RTL on every boot to ensure consistency
-const isRTL = i18n.language === 'ar';
-if (I18nManager.isRTL !== isRTL) {
-  I18nManager.allowRTL(isRTL);
-  I18nManager.forceRTL(isRTL);
-}
 
 export default i18n;

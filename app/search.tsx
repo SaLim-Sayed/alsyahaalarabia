@@ -16,19 +16,19 @@ export default function SearchScreen() {
 
   return (
     <View className="flex-1 bg-white">
-      <View className="pt-16 px-6 pb-6 border-b border-gray-100 flex-row items-center">
+      <View className={`pt-16 px-6 pb-6 border-b border-gray-100 flex-row items-center ${isRTL ? 'flex-row-reverse' : ''}`}>
         <TouchableOpacity 
           onPress={() => router.back()}
-          className={`${isRTL ? 'ml-4' : 'mr-4'} p-2`}
+          className={`${isRTL ? 'ms-2' : 'me-2'} p-2`}
         >
           {isRTL ? <ArrowRightIcon size={24} color="#14532d" /> : <ArrowLeftIcon size={24} color="#14532d" />}
         </TouchableOpacity>
         
-        <View className="flex-1 bg-gray-100 rounded-2xl flex-row items-center px-4 py-2">
+        <View className={`flex-1 bg-gray-100 rounded-2xl flex-row items-center px-4 py-2 ${isRTL ? 'flex-row-reverse' : ''}`}>
           <MagnifyingGlassIcon size={20} color="#9ca3af" />
           <TextInput
             placeholder={t('search.placeholder')}
-            className={`flex-1 ${isRTL ? 'mr-3' : 'ml-3'} h-10 text-start font-[Cairo_400Regular] text-gray-900`}
+            className={`flex-1 ${isRTL ? 'me-3 text-right' : 'ms-3 text-left'} h-10 font-[Cairo_400Regular] text-gray-900`}
             value={query}
             onChangeText={setQuery}
             autoFocus

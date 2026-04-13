@@ -1,10 +1,10 @@
 {
   "expo": {
-    "name": "السياحة العربية",
+    "name": "مجلة السياحة العربية",
     "slug": "AlsyahaAlarabiya",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/images/ATـLogo.png",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
@@ -19,21 +19,26 @@
     "android": {
       "package": "com.salemsayed.alsyahaalarabia",
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
+        "foregroundImage": "./assets/images/ATـLogo.png",
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true,
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "navigationBar": {
+        "visible": "sticky-immersive",
+        "backgroundColor": "#000000"
+      },
+      "statusBar": {
+        "translucent": true,
+        "backgroundColor": "transparent"
+      }
     },
     "web": {
       "bundler": "metro",
       "output": "static",
       "favicon": "./assets/images/favicon.png"
     },
-    "plugins": [
-      "expo-router",
-      "expo-localization"
-    ],
+    "plugins": ["expo-router", "expo-localization"],
     "experiments": {
       "typedRoutes": true
     },

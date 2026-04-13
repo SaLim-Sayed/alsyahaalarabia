@@ -18,25 +18,25 @@ import {
 const SettingItem = ({ icon: Icon, title, value, onPress, showChevron = true, isRTL }: any) => (
   <TouchableOpacity
     onPress={onPress}
-    className="flex-row items-center justify-between p-5 bg-white mb-3 rounded-3xl shadow-sm border border-gray-100"
+    className={`flex-row items-center justify-between p-5 bg-white mb-3 rounded-3xl shadow-sm border border-gray-100 ${isRTL ? 'flex-row-reverse' : ''}`}
   >
-    <View className="flex-row items-center">
+    <View className={`flex-row items-center ${isRTL ? 'flex-row-reverse' : ''}`}>
       <View className="bg-primary/5 w-10 h-10 rounded-2xl items-center justify-center">
         <Icon size={22} color="#1a3c34" strokeWidth={1.5} />
       </View>
-      <Text className="text-gray-800 font-[Cairo_700Bold] text-base mx-4">
+      <Text className={`text-gray-800 font-[Cairo_700Bold] text-base ${isRTL ? 'me-4' : 'ms-4'}`}>
         {title}
       </Text>
     </View>
 
-    <View className="flex-row items-center">
+    <View className={`flex-row items-center ${isRTL ? 'flex-row-reverse' : ''}`}>
       {value && (
-        <Text className="text-accent font-[Cairo_700Bold] text-sm mx-2">
+        <Text className={`text-accent font-[Cairo_700Bold] text-sm ${isRTL ? 'ms-2' : 'me-2'}`}>
           {value}
         </Text>
       )}
       {showChevron && (
-        <View className={isRTL ? 'rotate-180' : ''}>
+        <View style={{ transform: [{ rotate: isRTL ? '180deg' : '0deg' }] }}>
            <ChevronRightIcon size={18} color="#9ca3af" />
         </View>
       )}
@@ -72,7 +72,7 @@ export default function SettingsScreen() {
 
       <ScrollView className="flex-1 px-6 pt-6" showsVerticalScrollIndicator={false}>
         {/* Profile Card */}
-        <View className="mb-10 bg-primary p-6 rounded-[32px] flex-row items-center shadow-lg border border-white/5">
+        <View className={`mb-10 bg-primary p-6 rounded-[32px] flex-row items-center shadow-lg border border-white/5 ${isRTL ? 'flex-row-reverse' : ''}`}>
           <View className="w-16 h-16 rounded-3xl bg-accent items-center justify-center border-2 border-white/20">
             {user ? (
                <Text className="text-primary text-2xl font-[Cairo_700Bold]">
@@ -82,7 +82,7 @@ export default function SettingsScreen() {
                 <InformationCircleIcon size={30} color="#1a3c34" />
             )}
           </View>
-          <View className={`mx-5 flex-1 ${isRTL ? 'items-end' : 'items-start'}`}>
+          <View className={`${isRTL ? 'me-5 items-end' : 'ms-5 items-start'} flex-1`}>
             <Text className="text-white text-xl font-[Cairo_700Bold]">
               {user ? user.name : t('auth.guest')}
             </Text>
@@ -97,13 +97,13 @@ export default function SettingsScreen() {
           </View>
         </View>
 
-        <Text className="text-2xl font-[Cairo_700Bold] text-primary mb-6 text-start">
+        <Text className={`text-2xl font-[Cairo_700Bold] text-primary mb-6 ${isRTL ? 'text-right' : 'text-left'}`}>
           {t('settings.title')}
         </Text>
 
         {/* Language Section */}
         <View className="mb-6">
-          <Text className="text-gray-400 font-[Cairo_700Bold] text-xs uppercase tracking-widest mb-4 text-start">
+          <Text className={`text-gray-400 font-[Cairo_700Bold] text-xs uppercase tracking-widest mb-4 ${isRTL ? 'text-right' : 'text-left'}`}>
             {t('settings.language')}
           </Text>
           <SettingItem
@@ -117,15 +117,15 @@ export default function SettingsScreen() {
 
         {/* Appearance Section */}
         <View className="mb-6">
-          <Text className="text-gray-400 font-[Cairo_700Bold] text-xs uppercase tracking-widest mb-4 text-start">
+          <Text className={`text-gray-400 font-[Cairo_700Bold] text-xs uppercase tracking-widest mb-4 ${isRTL ? 'text-right' : 'text-left'}`}>
             {t('settings.theme')}
           </Text>
-          <View className="flex-row items-center justify-between p-5 bg-white mb-3 rounded-3xl shadow-sm border border-gray-100">
-            <View className="flex-row items-center">
+          <View className={`flex-row items-center justify-between p-5 bg-white mb-3 rounded-3xl shadow-sm border border-gray-100 ${isRTL ? 'flex-row-reverse' : ''}`}>
+            <View className={`flex-row items-center ${isRTL ? 'flex-row-reverse' : ''}`}>
               <View className="bg-primary/5 w-10 h-10 rounded-2xl items-center justify-center">
                 <MoonIcon size={22} color="#1a3c34" strokeWidth={1.5} />
               </View>
-              <Text className="text-gray-800 font-[Cairo_700Bold] text-base mx-4">
+              <Text className={`text-gray-800 font-[Cairo_700Bold] text-base ${isRTL ? 'me-4' : 'ms-4'}`}>
                 {t('settings.theme')}
               </Text>
             </View>
@@ -140,7 +140,7 @@ export default function SettingsScreen() {
 
         {/* About Section */}
         <View className="mb-6">
-          <Text className="text-gray-400 font-[Cairo_700Bold] text-xs uppercase tracking-widest mb-4 text-start">
+          <Text className={`text-gray-400 font-[Cairo_700Bold] text-xs uppercase tracking-widest mb-4 ${isRTL ? 'text-right' : 'text-left'}`}>
             {t('settings.about')}
           </Text>
           <SettingItem icon={ShareIcon} title={t('settings.contact')} onPress={handleShare} isRTL={isRTL} />

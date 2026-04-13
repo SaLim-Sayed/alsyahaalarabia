@@ -25,9 +25,9 @@ export const ExploreGrid = () => {
 
   return (
     <View className="px-6 mb-8">
-      <View className="flex-row items-center mb-6">
-        <View className="w-1.5 h-6 bg-accent rounded-full mx-2" />
-        <Text className="text-xl font-[Cairo_700Bold] text-primary">
+      <View className={`flex-row items-center mb-6 ${isRTL ? 'flex-row-reverse' : ''}`}>
+        <View className={`w-1.5 h-6 bg-accent rounded-full ${isRTL ? 'ms-2' : 'mx-2'}`} />
+        <Text className={`text-xl font-[Cairo_700Bold] text-primary flex-1 ${isRTL ? 'text-right' : 'text-left'}`}>
           {isRTL ? 'استكشف الأقسام' : 'Explore Sections'}
         </Text>
       </View>

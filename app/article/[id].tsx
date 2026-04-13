@@ -131,8 +131,8 @@ export default function ArticleDetailScreen() {
               </View>
             </View>
 
-            <View className="flex-row mb-4">
-               <View className="bg-accent px-3 py-1 rounded-lg mr-2">
+             <View className={`flex-row mb-4 ${isRTL ? "flex-row-reverse" : ""}`}>
+               <View className={`bg-accent px-3 py-1 rounded-lg ${isRTL ? "ml-2" : "mr-2"}`}>
                  <Text className="text-primary text-[10px] font-[Cairo_700Bold]">{article.category}</Text>
                </View>
                <View className="bg-white/20 px-3 py-1 rounded-lg backdrop-blur-md">
@@ -141,22 +141,22 @@ export default function ArticleDetailScreen() {
             </View>
 
             <Text 
-              className={`text-3xl font-[Cairo_700Bold] text-white leading-[48px] mb-6 text-start`}
+              className={`text-3xl font-[Cairo_700Bold] text-white leading-[48px] mb-6 ${isRTL ? "text-right" : "text-left"}`}
               numberOfLines={3}
             >
               {article.title}
             </Text>
 
-            <View className="flex-row items-center">
+            <View className={`flex-row items-center ${isRTL ? "flex-row-reverse" : ""}`}>
               <Image 
                 source={{ uri: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=100&auto=format&fit=crop' }} 
                 className="w-10 h-10 rounded-full border-2 border-accent"
               />
-              <View className="mx-3 items-start">
+              <View className={`mx-3 ${isRTL ? "items-end" : "items-start"}`}>
                 <Text className="text-white font-[Cairo_700Bold] text-sm">{article.author || t('article.editor')}</Text>
-                <View className="flex-row items-center opacity-70">
+                <View className={`flex-row items-center opacity-70 ${isRTL ? "flex-row-reverse" : ""}`}>
                    <ClockIcon size={10} color="white" />
-                   <Text className="text-white text-[10px] ml-1 font-[Cairo_400Regular]">{article.date}</Text>
+                   <Text className={`text-white text-[10px] ${isRTL ? "mr-1" : "ml-1"} font-[Cairo_400Regular]`}>{article.date}</Text>
                 </View>
               </View>
             </View>
@@ -165,11 +165,16 @@ export default function ArticleDetailScreen() {
 
         {/* Content Section */}
         <View className="bg-white rounded-t-[40px] -mt-10 px-8 pt-12 pb-16">
-          <View className="items-start">
+          <View className={`${isRTL ? "items-end" : "items-start"}`}>
             <RenderHtml
               contentWidth={width - 64}
               source={{ html: article.content || '' }}
               tagsStyles={tagsStyles}
+              baseStyle={{
+                textAlign: isRTL ? 'right' : 'left',
+                writingDirection: isRTL ? 'rtl' : 'ltr',
+              }}
+              systemFonts={['Cairo_400Regular', 'Cairo_700Bold']}
             />
           </View>
 
@@ -178,13 +183,21 @@ export default function ArticleDetailScreen() {
 
           {/* Related Articles */}
           <View className="mt-8">
-            <View className="flex-row items-center mb-8">
+            <View className={`flex-row items-center mb-8 ${isRTL ? 'flex-row-reverse' : ''}`}>
                <View className="w-1.5 h-6 bg-accent rounded-full mx-3" />
-               <Text className="text-2xl font-[Cairo_700Bold] text-primary flex-1">
+               <Text 
+                 className="text-2xl font-[Cairo_700Bold] text-primary flex-1"
+                 style={{ textAlign: isRTL ? 'right' : 'left' }}
+               >
                  {t('article.relatedItems')}
                </Text>
                <TouchableOpacity>
-                 <Text className="text-accent text-xs font-[Cairo_700Bold]">{t('article.seeMore')}</Text>
+                 <Text 
+                   className="text-accent text-xs font-[Cairo_700Bold]"
+                   style={{ textAlign: isRTL ? 'right' : 'left' }}
+                 >
+                   {t('article.seeMore')}
+                 </Text>
                </TouchableOpacity>
             </View>
 

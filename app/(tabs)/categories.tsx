@@ -23,7 +23,10 @@ export default function CategoriesScreen() {
     <View className="flex-1 bg-white">
       <AppHeader />
       <ScrollView className="flex-1 px-6 pt-6" showsVerticalScrollIndicator={false}>
-        <Text className="text-2xl font-[Cairo_700Bold] text-gray-900 mb-6 text-start">
+        <Text 
+          className="text-2xl font-[Cairo_700Bold] text-gray-900 mb-6"
+          style={{ textAlign: isRTL ? 'right' : 'left' }}
+        >
           {t('common.categories')}
         </Text>
 

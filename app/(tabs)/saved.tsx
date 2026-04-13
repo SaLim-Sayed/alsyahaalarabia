@@ -24,9 +24,12 @@ export default function SavedScreen() {
             <ArticleCard article={item} variant="list" />
           )}
           ListHeaderComponent={
-        <Text className="text-2xl font-[Cairo_700Bold] text-gray-900 mb-6 text-start">
-          {t('saved.title')}
-        </Text>
+            <Text 
+              className="text-2xl font-[Cairo_700Bold] text-gray-900 mb-6"
+              style={{ textAlign: isRTL ? 'right' : 'left' }}
+            >
+              {t('saved.title')}
+            </Text>
           }
         />
       ) : (

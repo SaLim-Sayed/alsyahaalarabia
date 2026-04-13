@@ -1,34 +1,39 @@
-import React from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
-import { useTranslation } from 'react-i18next';
-import { MagnifyingGlassIcon, Bars3BottomRightIcon } from 'react-native-heroicons/outline';
-import { useRouter } from 'expo-router';
+import { useRouter } from "expo-router";
+import React from "react";
+import { useTranslation } from "react-i18next";
+import { Image, TouchableOpacity, View } from "react-native";
+import {
+  Bars3BottomRightIcon,
+  MagnifyingGlassIcon,
+} from "react-native-heroicons/outline";
 
 export const AppHeader = () => {
   const { t, i18n } = useTranslation();
-  const isRTL = i18n.language === 'ar';
+  const isRTL = i18n.language === "ar";
   const router = useRouter();
 
   return (
     <View className="bg-primary pt-14 pb-4 px-6 shadow-sm border-b border-white/5">
-      <View className="flex-row items-center justify-between">
-        <TouchableOpacity 
-          onPress={() => router.push('/search')}
+      <View className={`flex-row items-center justify-between ${isRTL ? "flex-row-reverse" : ""}`}>
+        <TouchableOpacity
+          onPress={() => router.push("/search")}
           className="w-10 h-10 items-center justify-center rounded-full bg-white/10"
         >
           <MagnifyingGlassIcon size={22} color="white" />
         </TouchableOpacity>
 
         <View className="items-center">
-          <Text className="text-white text-2xl font-[Cairo_700Bold]">
-            {t('common.magazineName')}
-          </Text>
-          <Text className="text-accent text-[10px] font-[Cairo_400Regular] tracking-[3px] uppercase -mt-1 opacity-80">
-            {t('common.magazineSub')}
-          </Text>
+          <Image
+            source={require("@/assets/images/Al-Syaha-Updated-2.png")}
+            style={{ width: 180, height: 45 }}
+            resizeMode="contain"
+          />
         </View>
 
-        <TouchableOpacity className="w-10 h-10 items-center justify-center rounded-full bg-white/10">
+        <TouchableOpacity
+          onPress={() => router.push("/settings")}
+          className="w-10 h-10 items-center justify-center rounded-full bg-white/10"
+        >
           <Bars3BottomRightIcon size={22} color="white" />
         </TouchableOpacity>
       </View>

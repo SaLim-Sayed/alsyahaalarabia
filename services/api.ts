@@ -4,9 +4,12 @@ const BASE_URL = 'https://alsyahaalarabia.com/wp-json/wp/v2';
 
 export const api = axios.create({
   baseURL: BASE_URL,
-  timeout: 15000,
+  timeout: 60000, // Increased to 60s for very slow networks
   headers: {
     'Content-Type': 'application/json',
+    'Accept': 'application/json',
+    'User-Agent': 'Mozilla/5.0 (Linux; Android 10; Tablet) AlsyahaApp/1.0',
+    'Cache-Control': 'no-cache',
   },
 });
 
@@ -51,12 +54,20 @@ export const fetchFromWP = async (endpoint: string, params = {}) => {
     const response = await api.get(endpoint, {
       params: {
         _embed: 1, // Include featured images, author info, and categories
+        orderby: 'date',
+        order: 'desc',
         ...params,
       },
     });
     return response.data;
-  } catch (error) {
-    console.error(`WP API Error (${endpoint}):`, error);
+  } catch (error: any) {
+    if (error.response) {
+      console.error(`WP Error (${endpoint}) - Status: ${error.response.status}`, error.response.data);
+    } else if (error.request) {
+      console.error(`WP Error (${endpoint}) - No response received from server`);
+    } else {
+      console.error(`WP Error (${endpoint}) - Message:`, error.message);
+    }
     throw error;
   }
 };
