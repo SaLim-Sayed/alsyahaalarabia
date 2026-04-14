@@ -13,10 +13,13 @@
     "magazineSub": "Arab Tourism Magazine",
     "goBack": "Go Back",
     "gallery": "Gallery",
-    "settings": "Settings"
+    "settings": "Settings",
+    "viewAll": "View All"
   },
   "home": {
-    "loadingNews": "Loading news..."
+    "loadingNews": "Loading news...",
+    "exploreSections": "Explore Sections",
+    "currentTrend": "Current Trend"
   },
   "search": {
     "placeholder": "Search for travel & tourism...",
@@ -31,13 +34,16 @@
   },
   "article": {
     "editor": "Editor",
+    "editorial": "Editorial",
     "loadError": "Could not load article details.",
     "shareMessage": "Read more in Arab Tourism Magazine",
     "readMore": "Read More",
     "writtenBy": "Written by",
     "aboutAuthor": "About the Author",
     "relatedItems": "Related Articles",
-    "seeMore": "See More"
+    "seeMore": "See More",
+    "defaultAuthor": "Abbas Al-Ibrahim",
+    "defaultAuthorBio": "Editor-in-Chief of Arab Tourism Magazine, expert in tourism media and development. The magazine is the first Saudi publication specializing in the tourism sector, aiming to highlight Arab treasures and global tourist attractions."
   },
   "saved": {
     "title": "Saved Articles",
@@ -73,5 +79,10 @@
     "logout": "Logout",
     "profile": "Profile",
     "guest": "Guest"
+  },
+  "cultural": {
+    "title": "Pulse of Arabic Culture",
+    "description": "Culture is not just destinations, but the soul that inhabits every corner. Dive into the depths of art, calligraphy, and traditions passed down for millennia.",
+    "button": "Discover Heritage"
   }
 }

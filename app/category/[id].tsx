@@ -17,8 +17,6 @@ export default function CategoryDetailScreen() {
   return (
     <View className="flex-1 bg-secondary">
       <StatusBar barStyle="dark-content" />
-      
-      {/* Premium Header */}
       <View className="bg-primary pt-14 pb-6 px-6 rounded-b-[40px] shadow-lg">
         <View className="flex-row items-center justify-between">
           <TouchableOpacity 

@@ -1,0 +1,80 @@
+{
+  "common": {
+    "all": "Tout",
+    "latestNews": "Dernières Nouvelles",
+    "categories": "Catégories",
+    "home": "Accueil",
+    "search": "Rechercher",
+    "saved": "Enregistré",
+    "error": "Erreur",
+    "retry": "Réessayer",
+    "loading": "Chargement...",
+    "magazineName": "Arab Tourism",
+    "magazineSub": "Magazine du Tourisme Arabe",
+    "goBack": "Retour",
+    "gallery": "Galerie",
+    "settings": "Paramètres"
+  },
+  "home": {
+    "loadingNews": "Chargement des nouvelles..."
+  },
+  "search": {
+    "placeholder": "Rechercher voyages et tourisme...",
+    "searching": "Recherche...",
+    "minChars": "Tapez au moins 3 caractères",
+    "startNow": "Commencez la recherche maintenant",
+    "noResults": "Aucun résultat ne correspond à votre recherche"
+  },
+  "categories": {
+    "articlesCount": "{{count}} Articles",
+    "loadError": "Erreur lors du chargement des catégories."
+  },
+  "article": {
+    "editor": "Éditeur",
+    "editorial": "Éditorial",
+    "loadError": "Impossible de charger les détails de l'article.",
+    "shareMessage": "Lire plus dans Arab Tourism Magazine",
+    "readMore": "Lire Plus",
+    "writtenBy": "Écrit par",
+    "aboutAuthor": "À propos de l'auteur",
+    "relatedItems": "Articles connexes",
+    "seeMore": "Voir Plus"
+  },
+  "saved": {
+    "title": "Articles Enregistrés",
+    "empty": "Vous n'avez aucun article enregistré. Commencez à explorer des histoires inspirantes !"
+  },
+  "settings": {
+    "title": "Paramètres",
+    "language": "Langue",
+    "languageDescription": "Choisissez votre langue préférée",
+    "arabic": "العربية",
+    "english": "English",
+    "french": "Français",
+    "spanish": "Español",
+    "theme": "Apparence",
+    "light": "Clair",
+    "dark": "Sombre",
+    "about": "À propos",
+    "version": "Version",
+    "developer": "Développeur",
+    "contact": "Contactez-nous",
+    "privacy": "Politique de confidentialité",
+    "terms": "Conditions d'utilisation"
+  },
+  "auth": {
+    "welcomeBack": "Bon retour",
+    "signInToContinue": "Connectez-vous pour continuer",
+    "usernameOrEmail": "Nom d'utilisateur ou Email",
+    "password": "Mot de passe",
+    "login": "Connexion",
+    "forgotPassword": "Mot de passe oublié ?",
+    "noAccount": "Vous n'avez pas de compte ?",
+    "signUp": "S'inscrire",
+    "requiredFields": "Veuillez remplir tous les champs obligatoires",
+    "invalidCredentials": "Nom d'utilisateur ou mot de passe invalide",
+    "logout": "Déconnexion",
+    "profile": "Profil",
+    "guest": "Invité"
+  }
+}

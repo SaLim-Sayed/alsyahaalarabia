@@ -4,6 +4,7 @@ import { useRouter } from "expo-router";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import {
+  Modal,
   ScrollView,
   Share,
   Switch,
@@ -13,6 +14,7 @@ import {
 } from "react-native";
 import {
   ArrowPathIcon,
+  CheckIcon,
   ChevronRightIcon,
   DocumentTextIcon,
   InformationCircleIcon,
@@ -20,6 +22,7 @@ import {
   MoonIcon,
   ShareIcon,
   ShieldCheckIcon,
+  XMarkIcon,
 } from "react-native-heroicons/outline";
 
 const SettingItem = ({
@@ -64,10 +67,18 @@ export default function SettingsScreen() {
   const router = useRouter();
   const { language, setLanguage, theme, setTheme, user, logout } =
     useAppStore();
+  const [isLangModalVisible, setLangModalVisible] = React.useState(false);
 
-  const toggleLanguage = () => {
-    const nextLang = language === "ar" ? "en" : "ar";
-    setLanguage(nextLang);
+  const languages = [
+    { code: "ar", name: t("settings.arabic"), nativeName: "العربية" },
+    { code: "en", name: t("settings.english"), nativeName: "English" },
+    { code: "kk", name: t("settings.kazakh"), nativeName: "Қазақ тілі" },
+    { code: "ur", name: t("settings.urdu"), nativeName: "اردو" },
+  ];
+
+  const handleLanguageSelect = (langCode: any) => {
+    setLanguage(langCode);
+    setLangModalVisible(false);
   };
 
   const handleShare = async () => {
@@ -136,12 +147,65 @@ export default function SettingsScreen() {
             icon={LanguageIcon}
             title={t("settings.language")}
             value={
-              language === "ar" ? t("settings.arabic") : t("settings.english")
+              languages.find((l) => l.code === language)?.name ||
+              t("settings.arabic")
             }
-            onPress={toggleLanguage}
+            onPress={() => setLangModalVisible(true)}
             isRTL={isRTL}
           />
         </View>
+
+        {/* Language Modal */}
+        <Modal
+          visible={isLangModalVisible}
+          transparent={true}
+          animationType="fade"
+          onRequestClose={() => setLangModalVisible(false)}
+        >
+          <View className="flex-1 bg-black/50 justify-end">
+            <View className="bg-white rounded-t-[40px] p-8 pb-12 shadow-2xl">
+              <View className="flex-row items-center justify-between mb-8">
+                <Text className="text-2xl font-[Cairo_700Bold] text-primary">
+                  {t("settings.language")}
+                </Text>
+                <TouchableOpacity
+                  onPress={() => setLangModalVisible(false)}
+                  className="w-10 h-10 items-center justify-center rounded-full bg-gray-100"
+                >
+                  <XMarkIcon size={24} color="#1a3c34" />
+                </TouchableOpacity>
+              </View>
+
+              <View className="gap-y-3">
+                {languages.map((item) => (
+                  <TouchableOpacity
+                    key={item.code}
+                    onPress={() => handleLanguageSelect(item.code)}
+                    className={`flex-row items-center justify-between p-5 rounded-3xl border ${
+                      language === item.code
+                        ? "bg-primary/5 border-primary"
+                        : "bg-gray-50 border-gray-100"
+                    }`}
+                  >
+                    <View>
+                      <Text className="text-gray-800 font-[Cairo_700Bold] text-lg">
+                        {item.nativeName}
+                      </Text>
+                      <Text className="text-gray-400 font-[Cairo_400Regular] text-sm">
+                        {item.name}
+                      </Text>
+                    </View>
+                    {language === item.code && (
+                      <View className="w-8 h-8 rounded-full bg-primary items-center justify-center">
+                        <CheckIcon size={18} color="white" strokeWidth={3} />
+                      </View>
+                    )}
+                  </TouchableOpacity>
+                ))}
+              </View>
+            </View>
+          </View>
+        </Modal>
 
         {/* Appearance Section */}
         <View className="mb-6">
@@ -177,7 +241,7 @@ export default function SettingsScreen() {
           </Text>
           <SettingItem
             icon={InformationCircleIcon}
-            title={isRTL ? "عن المجلة" : "About Us"}
+            title={t("settings.about")}
             onPress={() => router.push("/settings/about")}
             isRTL={isRTL}
           />

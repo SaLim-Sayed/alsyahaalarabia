@@ -15,27 +15,29 @@ export const AppHeader = () => {
   return (
     <View className="bg-primary pt-14 pb-4 px-6 shadow-sm border-b border-white/5">
       <View className="flex-row items-center justify-between">
-        <TouchableOpacity
-          onPress={() => router.push("/search")}
-          className="w-10 h-10 items-center justify-center rounded-full bg-white/10"
-        >
-          <MagnifyingGlassIcon size={22} color="white" />
-        </TouchableOpacity>
-
-        <View className="items-center">
+        <View className="flex-1 items-start">
           <Image
             source={require("@/assets/images/Al-Syaha-Updated-2.png")}
-            style={{ width: 180, height: 45 }}
+            style={{ width: 140, height: 35 }}
             resizeMode="contain"
           />
         </View>
 
-        <TouchableOpacity
-          onPress={() => router.push("/settings")}
-          className="w-10 h-10 items-center justify-center rounded-full bg-white/10"
-        >
-          <Bars3BottomRightIcon size={22} color="white" />
-        </TouchableOpacity>
+        <View className="flex-row items-center gap-x-3">
+          <TouchableOpacity
+            onPress={() => router.push("/search")}
+            className="w-10 h-10 items-center justify-center rounded-full bg-white/10"
+          >
+            <MagnifyingGlassIcon size={22} color="white" />
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            onPress={() => router.push("/settings")}
+            className="w-10 h-10 items-center justify-center rounded-full bg-white/10"
+          >
+            <Bars3BottomRightIcon size={22} color="white" />
+          </TouchableOpacity>
+        </View>
       </View>
     </View>
   );

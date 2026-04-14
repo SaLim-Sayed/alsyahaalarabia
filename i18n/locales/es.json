@@ -1,0 +1,80 @@
+{
+  "common": {
+    "all": "Todo",
+    "latestNews": "Últimas Noticias",
+    "categories": "Categorías",
+    "home": "Inicio",
+    "search": "Buscar",
+    "saved": "Guardado",
+    "error": "Error",
+    "retry": "Reintentar",
+    "loading": "Cargando...",
+    "magazineName": "Arab Tourism",
+    "magazineSub": "Revista de Turismo Árabe",
+    "goBack": "Volver",
+    "gallery": "Galería",
+    "settings": "Ajustes"
+  },
+  "home": {
+    "loadingNews": "Cargando noticias..."
+  },
+  "search": {
+    "placeholder": "Buscar viajes y turismo...",
+    "searching": "Buscando...",
+    "minChars": "Escribe al menos 3 caracteres",
+    "startNow": "Empezar a buscar ahora",
+    "noResults": "No hay resultados que coincidan con tu búsqueda"
+  },
+  "categories": {
+    "articlesCount": "{{count}} Artículos",
+    "loadError": "Error al cargar las categorías."
+  },
+  "article": {
+    "editor": "Editor",
+    "editorial": "Editorial",
+    "loadError": "No se pudieron cargar los detalles del artículo.",
+    "shareMessage": "Leer más en Arab Tourism Magazine",
+    "readMore": "Leer Más",
+    "writtenBy": "Escrito por",
+    "aboutAuthor": "Sobre el Autor",
+    "relatedItems": "Artículos relacionados",
+    "seeMore": "Ver Más"
+  },
+  "saved": {
+    "title": "Artículos Guardados",
+    "empty": "No tienes artículos guardados. ¡Empieza a explorar historias inspiradoras!"
+  },
+  "settings": {
+    "title": "Ajustes",
+    "language": "Idioma",
+    "languageDescription": "Elige tu idioma preferido",
+    "arabic": "العربية",
+    "english": "English",
+    "french": "Français",
+    "spanish": "Español",
+    "theme": "Apariencia",
+    "light": "Claro",
+    "dark": "Oscuro",
+    "about": "Acerca de",
+    "version": "Versión",
+    "developer": "Desarrollador",
+    "contact": "Contáctanos",
+    "privacy": "Política de privacidad",
+    "terms": "Términos de uso"
+  },
+  "auth": {
+    "welcomeBack": "Bienvenido de nuevo",
+    "signInToContinue": "Inicia sesión para continuar",
+    "usernameOrEmail": "Usuario o Email",
+    "password": "Contraseña",
+    "login": "Iniciar sesión",
+    "forgotPassword": "¿Olvidaste tu contraseña?",
+    "noAccount": "¿No tienes una cuenta?",
+    "signUp": "Regístrate",
+    "requiredFields": "Por favor completa todos los campos obligatorios",
+    "invalidCredentials": "Usuario o contraseña inválidos",
+    "logout": "Cerrar sesión",
+    "profile": "Perfil",
+    "guest": "Invitado"
+  }
+}

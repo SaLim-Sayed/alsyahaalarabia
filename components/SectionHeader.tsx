@@ -26,7 +26,7 @@ export const SectionHeader: React.FC<SectionHeaderProps> = ({
             className="text-accent text-[12px] font-[Cairo_700Bold]"
             style={{ textAlign: isRTL ? "right" : "left" }}
           >
-            {isRTL ? "عرض الكل" : "View All"}
+            {t("common.viewAll")}
           </Text>
         </TouchableOpacity>
       )}

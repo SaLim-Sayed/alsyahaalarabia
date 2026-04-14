@@ -172,7 +172,7 @@ export default function ArticleDetailScreen() {
               </View>
               <View className="bg-white/20 px-3 py-1 rounded-lg backdrop-blur-md">
                 <Text className="text-white text-[10px] font-[Cairo_700Bold]">
-                  {isRTL ? "مقال محرر" : "Editorial"}
+                  {t("article.editorial")}
                 </Text>
               </View>
             </View>

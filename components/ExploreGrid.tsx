@@ -68,7 +68,7 @@ export const ExploreGrid = () => {
         className={`flex-row flex-wrap justify-between ${isRTL ? "flex-row-reverse" : ""}`}
       >
         {displayCategories.map((cat, index) => {
-          const Icon = ICON_MAP[cat.name] || ICON_MAP["Default"];
+          const Icon = ICON_MAP[cat.originalName || cat.name] || ICON_MAP["Default"];
           const bgColor = COLOR_PALETTE[index % COLOR_PALETTE.length];
 
           return (

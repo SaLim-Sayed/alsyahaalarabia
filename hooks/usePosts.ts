@@ -2,52 +2,80 @@ import { useQuery } from '@tanstack/react-query';
 import { fetchFromWP } from '../services/api';
 import { WPPost } from '../types/wp-types';
 import { mapWPPostToArticle } from '../utils/mapper';
+import { translateArticle } from '../services/translationService';
+import { useAppStore } from '../store/useAppStore';
 
 export const useLatestPosts = (perPage = 10) => {
+  const { language } = useAppStore();
+  
   return useQuery({
-    queryKey: ['posts', 'latest', perPage],
+    queryKey: ['posts', 'latest', perPage, language],
     queryFn: async () => {
       const data = await fetchFromWP('/posts', { per_page: perPage });
-      return (data as WPPost[]).map(mapWPPostToArticle);
+      const articles = (data as WPPost[]).map(mapWPPostToArticle);
+      
+      const translatedArticles = await Promise.all(
+        articles.map(article => translateArticle(article, language))
+      );
+      return translatedArticles;
     },
   });
 };
 
 export const usePostsByCategory = (categoryId: string | null, perPage = 10) => {
+  const { language } = useAppStore();
+
   return useQuery({
-    queryKey: ['posts', 'category', categoryId, perPage],
+    queryKey: ['posts', 'category', categoryId, perPage, language],
     queryFn: async () => {
+      let data;
       if (!categoryId || categoryId === 'all') {
-        const data = await fetchFromWP('/posts', { per_page: perPage });
-        return (data as WPPost[]).map(mapWPPostToArticle);
+        data = await fetchFromWP('/posts', { per_page: perPage });
+      } else {
+        data = await fetchFromWP('/posts', { 
+          per_page: perPage,
+          categories: categoryId 
+        });
       }
-      const data = await fetchFromWP('/posts', { 
-        per_page: perPage,
-        categories: categoryId 
-      });
-      return (data as WPPost[]).map(mapWPPostToArticle);
+      
+      const articles = (data as WPPost[]).map(mapWPPostToArticle);
+      
+      return await Promise.all(
+        articles.map(article => translateArticle(article, language))
+      );
     },
   });
 };
 
 export const useSearchPosts = (query: string) => {
+  const { language } = useAppStore();
+
   return useQuery({
-    queryKey: ['posts', 'search', query],
+    queryKey: ['posts', 'search', query, language],
     queryFn: async () => {
       if (!query) return [];
       const data = await fetchFromWP('/posts', { search: query, per_page: 20 });
-      return (data as WPPost[]).map(mapWPPostToArticle);
+      const articles = (data as WPPost[]).map(mapWPPostToArticle);
+      
+      return await Promise.all(
+        articles.map(article => translateArticle(article, language))
+      );
     },
     enabled: query.length > 2,
   });
 };
 
 export const usePostDetail = (id: string) => {
+  const { language } = useAppStore();
+
   return useQuery({
-    queryKey: ['posts', id],
+    queryKey: ['posts', id, language],
     queryFn: async () => {
       const data = await fetchFromWP(`/posts/${id}`);
-      return mapWPPostToArticle(data as WPPost);
+      const article = mapWPPostToArticle(data as WPPost);
+      
+      // Translate full content (sl=auto handles AR -> AR gracefully)
+      return await translateArticle(article, language, true);
     },
     enabled: !!id,
   });

@@ -29,14 +29,14 @@ interface User {
 interface AppState {
   savedArticles: Article[];
   theme: 'light' | 'dark';
-  language: 'ar' | 'en';
+  language: 'ar' | 'en' | 'kk' | 'ur';
   user: User | null;
   token: string | null;
   lastSyncTimestamp: number;
   toggleSaveArticle: (article: Article) => void;
   isArticleSaved: (id: string) => boolean;
   setTheme: (theme: 'light' | 'dark') => void;
-  setLanguage: (lang: 'ar' | 'en') => void;
+  setLanguage: (lang: 'ar' | 'en' | 'kk' | 'ur') => void;
   updateSyncTimestamp: () => void;
   setUser: (user: User | null, token: string | null) => void;
   logout: () => void;
@@ -47,7 +47,11 @@ export const useAppStore = create<AppState>()(
     (set, get) => ({
       savedArticles: [],
       theme: 'light',
-      language: (Localization.getLocales()[0]?.languageCode === 'en' ? 'en' : 'ar') as 'ar' | 'en',
+      language: (() => {
+        const lang = Localization.getLocales()[0]?.languageCode || 'ar';
+        const supported = ['ar', 'en', 'kk', 'ur'];
+        return (supported.includes(lang) ? lang : 'ar') as 'ar' | 'en' | 'kk' | 'ur';
+      })(),
       user: null,
       token: null,
       lastSyncTimestamp: 0,
@@ -68,7 +72,7 @@ export const useAppStore = create<AppState>()(
       },
       setTheme: (theme) => set({ theme }),
       setLanguage: async (lang) => {
-        const isRTL = lang === 'ar';
+        const isRTL = lang === 'ar' || lang === 'ur';
         const { lastSyncTimestamp, language: currentLang } = get();
         const now = Date.now();
         

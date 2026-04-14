@@ -66,7 +66,7 @@ export default function AboutScreen() {
           )}
         </TouchableOpacity>
         <Text className="text-white text-3xl font-[Cairo_700Bold]">
-          {isRTL ? "عن المجلة" : "About Us"}
+          {t("settings.about")}
         </Text>
         <Text className="text-accent text-sm font-[Cairo_400Regular] mt-2">
           {isRTL

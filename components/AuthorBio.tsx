@@ -20,13 +20,10 @@ export const AuthorBio: React.FC<AuthorBioProps> = ({ name, avatar, bio }) => {
           {t("article.aboutAuthor")}
         </Text>
         <Text className="text-xl font-[Cairo_700Bold] text-primary mb-3">
-          {name || (isRTL ? "عباس البراهيم" : "Abbas Al-Ibrahim")}
+          {name || t("article.defaultAuthor")}
         </Text>
         <Text className="text-gray-500 font-[Cairo_400Regular] leading-6 mb-4">
-          {bio ||
-            (isRTL
-              ? "رئيس تحرير مجلة السياحة العربية، خبير في الإعلام السياحي والتنمية السياحية. المجلة هي أول مطبوعة سعودية متخصصة في قطاع السياحة، تهدف لإبراز الكنوز العربية والمعالم السياحية العالمية."
-              : "Editor-in-Chief of Arab Tourism Magazine, expert in tourism media and development. The magazine is the first Saudi publication specializing in the tourism sector, aiming to highlight Arab treasures and global tourist attractions.")}
+          {bio || t("article.defaultAuthorBio")}
         </Text>
 
         <View className="flex-row">

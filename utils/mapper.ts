@@ -65,11 +65,13 @@ const getCategoryImage = (name: string): any => {
 };
 
 export const mapWPCategoryToAppCategory = (wpCat: WPCategory): Category => {
+  const name = decodeHtmlEntities(wpCat.name);
   return {
     id: wpCat.id.toString(),
-    name: decodeHtmlEntities(wpCat.name),
+    name: name,
+    originalName: name, // Keep the source name for icon lookups
     count: wpCat.count,
-    image: getCategoryImage(decodeHtmlEntities(wpCat.name)),
+    image: getCategoryImage(name),
   };
 };
 

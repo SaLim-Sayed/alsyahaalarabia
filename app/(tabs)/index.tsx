@@ -72,13 +72,13 @@ export default function HomeScreen() {
 
             {/* Explore Grid */}
             <SectionHeader
-              title={isRTL ? "استكشف الأقسام" : "Explore Sections"}
+              title={t("home.exploreSections")}
             />
 
             <ExploreGrid />
 
             {/* Trending Section */}
-            <SectionHeader title={isRTL ? "التريند الحالي" : "Current Trend"} />
+            <SectionHeader title={t("home.currentTrend")} />
             <View className="px-6 mb-8">
               <ArticleCard
                 article={articles[5] || articles[0]}

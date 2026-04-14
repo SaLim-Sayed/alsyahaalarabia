@@ -1,14 +1,21 @@
-import { AppHeader } from '@/components/AppHeader';
-import { useAppCategories } from '@/hooks/useCategories';
-import { BlurView } from 'expo-blur';
-import { router } from 'expo-router';
-import React from 'react';
-import { useTranslation } from 'react-i18next';
-import { ActivityIndicator, ImageBackground, ScrollView, Text, TouchableOpacity, View } from 'react-native';
+import { AppHeader } from "@/components/AppHeader";
+import { useAppCategories } from "@/hooks/useCategories";
+import { BlurView } from "expo-blur";
+import { router } from "expo-router";
+import React from "react";
+import { useTranslation } from "react-i18next";
+import {
+  ActivityIndicator,
+  ImageBackground,
+  ScrollView,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 
 export default function CategoriesScreen() {
   const { t, i18n } = useTranslation();
-  const isRTL = i18n.language === 'ar';
+  const isRTL = i18n.language === "ar";
   const { data: categories, isLoading, isError } = useAppCategories();
 
   if (isLoading) {
@@ -22,12 +29,12 @@ export default function CategoriesScreen() {
   return (
     <View className="flex-1 bg-white">
       <AppHeader />
-      <ScrollView className="flex-1 px-6 pt-6" showsVerticalScrollIndicator={false}>
-        <Text 
-          className="text-2xl font-[Cairo_700Bold] text-gray-900 mb-6"
-          style={{ textAlign: isRTL ? 'right' : 'left' }}
-        >
-          {t('common.categories')}
+      <ScrollView
+        className="flex-1 px-6 pt-6"
+        showsVerticalScrollIndicator={false}
+      >
+        <Text className="text-2xl font-[Cairo_700Bold] text-gray-900 mb-6">
+          {t("common.categories")}
         </Text>
 
         <View className="flex-row flex-wrap justify-between">
@@ -38,8 +45,8 @@ export default function CategoriesScreen() {
               activeOpacity={0.9}
               onPress={() => {
                 router.push({
-                  pathname: '/category/[id]',
-                  params: { id: cat.id, name: cat.name }
+                  pathname: "/category/[id]",
+                  params: { id: cat.id, name: cat.name },
                 });
               }}
             >
@@ -54,11 +61,14 @@ export default function CategoriesScreen() {
                 <View className="absolute bottom-0 left-0 right-0 p-4">
                   <View className="overflow-hidden rounded-2xl">
                     <BlurView intensity={25} tint="dark" className="px-3 py-2">
-                      <Text className="text-white font-[Cairo_700Bold] text-center text-sm" numberOfLines={1}>
+                      <Text
+                        className="text-white font-[Cairo_700Bold] text-center text-sm"
+                        numberOfLines={1}
+                      >
                         {cat.name}
                       </Text>
                       <Text className="text-white/80 font-[Cairo_400Regular] text-center text-[10px] mt-0.5">
-                        {t('categories.articlesCount', { count: cat.count })}
+                        {t("categories.articlesCount", { count: cat.count })}
                       </Text>
                     </BlurView>
                   </View>
@@ -71,7 +81,7 @@ export default function CategoriesScreen() {
         {isError && (
           <View className="py-20 items-center">
             <Text className="text-red-500 font-cairo text-center">
-              {t('categories.loadError')}
+              {t("categories.loadError")}
             </Text>
           </View>
         )}

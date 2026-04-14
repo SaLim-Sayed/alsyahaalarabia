@@ -20,6 +20,7 @@ import { StatusBar } from 'expo-status-bar';
 import { CustomSplashScreen } from '@/components/CustomSplashScreen';
 import { View } from '@/components/Themed';
 import { ActivityIndicator } from 'react-native';
+import * as NavigationBar from 'expo-navigation-bar';
 
 const queryClient = new QueryClient();
 
@@ -45,6 +46,15 @@ export default function RootLayout() {
   });
 
   const [splashFinished, setSplashFinished] = useState(false);
+
+  // Configure Native Navigation Bar (Android)
+  useEffect(() => {
+    if (RN.Platform.OS === 'android') {
+      NavigationBar.setBackgroundColorAsync('#1a3c34');
+      NavigationBar.setVisibilityAsync('hidden');
+      NavigationBar.setBehaviorAsync('sticky-immersive');
+    }
+  }, []);
 
   // Expo Router uses Error Boundaries to catch errors in the navigation tree.
   useEffect(() => {
