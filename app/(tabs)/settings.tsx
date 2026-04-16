@@ -22,6 +22,7 @@ import {
   MoonIcon,
   ShareIcon,
   ShieldCheckIcon,
+  UserIcon,
   XMarkIcon,
 } from "react-native-heroicons/outline";
 
@@ -101,14 +102,28 @@ export default function SettingsScreen() {
         showsVerticalScrollIndicator={false}
       >
         {/* Profile Card */}
-        <View className="mb-10 bg-primary p-6 rounded-[32px] flex-row items-center shadow-lg border border-white/5">
+        <TouchableOpacity
+          onPress={() =>
+            user
+              ? router.push("/settings/profile")
+              : router.push({
+                  pathname: "/(auth)/webview",
+                  params: {
+                    url: "https://alsyahaalarabia.com/login",
+                    mode: "login",
+                  },
+                })
+          }
+          activeOpacity={0.7}
+          className="mb-10 bg-primary p-6 rounded-[32px] flex-row items-center shadow-lg border border-white/5"
+        >
           <View className="w-16 h-16 rounded-3xl bg-accent items-center justify-center border-2 border-white/20">
             {user ? (
               <Text className="text-primary text-2xl font-[Cairo_700Bold]">
                 {user.name.charAt(0).toUpperCase()}
               </Text>
             ) : (
-              <InformationCircleIcon size={30} color="#1a3c34" />
+              <UserIcon size={30} color="#1a3c34" />
             )}
           </View>
           <View className="ms-5 flex-1">
@@ -118,19 +133,17 @@ export default function SettingsScreen() {
             >
               {user ? user.name : t("auth.guest")}
             </Text>
-            <TouchableOpacity
-              onPress={() => (user ? logout() : router.push("/(auth)/login"))}
-              className="mt-1"
+            <Text
+              className="text-accent text-xs font-[Cairo_700Bold] mt-1"
+              style={{ textAlign: isRTL ? "right" : "left" }}
             >
-              <Text
-                className="text-accent text-xs font-[Cairo_700Bold]"
-                style={{ textAlign: isRTL ? "right" : "left" }}
-              >
-                {user ? t("auth.logout") : t("auth.login")}
-              </Text>
-            </TouchableOpacity>
+              {user ? (isRTL ? "عرض الملف الشخصي" : "View Profile") : t("auth.login")}
+            </Text>
           </View>
-        </View>
+          <View style={{ transform: [{ rotate: isRTL ? "180deg" : "0deg" }] }}>
+            <ChevronRightIcon size={20} color="rgba(255,255,255,0.3)" />
+          </View>
+        </TouchableOpacity>
 
         <Text className={`text-2xl font-[Cairo_700Bold] text-primary mb-6 `}>
           {t("settings.title")}

@@ -22,6 +22,10 @@ interface User {
   id: string;
   name: string;
   email: string;
+  username?: string;
+  firstName?: string;
+  lastName?: string;
+  registrationDate?: string;
   avatar?: string;
   role?: string;
 }
@@ -39,6 +43,7 @@ interface AppState {
   setLanguage: (lang: 'ar' | 'en' | 'kk' | 'ur') => void;
   updateSyncTimestamp: () => void;
   setUser: (user: User | null, token: string | null) => void;
+  updateUser: (data: Partial<User>) => void;
   logout: () => void;
 }
 
@@ -56,6 +61,12 @@ export const useAppStore = create<AppState>()(
       token: null,
       lastSyncTimestamp: 0,
       setUser: (user, token) => set({ user, token }),
+      updateUser: (data) => {
+        const { user } = get();
+        if (user) {
+          set({ user: { ...user, ...data } });
+        }
+      },
       logout: () => set({ user: null, token: null }),
       updateSyncTimestamp: () => set({ lastSyncTimestamp: Date.now() }),
       toggleSaveArticle: (article) => {
