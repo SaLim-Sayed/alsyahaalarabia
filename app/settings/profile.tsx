@@ -1,6 +1,7 @@
 import { useAppStore } from "@/store/useAppStore";
+import { useCurrentUser, useUpdateProfile } from "@/hooks/useUser";
 import { useRouter } from "expo-router";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import {
   Alert,
@@ -24,10 +25,17 @@ export default function ProfileScreen() {
   const { t, i18n } = useTranslation();
   const isRTL = i18n.language === "ar";
   const router = useRouter();
-  const { user, updateUser, logout } = useAppStore();
+  const { user, logout } = useAppStore();
+  const { data: wpUser, isLoading: isUserLoading } = useCurrentUser();
+  const updateProfileMutation = useUpdateProfile();
 
   const [name, setName] = useState(user?.name || "");
-  const [isSaving, setIsSaving] = useState(false);
+
+  useEffect(() => {
+    if (user?.name) setName(user.name);
+  }, [user?.name]);
+
+  const isSaving = updateProfileMutation.isPending;
 
   const handleSave = () => {
     if (!name.trim()) {
@@ -38,16 +46,23 @@ export default function ProfileScreen() {
       return;
     }
 
-    setIsSaving(true);
-    // Simulate API delay
-    setTimeout(() => {
-      updateUser({ name: name.trim() });
-      setIsSaving(false);
-      Alert.alert(
-        isRTL ? "تم بنجاح" : "Success",
-        isRTL ? "تم تحديث الملف الشخصي" : "Profile updated successfully",
-      );
-    }, 500);
+    updateProfileMutation.mutate(
+      { name: name.trim() },
+      {
+        onSuccess: () => {
+          Alert.alert(
+            isRTL ? "تم بنجاح" : "Success",
+            isRTL ? "تم تحديث الملف الشخصي" : "Profile updated successfully",
+          );
+        },
+        onError: (error: any) => {
+          Alert.alert(
+            t("common.error"),
+            error.message || (isRTL ? "فشل تحديث الملف" : "Failed to update profile"),
+          );
+        },
+      },
+    );
   };
 
   const handleLogout = () => {

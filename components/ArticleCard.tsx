@@ -3,16 +3,9 @@ import { Link } from "expo-router";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { Image, Text, TouchableOpacity, View } from "react-native";
-import { ClockIcon } from "react-native-heroicons/outline";
+import { ClockIcon, UserIcon } from "react-native-heroicons/outline";
 
-interface Article {
-  id: string;
-  title: string;
-  excerpt: string;
-  image: string;
-  category: string;
-  date: string;
-}
+import { Article } from "../types/Article";
 
 interface ArticleCardProps {
   article: Article;
@@ -155,20 +148,35 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
           >
             {article.title}
           </Text>
-          <View className="flex-row items-center">
-            <Text
-              className="text-[11px] text-gray-400 font-[Cairo_400Regular]"
-              style={{ textAlign: isRTL ? "right" : "left" }}
-            >
-              {article.date}
-            </Text>
-            <View className="mx-2 w-1 h-1 bg-gray-200 rounded-full" />
-            <Text
-              className="text-[11px] text-accent font-[Cairo_700Bold]"
-              style={{ textAlign: isRTL ? "right" : "left" }}
-            >
-              {article.category}
-            </Text>
+          <View className="flex-row items-center flex-wrap">
+            <View className="flex-row items-center me-2">
+              <UserIcon size={12} color="#9ca3af" />
+              <Text
+                className="text-[11px] text-gray-400 font-[Cairo_400Regular] ms-1"
+                style={{ textAlign: isRTL ? "right" : "left" }}
+              >
+                {article.author}
+              </Text>
+            </View>
+            <View className="flex-row items-center me-2">
+              <ClockIcon size={12} color="#9ca3af" />
+              <Text
+                className="text-[11px] text-gray-400 font-[Cairo_400Regular] ms-1"
+                style={{ textAlign: isRTL ? "right" : "left" }}
+              >
+                {article.date}
+              </Text>
+            </View>
+
+            <View className="flex-row items-center me-2">
+              <View className="mx-1 w-1 h-1 bg-gray-200 rounded-full" />
+              <Text
+                className="text-[11px] text-teal-900 font-[Cairo_700Bold]"
+                style={{ textAlign: isRTL ? "right" : "left" }}
+              >
+                {article.category}
+              </Text>
+            </View>
           </View>
         </View>
       </TouchableOpacity>

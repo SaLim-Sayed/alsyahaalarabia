@@ -1,6 +1,5 @@
 import { ArticleCard } from "@/components/ArticleCard";
 import { ArticleFooter } from "@/components/ArticleFooter";
-import { AuthorBio } from "@/components/AuthorBio";
 import { usePostDetail, usePostsByCategory } from "@/hooks/usePosts";
 import { useAppStore } from "@/store/useAppStore";
 import { LinearGradient } from "expo-linear-gradient";
@@ -21,9 +20,12 @@ import {
   ArrowLeftIcon,
   ArrowRightIcon,
   BookmarkIcon,
+  ChatBubbleBottomCenterTextIcon,
   ClockIcon,
+  FolderIcon,
   ShareIcon,
 } from "react-native-heroicons/outline";
+import { UserCircleIcon } from "react-native-heroicons/solid";
 import RenderHtml from "react-native-render-html";
 
 export default function ArticleDetailScreen() {
@@ -128,8 +130,8 @@ export default function ArticleDetailScreen() {
             resizeMode="cover"
           />
           <LinearGradient
-            colors={["rgba(0,0,0,0.6)", "transparent", "rgba(0,0,0,0.8)"]}
-            className="absolute inset-0 px-8 pb-20 justify-end"
+            colors={["rgba(0,0,0,0.5)", "transparent"]}
+            className="absolute inset-0 px-8 pb-20"
           >
             {/* Header Buttons */}
             <View className="absolute top-14 left-6 right-6 flex-row items-center justify-between">
@@ -163,53 +165,54 @@ export default function ArticleDetailScreen() {
                 </TouchableOpacity>
               </View>
             </View>
-
-            <View className="flex-row mb-4">
-              <View className="bg-accent px-3 py-1 rounded-lg me-2">
-                <Text className="text-primary text-[10px] font-[Cairo_700Bold]">
-                  {article.category}
-                </Text>
-              </View>
-              <View className="bg-white/20 px-3 py-1 rounded-lg backdrop-blur-md">
-                <Text className="text-white text-[10px] font-[Cairo_700Bold]">
-                  {t("article.editorial")}
-                </Text>
-              </View>
-            </View>
-
-            <Text
-              className="text-3xl font-[Cairo_700Bold] text-white leading-[48px] mb-6"
-              numberOfLines={3}
-            >
-              {article.title}
-            </Text>
-
-            <View className="flex-row items-center">
-              <Image
-                source={{
-                  uri: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=100&auto=format&fit=crop",
-                }}
-                className="w-10 h-10 rounded-full border-2 border-accent"
-              />
-              <View className="mx-3 ms-3">
-                <Text className="text-white font-[Cairo_700Bold] text-sm">
-                  {article.author || t("article.editor")}
-                </Text>
-                <View className="flex-row items-center opacity-70">
-                  <ClockIcon size={10} color="white" />
-                  <Text
-                    className={`text-white text-[10px] ms-1 font-[Cairo_400Regular]`}
-                  >
-                    {article.date}
-                  </Text>
-                </View>
-              </View>
-            </View>
           </LinearGradient>
         </View>
 
         {/* Content Section */}
-        <View className="bg-white rounded-t-[40px] -mt-10 px-8 pt-12 pb-16">
+        <View className="bg-white rounded-t-[40px] -mt-10 px-8 pt-10 pb-16">
+          {/* Article Header (Title & Author Bar) */}
+          <View className="mb-10 items-center">
+            <Text className="text-2xl font-[Cairo_700Bold] text-primary text-center mb-8 leading-[42px]">
+              {article.title}
+            </Text>
+
+            <View className="flex-row flex-wrap items-center justify-center px-2 py-3 bg-gray-50 rounded-2xl border border-gray-100/50">
+              <View className="flex-row items-center">
+                <UserCircleIcon size={20} color="#ca8a04" />
+                <Text className="text-primary font-[Cairo_700Bold] text-xs ms-2">
+                  {article.author}
+                </Text>
+              </View>
+
+              <Text className="text-gray-300 mx-3">-</Text>
+
+              <View className="flex-row items-center">
+                <ClockIcon size={14} color="#ca8a04" />
+                <Text className="text-gray-500 font-[Cairo_400Regular] text-xs ms-1 mt-0.5">
+                  {article.date}
+                </Text>
+              </View>
+
+              <Text className="text-gray-300 mx-3">-</Text>
+
+              <View className="flex-row items-center">
+                <FolderIcon size={14} color="#ca8a04" />
+                <Text className="text-gray-500 font-[Cairo_400Regular] text-xs ms-1 mt-0.5">
+                  {article.category}
+                </Text>
+              </View>
+
+              <Text className="text-gray-300 mx-3">-</Text>
+
+              <View className="flex-row items-center">
+                <ChatBubbleBottomCenterTextIcon size={14} color="#ca8a04" />
+                <Text className="text-gray-500 font-[Cairo_400Regular] text-xs ms-1 mt-0.5">
+                  {article.commentCount}
+                </Text>
+              </View>
+            </View>
+          </View>
+
           <View>
             <RenderHtml
               contentWidth={width - 64}
@@ -218,9 +221,6 @@ export default function ArticleDetailScreen() {
               systemFonts={["Cairo_400Regular", "Cairo_700Bold"]}
             />
           </View>
-
-          {/* Author Bio */}
-          <AuthorBio name={article.author || t("article.editor")} />
 
           {/* Related Articles */}
           <View className="mt-8">

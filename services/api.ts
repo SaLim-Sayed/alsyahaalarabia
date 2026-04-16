@@ -1,4 +1,5 @@
 import axios from "axios";
+import { useAppStore } from "../store/useAppStore";
 
 const BASE_URL = "https://alsyahaalarabia.com/wp-json/wp/v2";
 
@@ -15,8 +16,10 @@ export const api = axios.create({
 // Request interceptor to add token
 api.interceptors.request.use(
   (config) => {
-    // We'll import store dynamically or use a more robust way later
-    // For now, these are the headers for WP Auth
+    const token = useAppStore.getState().token;
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
     return config;
   },
   (error) => {
@@ -77,6 +80,47 @@ export const fetchFromWP = async (endpoint: string, params = {}) => {
     } else {
       console.error(`WP Error (${endpoint}) - Message:`, error.message);
     }
+    throw error;
+  }
+};
+
+// --- Post/Editor Services ---
+
+// Fetch post with editor context (includes .raw field for blocks)
+export const fetchPostForEdit = async (id: string) => {
+  return await fetchFromWP(`/posts/${id}`, { context: "edit" });
+};
+
+// Update post with new content
+export const updatePost = async (id: string, data: any) => {
+  try {
+    const response = await api.post(`/posts/${id}`, data);
+    return response.data;
+  } catch (error: any) {
+    console.error(`Update Post Error (${id}):`, error.response?.data || error.message);
+    throw error;
+  }
+};
+
+// --- User/Author Services ---
+
+// Get current logged-in user details
+export const getCurrentUser = async () => {
+  return await fetchFromWP("/users/me", { context: "edit" });
+};
+
+// Get specific user by ID
+export const getUserById = async (id: number) => {
+  return await fetchFromWP(`/users/${id}`);
+};
+
+// Update current user profile
+export const updateCurrentUser = async (data: any) => {
+  try {
+    const response = await api.post("/users/me", data);
+    return response.data;
+  } catch (error: any) {
+    console.error("Update User Error:", error.response?.data || error.message);
     throw error;
   }
 };

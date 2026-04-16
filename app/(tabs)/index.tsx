@@ -1,5 +1,5 @@
 import { AppHeader } from "@/components/AppHeader";
-import { ArticleCard } from "@/components/ArticleCard";
+import { CategorySection } from "@/components/CategorySection";
 import { CulturalPulse } from "@/components/CulturalPulse";
 import { ExploreGrid } from "@/components/ExploreGrid";
 import { HomeSlider } from "@/components/HomeSlider";
@@ -18,8 +18,6 @@ import {
 
 export default function HomeScreen() {
   const { t, i18n } = useTranslation();
-  const isRTL = i18n.language === "ar";
-  const [selectedCategoryId, setSelectedCategoryId] = useState("all");
   const [refreshing, setRefreshing] = useState(false);
 
   const {
@@ -71,32 +69,45 @@ export default function HomeScreen() {
             <HomeSlider articles={articles.slice(0, 5)} />
 
             {/* Explore Grid */}
-            <SectionHeader
-              title={t("home.exploreSections")}
-            />
-
+            <SectionHeader title={t("home.exploreSections")} />
             <ExploreGrid />
 
-            {/* Trending Section */}
-            <SectionHeader title={t("home.currentTrend")} />
-            <View className="px-6 mb-8">
-              <ArticleCard
-                article={articles[5] || articles[0]}
-                variant="trending"
-              />
-            </View>
+            {/* Magazine Sections */}
+            <CategorySection 
+              title="السياحة السعودية" 
+              categoryId="52" 
+              accentColor="#1a3c34" 
+            />
 
-            {/* Latest News */}
-            <SectionHeader title={t("common.latestNews")} />
-            <View className="px-6 mb-8">
-              {articles.slice(6, 12).map((article) => (
-                <ArticleCard
-                  key={article.id}
-                  article={article}
-                  variant="list"
-                />
-              ))}
-            </View>
+            <CategorySection 
+              title="السياحة العالمية" 
+              categoryId="13" 
+              accentColor="#fbbf24" 
+            />
+
+            <CategorySection 
+              title="السياحة الميسرة (الدامجة)" 
+              categoryId="9898" 
+              accentColor="#10b981" 
+            />
+
+            <CategorySection 
+              title="أخبار الرياضة" 
+              categoryId="4857" 
+              accentColor="#ef4444" 
+            />
+
+            <CategorySection 
+              title="فنادق ومنتجعات" 
+              categoryId="50" 
+              accentColor="#8b5cf6" 
+            />
+
+            <CategorySection 
+              title="Global Tourism" 
+              categoryId="9896" 
+              accentColor="#3b82f6" 
+            />
 
             {/* Cultural Pulse Banner */}
             <CulturalPulse />

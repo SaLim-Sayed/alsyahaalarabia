@@ -46,6 +46,12 @@ export interface WPPost {
       }>
     >;
   };
+  rttpg_author?: {
+    display_name: string;
+    author_link: string;
+  };
+  rttpg_comment?: number;
+  rttpg_featured_image_url?: Record<string, [string, number, number, boolean]>;
 }
 
 export interface WPCategory {
@@ -57,4 +63,20 @@ export interface WPCategory {
   slug: string;
   taxonomy: string;
   parent: number;
+}
+
+export interface WPUser {
+  id: number;
+  name: string;
+  url: string;
+  description: string;
+  link: string;
+  slug: string;
+  avatar_urls?: Record<string, string>;
+  meta?: any[];
+  roles?: string[];
+  first_name?: string;
+  last_name?: string;
+  email?: string;
+  registered_date?: string;
 }

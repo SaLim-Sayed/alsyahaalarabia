@@ -7,7 +7,11 @@ export interface Article {
   category: string;
   date: string;
   author: string;
+  authorAvatar?: string;
+  authorBio?: string;
+  authorId: string;
   categoryId: string;
+  commentCount: number;
   link?: string;
 }
 
