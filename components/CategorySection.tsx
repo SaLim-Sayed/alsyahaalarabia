@@ -1,10 +1,15 @@
-import { ArticleCard } from "./ArticleCard";
 import { usePostsByCategory } from "@/hooks/usePosts";
 import { Article } from "@/types/Article";
 import { Link } from "expo-router";
-import React from "react";
+import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Image, Text, TouchableOpacity, View } from "react-native";
+import {
+  Image,
+  Text,
+  TouchableOpacity,
+  View,
+  useWindowDimensions,
+} from "react-native";
 import {
   CalendarIcon,
   ChevronLeftIcon,
@@ -12,22 +17,68 @@ import {
   TagIcon,
   UserIcon,
 } from "react-native-heroicons/solid";
+import Animated, {
+  Extrapolate,
+  SharedValue,
+  interpolate,
+  useAnimatedStyle,
+} from "react-native-reanimated";
+import { ArticleCard } from "./ArticleCard";
 
 interface CategorySectionProps {
   title: string;
   categoryId: string;
   accentColor?: string;
+  scrollY?: SharedValue<number>;
 }
 
 export const CategorySection: React.FC<CategorySectionProps> = ({
   title,
   categoryId,
   accentColor = "#fbbf24",
+  scrollY,
 }) => {
   const { t, i18n } = useTranslation();
   const isRTL = i18n.language === "ar";
+  const { height: screenHeight } = useWindowDimensions();
+  const [yOffset, setYOffset] = useState(0);
 
   const { data: articles, isLoading } = usePostsByCategory(categoryId, 5);
+
+  const animatedStyle = useAnimatedStyle(() => {
+    if (!scrollY || yOffset === 0)
+      return { opacity: 1, transform: [{ translateY: 0 }, { scale: 1 }] };
+
+    // Start animating when the section is just below the visible screen
+    const startPoint = yOffset - screenHeight;
+    const endPoint = yOffset - screenHeight * 0.3; // Finish animation when it's 30% into the screen
+
+    const opacity = interpolate(
+      scrollY.value,
+      [startPoint, endPoint],
+      [0, 1],
+      Extrapolate.CLAMP,
+    );
+
+    const translateY = interpolate(
+      scrollY.value,
+      [startPoint, endPoint],
+      [100, 0],
+      Extrapolate.CLAMP,
+    );
+
+    const scale = interpolate(
+      scrollY.value,
+      [startPoint, endPoint],
+      [0.9, 1],
+      Extrapolate.CLAMP,
+    );
+
+    return {
+      opacity,
+      transform: [{ translateY }, { scale }],
+    };
+  }, [yOffset, screenHeight]);
 
   if (isLoading || !articles || articles.length === 0) return null;
 
@@ -66,11 +117,17 @@ export const CategorySection: React.FC<CategorySectionProps> = ({
   );
 
   return (
-    <View className="mb-12 px-6">
+    <Animated.View
+      onLayout={(event) => {
+        setYOffset(event.nativeEvent.layout.y);
+      }}
+      style={animatedStyle}
+      className="mb-12 px-6"
+    >
       {/* Redesigned Section Header */}
       <View className="flex-row items-center justify-between mb-6">
         {/* Left: See More */}
-        <View className="flex-row items-center">
+        <View className="flex-row gap-2 items-center">
           <View
             style={{ backgroundColor: accentColor }}
             className="w-2.5 h-2.5 rounded-full"
@@ -133,6 +190,6 @@ export const CategorySection: React.FC<CategorySectionProps> = ({
           <ArticleCard key={article.id} article={article} variant="list" />
         ))}
       </View>
-    </View>
+    </Animated.View>
   );
 };

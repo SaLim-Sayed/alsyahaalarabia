@@ -1,6 +1,5 @@
 import { AppHeader } from "@/components/AppHeader";
 import { CategorySection } from "@/components/CategorySection";
-import { CulturalPulse } from "@/components/CulturalPulse";
 import { ExploreGrid } from "@/components/ExploreGrid";
 import { HomeSlider } from "@/components/HomeSlider";
 import { NewsTicker } from "@/components/NewsTicker";
@@ -8,17 +7,22 @@ import { SectionHeader } from "@/components/SectionHeader";
 import { usePostsByCategory } from "@/hooks/usePosts";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
-import {
-  ActivityIndicator,
-  RefreshControl,
-  ScrollView,
-  Text,
-  View,
-} from "react-native";
+import { ActivityIndicator, RefreshControl, Text, View } from "react-native";
+import Animated, {
+  useAnimatedScrollHandler,
+  useSharedValue,
+} from "react-native-reanimated";
 
 export default function HomeScreen() {
   const { t, i18n } = useTranslation();
   const [refreshing, setRefreshing] = useState(false);
+  const scrollY = useSharedValue(0);
+
+  const scrollHandler = useAnimatedScrollHandler({
+    onScroll: (event) => {
+      scrollY.value = event.contentOffset.y;
+    },
+  });
 
   const {
     data: articles,
@@ -49,7 +53,9 @@ export default function HomeScreen() {
     <View className="flex-1 bg-secondary">
       <AppHeader />
 
-      <ScrollView
+      <Animated.ScrollView
+        onScroll={scrollHandler}
+        scrollEventThrottle={16}
         showsVerticalScrollIndicator={false}
         className="flex-1"
         refreshControl={
@@ -73,44 +79,50 @@ export default function HomeScreen() {
             <ExploreGrid />
 
             {/* Magazine Sections */}
-            <CategorySection 
-              title="السياحة السعودية" 
-              categoryId="52" 
-              accentColor="#1a3c34" 
+            <CategorySection
+              title="السياحة السعودية"
+              categoryId="52"
+              accentColor="#1a3c34"
+              scrollY={scrollY}
             />
 
-            <CategorySection 
-              title="السياحة العالمية" 
-              categoryId="13" 
-              accentColor="#fbbf24" 
+            <CategorySection
+              title="السياحة العالمية"
+              categoryId="13"
+              accentColor="#fbbf24"
+              scrollY={scrollY}
             />
 
-            <CategorySection 
-              title="السياحة الميسرة (الدامجة)" 
-              categoryId="9898" 
-              accentColor="#10b981" 
+            <CategorySection
+              title="السياحة الميسرة (الدامجة)"
+              categoryId="9898"
+              accentColor="#10b981"
+              scrollY={scrollY}
             />
 
-            <CategorySection 
-              title="أخبار الرياضة" 
-              categoryId="4857" 
-              accentColor="#ef4444" 
+            <CategorySection
+              title="أخبار الرياضة"
+              categoryId="4857"
+              accentColor="#ef4444"
+              scrollY={scrollY}
             />
 
-            <CategorySection 
-              title="فنادق ومنتجعات" 
-              categoryId="50" 
-              accentColor="#8b5cf6" 
+            <CategorySection
+              title="فنادق ومنتجعات"
+              categoryId="50"
+              accentColor="#8b5cf6"
+              scrollY={scrollY}
             />
 
-            <CategorySection 
-              title="Global Tourism" 
-              categoryId="9896" 
-              accentColor="#3b82f6" 
+            <CategorySection
+              title="Global Tourism"
+              categoryId="9896"
+              accentColor="#3b82f6"
+              scrollY={scrollY}
             />
 
             {/* Cultural Pulse Banner */}
-            <CulturalPulse />
+            {/* <CulturalPulse /> */}
           </>
         )}
 
@@ -121,7 +133,7 @@ export default function HomeScreen() {
             </Text>
           </View>
         )}
-      </ScrollView>
+      </Animated.ScrollView>
     </View>
   );
 }
