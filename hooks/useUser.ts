@@ -49,7 +49,7 @@ export const useUpdateProfile = () => {
   const { setUser, token } = useAppStore();
 
   return useMutation({
-    mutationFn: (data: Partial<WPUser>) => updateCurrentUser(data),
+    mutationFn: (data: Record<string, unknown>) => updateCurrentUser(data),
     onSuccess: (updatedWpUser) => {
       const appUser = mapWPUserToAppUser(updatedWpUser);
       

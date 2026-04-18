@@ -2,6 +2,24 @@ import axios from "axios";
 import { useAppStore } from "../store/useAppStore";
 
 const BASE_URL = "https://alsyahaalarabia.com/wp-json/wp/v2";
+export const WP_JSON_ROOT = "https://alsyahaalarabia.com/wp-json";
+
+/** WordPress site origin (programmatic login forms, links). */
+export const WP_SITE_ORIGIN = new URL(WP_JSON_ROOT).origin;
+/** Ultimate Member / theme password-reset page (in-app WebView). */
+export const WP_PASSWORD_RESET_PAGE_URL = `${WP_SITE_ORIGIN}/password-reset/`;
+/** WordPress registration (in-app WebView). */
+export const WP_REGISTER_PAGE_URL = `${WP_SITE_ORIGIN}/wp-login.php?action=register`;
+
+export interface JwtAuthTokenResponse {
+  token: string;
+  user_email: string;
+  user_nicename: string;
+  user_display_name: string;
+  user_id?: number;
+  /** Some JWT plugin builds use `id` instead of `user_id`. */
+  id?: number;
+}
 
 export const api = axios.create({
   baseURL: BASE_URL,
@@ -27,34 +45,23 @@ api.interceptors.request.use(
   },
 );
 
-export const loginUser = async (username: string, password: string) => {
-  try {
-    // Standard WordPress JWT Auth endpoint
-    // If the plugin is not installed, this will fail gracefully
-    const response = await api.post(
-      "/jwt-auth/v1/token",
-      {
-        username,
-        password,
+/** POST token request must not use the shared `api` client (no Bearer; correct base path). */
+export const loginUser = async (
+  username: string,
+  password: string,
+): Promise<JwtAuthTokenResponse> => {
+  const { data } = await axios.post<JwtAuthTokenResponse>(
+    `${WP_JSON_ROOT}/jwt-auth/v1/token`,
+    { username, password },
+    {
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
       },
-      {
-        baseURL: "https://alsyahaalarabia.com/wp-json", // JWT usually sits at root wp-json
-      },
-    );
-    return response.data;
-  } catch (error) {
-    console.error("Login Error:", error);
-    // Mock for development if needed
-    if (username === "demo" && password === "demo123") {
-      return {
-        token: "mock-token-123",
-        user_email: "demo@example.com",
-        user_nicename: "Demo User",
-        user_display_name: "Demo User",
-      };
-    }
-    throw error;
-  }
+      timeout: 60000,
+    },
+  );
+  return data;
 };
 
 // Helper to handle API requests
@@ -114,13 +121,39 @@ export const getUserById = async (id: number) => {
   return await fetchFromWP(`/users/${id}`);
 };
 
-// Update current user profile
-export const updateCurrentUser = async (data: any) => {
-  try {
-    const response = await api.post("/users/me", data);
-    return response.data;
-  } catch (error: any) {
+// Update current user profile (WordPress REST standard is PATCH; some stacks still accept POST)
+export const updateCurrentUser = async (data: Record<string, unknown>) => {
+  const normalizeError = (error: any): never => {
     console.error("Update User Error:", error.response?.data || error.message);
-    throw error;
+    const msg =
+      error?.response?.data?.message ??
+      error?.response?.data?.code ??
+      error?.message;
+    const err = new Error(
+      typeof msg === "string" ? msg : "Failed to update profile",
+    );
+    (err as any).response = error?.response;
+    throw err;
+  };
+
+  try {
+    const response = await api.patch("/users/me", data);
+    return response.data;
+  } catch (patchErr: any) {
+    const status = patchErr?.response?.status;
+    if (status === 405 || status === 501) {
+      try {
+        const response = await api.post("/users/me", data);
+        return response.data;
+      } catch (postErr: any) {
+        normalizeError(postErr);
+      }
+    }
+    normalizeError(patchErr);
   }
+};
+
+/** Update password for the authenticated user (`PATCH /users/me`). */
+export const updateCurrentUserPassword = async (newPassword: string) => {
+  return updateCurrentUser({ password: newPassword });
 };

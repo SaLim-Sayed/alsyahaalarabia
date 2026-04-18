@@ -1,9 +1,18 @@
-import { useAppStore } from "@/store/useAppStore";
+import { profileTextInputCaret } from "@/constants/Colors";
 import { useCurrentUser, useUpdateProfile } from "@/hooks/useUser";
+import {
+  createProfileFormSchema,
+  type ProfileFormValues,
+} from "@/schemas/forms";
+import { useAppStore } from "@/store/useAppStore";
+import type { WPUser } from "@/types/wp-types";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "expo-router";
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
+import { Controller, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import {
+  ActivityIndicator,
   Alert,
   SafeAreaView,
   ScrollView,
@@ -16,61 +25,140 @@ import {
   ArrowLeftIcon,
   ArrowRightIcon,
   ArrowRightOnRectangleIcon,
+  DocumentTextIcon,
   EnvelopeIcon,
   ShieldCheckIcon,
   UserCircleIcon,
 } from "react-native-heroicons/outline";
 
+/** Baseline for WP diff when `/users/me` has not loaded yet */
+function baselineFromStores(
+  wpUser: WPUser | null | undefined,
+  user: {
+    name: string;
+    email: string;
+    firstName?: string;
+    lastName?: string;
+    description?: string;
+  },
+) {
+  return {
+    name: wpUser?.name ?? user.name ?? "",
+    first_name: wpUser?.first_name ?? user.firstName ?? "",
+    last_name: wpUser?.last_name ?? user.lastName ?? "",
+    description: wpUser?.description ?? user.description ?? "",
+    email: wpUser?.email ?? user.email ?? "",
+  };
+}
+
+function buildWpPatch(
+  data: ProfileFormValues,
+  baseline: ReturnType<typeof baselineFromStores>,
+): Record<string, unknown> {
+  const payload: Record<string, unknown> = {};
+  if (data.name.trim() !== baseline.name.trim()) payload.name = data.name.trim();
+  if (data.firstName.trim() !== baseline.first_name.trim())
+    payload.first_name = data.firstName.trim();
+  if (data.lastName.trim() !== baseline.last_name.trim())
+    payload.last_name = data.lastName.trim();
+  if (data.description.trim() !== baseline.description.trim())
+    payload.description = data.description.trim();
+  if (
+    data.email.trim().toLowerCase() !== baseline.email.trim().toLowerCase()
+  ) {
+    payload.email = data.email.trim();
+  }
+  return payload;
+}
+
 export default function ProfileScreen() {
   const { t, i18n } = useTranslation();
-  const isRTL = i18n.language === "ar";
+  const isRTL = i18n.dir() === "rtl";
   const router = useRouter();
   const { user, logout } = useAppStore();
   const { data: wpUser, isLoading: isUserLoading } = useCurrentUser();
   const updateProfileMutation = useUpdateProfile();
 
-  const [name, setName] = useState(user?.name || "");
+  const profileSchema = useMemo(
+    () => createProfileFormSchema(t),
+    [t, i18n.language],
+  );
+
+  const {
+    control,
+    handleSubmit,
+    reset,
+    watch,
+    formState: { errors, isDirty },
+  } = useForm<ProfileFormValues>({
+    resolver: zodResolver(profileSchema),
+    defaultValues: {
+      name: "",
+      firstName: "",
+      lastName: "",
+      description: "",
+      email: "",
+    },
+  });
+
+  const watchedName = watch("name");
 
   useEffect(() => {
-    if (user?.name) setName(user.name);
-  }, [user?.name]);
+    if (!user) return;
+    const b = baselineFromStores(wpUser ?? undefined, user);
+    reset({
+      name: b.name,
+      firstName: b.first_name,
+      lastName: b.last_name,
+      description: b.description,
+      email: b.email,
+    });
+  }, [
+    user,
+    wpUser?.name,
+    wpUser?.first_name,
+    wpUser?.last_name,
+    wpUser?.description,
+    wpUser?.email,
+    wpUser?.id,
+    reset,
+  ]);
+
+  const baseline = useMemo(() => {
+    if (!user) return null;
+    return baselineFromStores(wpUser ?? undefined, user);
+  }, [user, wpUser]);
 
   const isSaving = updateProfileMutation.isPending;
 
-  const handleSave = () => {
-    if (!name.trim()) {
-      Alert.alert(
-        t("common.error"),
-        isRTL ? "الاسم مطلوب" : "Name is required",
-      );
-      return;
-    }
+  const onSubmit = (data: ProfileFormValues) => {
+    if (!user || !baseline) return;
 
-    updateProfileMutation.mutate(
-      { name: name.trim() },
-      {
-        onSuccess: () => {
-          Alert.alert(
-            isRTL ? "تم بنجاح" : "Success",
-            isRTL ? "تم تحديث الملف الشخصي" : "Profile updated successfully",
-          );
-        },
-        onError: (error: any) => {
-          Alert.alert(
-            t("common.error"),
-            error.message || (isRTL ? "فشل تحديث الملف" : "Failed to update profile"),
-          );
-        },
+    const payload = buildWpPatch(data, baseline);
+    if (Object.keys(payload).length === 0) return;
+
+    updateProfileMutation.mutate(payload, {
+      onSuccess: () => {
+        Alert.alert(
+          t("auth.profileUpdatedTitle"),
+          t("auth.profileUpdatedBody"),
+        );
       },
-    );
+      onError: (error: unknown) => {
+        const msg =
+          error instanceof Error ? error.message : String(error);
+        Alert.alert(
+          t("common.error"),
+          msg || t("auth.profileUpdateFailed"),
+        );
+      },
+    });
   };
 
   const handleLogout = () => {
     Alert.alert(
       t("auth.logout"),
-      isRTL
-        ? "هل أنت متأكد من تسجيل الخروج؟"
-        : "Are you sure you want to log out?",
+      t("auth.logoutConfirmMessage"),
       [
         { text: t("common.goBack"), style: "cancel" },
         {
@@ -84,6 +172,24 @@ export default function ProfileScreen() {
       ],
     );
   };
+
+  const fieldWrap = (
+    label: string,
+    children: React.ReactNode,
+    hint?: string,
+  ) => (
+    <View>
+      <Text className="text-gray-400 font-[Cairo_700Bold] text-xs uppercase tracking-widest mb-2 px-1">
+        {label}
+      </Text>
+      {children}
+      {hint ? (
+        <Text className="text-red-500 font-[Cairo_400Regular] text-xs mt-1 px-1">
+          {hint}
+        </Text>
+      ) : null}
+    </View>
+  );
 
   if (!user) {
     return (
@@ -103,9 +209,25 @@ export default function ProfileScreen() {
     );
   }
 
+  if (isUserLoading && !wpUser) {
+    return (
+      <View className="flex-1 bg-secondary items-center justify-center">
+        <ActivityIndicator size="large" color="#1a3c34" />
+        <Text className="text-gray-500 font-[Cairo_400Regular] mt-4">
+          {t("common.loading")}
+        </Text>
+      </View>
+    );
+  }
+
+  const initialLetter = (
+    watchedName ||
+    user.name ||
+    ""
+  ).charAt(0).toUpperCase();
+
   return (
     <SafeAreaView className="flex-1 bg-secondary">
-      {/* Header */}
       <View className="flex-row items-center justify-between px-6 py-12 bg-primary rounded-b-[40px] shadow-lg">
         <TouchableOpacity
           onPress={() => router.back()}
@@ -120,121 +242,212 @@ export default function ProfileScreen() {
         <Text className="text-white text-xl font-[Cairo_700Bold]">
           {t("auth.profile")}
         </Text>
-        <View className="w-10" />
+        <TouchableOpacity
+          onPress={handleLogout}
+          accessibilityRole="button"
+          accessibilityLabel={t("auth.logout")}
+          hitSlop={{ top: 12, bottom: 12, left: 12, right: 12 }}
+          className="w-10 h-10 items-center justify-center rounded-full bg-white/10"
+        >
+          <ArrowRightOnRectangleIcon size={22} color="#ffffff" strokeWidth={1.75} />
+        </TouchableOpacity>
       </View>
 
       <ScrollView
-        className="flex-1 px-6 pt-10"
+        className="flex-[0.96] px-6 pt-10"
+        contentContainerStyle={{ paddingBottom: 40 }}
         showsVerticalScrollIndicator={false}
+        keyboardShouldPersistTaps="handled"
       >
-        {/* Avatar Section */}
         <View className="items-center mb-10">
-          <View className="w-32 h-32 rounded-[48px] bg-accent items-center justify-center shadow-xl border-4 border-white">
+          <View className="w-32 h-32 rounded-[48px] bg-accent items-center justify-center shadow-xl border-4 border-white overflow-hidden">
             <Text className="text-primary text-5xl font-[Cairo_700Bold]">
-              {user.name.charAt(0).toUpperCase()}
+              {initialLetter}
             </Text>
           </View>
-          <View className="bg-primary px-4 py-1.5 rounded-full -mt-4 shadow-sm">
+          <View className="bg-primary px-4 py-1.5 rounded-full mt-3 shadow-sm">
             <Text className="text-white text-xs font-[Cairo_700Bold] uppercase tracking-widest">
-              {user.role || (isRTL ? "عضو" : "Member")}
+              {user.role || t("auth.profileForm.member")}
             </Text>
           </View>
         </View>
 
-        {/* Info Form */}
-        <View className="space-y-6">
-          {/* Name Field */}
-          <View>
-            <Text className="text-gray-400 font-[Cairo_700Bold] text-xs uppercase tracking-widest mb-2 px-1">
-              {isRTL ? "الاسم بالكامل" : "Full Name"}
-            </Text>
-            <View className="flex-row items-center bg-white border border-gray-100 rounded-3xl p-4 shadow-sm">
-              <UserCircleIcon size={22} color="#1a3c34" strokeWidth={1.5} />
-              <TextInput
-                value={name}
-                onChangeText={setName}
-                placeholder={isRTL ? "أدخل اسمك" : "Enter your name"}
-                className={`flex-1 ms-3 text-primary font-[Cairo_700Bold] text-base mb-1 ${isRTL ? "text-right" : "text-left"}`}
-              />
-            </View>
-          </View>
+        <View className="space-y-6 flex flex-col gap-4">
+          {fieldWrap(
+            t("auth.profileForm.displayName"),
+            <Controller
+              control={control}
+              name="name"
+              render={({ field: { value, onChange, onBlur } }) => (
+                <View className="flex-row items-center bg-white border border-gray-100 rounded-3xl p-4 shadow-sm">
+                  <UserCircleIcon size={22} color="#1a3c34" strokeWidth={1.5} />
+                  <TextInput
+                    {...profileTextInputCaret}
+                    value={value}
+                    onChangeText={onChange}
+                    onBlur={onBlur}
+                    placeholder={t("auth.profileForm.displayNamePlaceholder")}
+                    editable={!isSaving}
+                    className={`flex-1 ms-3 text-primary font-[Cairo_700Bold] text-base py-1 ${isRTL ? "text-right" : "text-left"}`}
+                  />
+                </View>
+              )}
+            />,
+            errors.name?.message,
+          )}
 
-          {/* Username Field (Read Only) */}
-          <View>
-            <Text className="text-gray-400 font-[Cairo_700Bold] text-xs uppercase tracking-widest mb-2 px-1">
-              {isRTL ? "اسم المستخدم" : "Username"}
-            </Text>
-            <View className="flex-row items-center bg-gray-50 border border-gray-100 rounded-3xl p-4 opacity-70">
-              <UserCircleIcon size={22} color="#1a3c34" strokeWidth={1.5} />
-              <Text
-                className={`flex-1 ms-3 text-gray-500 font-[Cairo_400Regular] text-base ${isRTL ? "text-right" : "text-left"}`}
-              >
-                {user.username || "@user"}
-              </Text>
-            </View>
-          </View>
+          {fieldWrap(
+            t("auth.profileForm.firstName"),
+            <Controller
+              control={control}
+              name="firstName"
+              render={({ field: { value, onChange, onBlur } }) => (
+                <View className="flex-row items-center bg-white border border-gray-100 rounded-3xl p-4 shadow-sm">
+                  <UserCircleIcon size={22} color="#1a3c34" strokeWidth={1.5} />
+                  <TextInput
+                    {...profileTextInputCaret}
+                    value={value}
+                    onChangeText={onChange}
+                    onBlur={onBlur}
+                    placeholder={t("auth.profileForm.firstNamePlaceholder")}
+                    editable={!isSaving}
+                    autoCapitalize="words"
+                    className={`flex-1 ms-3 text-primary font-[Cairo_700Bold] text-base py-1 ${isRTL ? "text-right" : "text-left"}`}
+                  />
+                </View>
+              )}
+            />,
+            errors.firstName?.message,
+          )}
 
-          {/* Email Field (Read Only) */}
-          <View>
+          {fieldWrap(
+            t("auth.profileForm.lastName"),
+            <Controller
+              control={control}
+              name="lastName"
+              render={({ field: { value, onChange, onBlur } }) => (
+                <View className="flex-row items-center bg-white border border-gray-100 rounded-3xl p-4 shadow-sm">
+                  <UserCircleIcon size={22} color="#1a3c34" strokeWidth={1.5} />
+                  <TextInput
+                    {...profileTextInputCaret}
+                    value={value}
+                    onChangeText={onChange}
+                    onBlur={onBlur}
+                    placeholder={t("auth.profileForm.lastNamePlaceholder")}
+                    editable={!isSaving}
+                    autoCapitalize="words"
+                    className={`flex-1 ms-3 text-primary font-[Cairo_700Bold] text-base py-1 ${isRTL ? "text-right" : "text-left"}`}
+                  />
+                </View>
+              )}
+            />,
+            errors.lastName?.message,
+          )}
+
+          {fieldWrap(
+            t("auth.profileForm.biography"),
+            <Controller
+              control={control}
+              name="description"
+              render={({ field: { value, onChange, onBlur } }) => (
+                <View className="flex-row items-start bg-white border border-gray-100 rounded-3xl p-4 shadow-sm">
+                  <DocumentTextIcon
+                    size={22}
+                    color="#1a3c34"
+                    strokeWidth={1.5}
+                    style={{ marginTop: 4 }}
+                  />
+                  <TextInput
+                    {...profileTextInputCaret}
+                    value={value}
+                    onChangeText={onChange}
+                    onBlur={onBlur}
+                    placeholder={t("auth.profileForm.biographyPlaceholder")}
+                    editable={!isSaving}
+                    multiline
+                    textAlignVertical="top"
+                    numberOfLines={4}
+                    className={`flex-1 ms-3 text-primary font-[Cairo_400Regular] text-base min-h-[100px] py-1 ${isRTL ? "text-right" : "text-left"}`}
+                  />
+                </View>
+              )}
+            />,
+            errors.description?.message,
+          )}
+
+
+          <View className="my-3">
             <Text className="text-gray-400 font-[Cairo_700Bold] text-xs uppercase tracking-widest mb-2 px-1">
-              {isRTL ? "البريد الإلكتروني" : "Email Address"}
+              {t("auth.profileForm.email")}
             </Text>
             <View className="flex-row items-center bg-gray-50 border border-gray-100 rounded-3xl p-4 opacity-70">
               <EnvelopeIcon size={22} color="#1a3c34" strokeWidth={1.5} />
               <Text
                 className={`flex-1 ms-3 text-gray-500 font-[Cairo_400Regular] text-base ${isRTL ? "text-right" : "text-left"}`}
               >
-                {user.email}
+                {user.email || t("auth.profileForm.fallbackEmail")}
               </Text>
             </View>
           </View>
 
-          {/* Registration Date Field (Read Only) */}
           <View>
             <Text className="text-gray-400 font-[Cairo_700Bold] text-xs uppercase tracking-widest mb-2 px-1">
-              {isRTL ? "تاريخ التسجيل" : "Registration Date"}
+              {t("auth.profileForm.usernameSlug")}
+            </Text>
+            <View className="flex-row items-center bg-gray-50 border border-gray-100 rounded-3xl p-4 opacity-70">
+              <UserCircleIcon size={22} color="#1a3c34" strokeWidth={1.5} />
+              <Text
+                className={`flex-1 ms-3 text-gray-500 font-[Cairo_400Regular] text-base ${isRTL ? "text-right" : "text-left"}`}
+              >
+                {user.username || t("auth.profileForm.fallbackUsername")}
+              </Text>
+            </View>
+          </View>
+
+          <View>
+            <Text className="text-gray-400 font-[Cairo_700Bold] text-xs uppercase tracking-widest mb-2 px-1">
+              {t("auth.profileForm.registrationDate")}
             </Text>
             <View className="flex-row items-center bg-gray-50 border border-gray-100 rounded-3xl p-4 opacity-70">
               <ShieldCheckIcon size={22} color="#ca8a04" strokeWidth={1.5} />
               <Text
                 className={`flex-1 ms-3 text-gray-500 font-[Cairo_400Regular] text-base ${isRTL ? "text-right" : "text-left"}`}
               >
-                {user.registrationDate || "7 April 2026"}
+                {user.registrationDate || "—"}
               </Text>
             </View>
           </View>
 
-          {/* Save Button */}
           <TouchableOpacity
-            onPress={handleSave}
-            disabled={isSaving || name === user.name}
-            className={`h-16 rounded-[24px] items-center justify-center shadow-lg mt-6 ${
-              isSaving || name === user.name ? "bg-gray-300" : "bg-primary"
-            }`}
+            onPress={() => router.push("/settings/account-password")}
+            accessibilityRole="button"
+            accessibilityHint={t("auth.accountPasswordTitle")}
+            className="flex-row items-center bg-white border border-gray-100 rounded-3xl p-4 shadow-sm active:opacity-90"
           >
-            <Text className="text-white text-lg font-[Cairo_700Bold]">
-              {isSaving
-                ? t("common.loading")
-                : isRTL
-                  ? "حفظ التغييرات"
-                  : "Save Changes"}
+            <ShieldCheckIcon size={22} color="#1a3c34" strokeWidth={1.5} />
+            <Text
+              className={`flex-1 ms-3 text-primary font-[Cairo_700Bold] text-base ${isRTL ? "text-right" : "text-left"}`}
+            >
+              {t("auth.accountPasswordTitle")}
             </Text>
+            {isRTL ? (
+              <ArrowLeftIcon size={20} color="#1a3c34" />
+            ) : (
+              <ArrowRightIcon size={20} color="#1a3c34" />
+            )}
           </TouchableOpacity>
-        </View>
 
-        {/* Dangerous Zone */}
-        <View className="mt-12 mb-20 border-t border-gray-200 pt-8">
-          <TouchableOpacity
-            onPress={handleLogout}
-            className="flex-row items-center justify-center p-5 bg-red-50 rounded-[24px] border border-red-100"
-          >
-            <ArrowRightOnRectangleIcon size={24} color="#dc2626" />
-            <Text className="text-red-600 font-[Cairo_700Bold] text-lg ms-3">
-              {t("auth.logout")}
-            </Text>
-          </TouchableOpacity>
         </View>
-      </ScrollView>
+      </ScrollView> <TouchableOpacity
+        onPress={handleSubmit(onSubmit)}
+        disabled={isSaving || !isDirty}
+        className={`h-16 rounded-[24px]  items-center justify-center shadow-lg m-6 ${isSaving || !isDirty ? "bg-gray-300" : "bg-primary"
+          }`}
+      >
+        <Text className="text-white text-lg font-[Cairo_700Bold]">
+          {isSaving ? t("common.loading") : t("auth.profileForm.saveChanges")}
+        </Text>
+      </TouchableOpacity>
     </SafeAreaView>
   );
 }

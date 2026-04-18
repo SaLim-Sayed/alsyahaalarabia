@@ -69,12 +69,50 @@
     "password": "Contraseña",
     "login": "Iniciar sesión",
     "forgotPassword": "¿Olvidaste tu contraseña?",
+    "forgotPasswordOpenError": "No se pudo abrir el enlace. Inténtalo de nuevo en el navegador.",
     "noAccount": "¿No tienes una cuenta?",
     "signUp": "Regístrate",
     "requiredFields": "Por favor completa todos los campos obligatorios",
     "invalidCredentials": "Usuario o contraseña inválidos",
     "logout": "Cerrar sesión",
     "profile": "Perfil",
-    "guest": "Invitado"
+    "guest": "Invitado",
+    "validation": {
+      "usernameRequired": "El usuario es obligatorio",
+      "passwordRequired": "La contraseña es obligatoria",
+      "displayNameRequired": "El nombre público es obligatorio",
+      "emailRequired": "El correo es obligatorio",
+      "emailInvalid": "Introduce un correo válido"
+    },
+    "profileForm": {
+      "displayName": "Nombre público",
+      "displayNamePlaceholder": "Nombre visible para todos",
+      "firstName": "Nombre",
+      "firstNamePlaceholder": "Nombre",
+      "lastName": "Apellidos",
+      "lastNamePlaceholder": "Apellidos",
+      "biography": "Biografía",
+      "biographyPlaceholder": "Cuéntanos sobre ti...",
+      "email": "Correo electrónico",
+      "emailPlaceholder": "Tu correo",
+      "usernameSlug": "Usuario (slug)",
+      "registrationDate": "Fecha de registro",
+      "saveChanges": "Guardar cambios",
+      "member": "Miembro",
+      "fallbackUsername": "@user"
+    },
+    "logoutConfirmMessage": "¿Seguro que quieres cerrar sesión?",
+    "profileUpdatedTitle": "Correcto",
+    "profileUpdatedBody": "Perfil actualizado correctamente",
+    "profileUpdateFailed": "No se pudo actualizar el perfil",
+    "loginFooterNote": "El inicio de sesión usa JWT de forma segura en nuestro servidor. Registrarte abre la página en el navegador.",
+    "copyright": "© 2024 Alsyaha Alarabiya",
+    "showPassword": "Mostrar contraseña",
+    "hidePassword": "Ocultar contraseña"
+  },
+  "cultural": {
+    "title": "Pulso de la cultura árabe",
+    "description": "La cultura no son solo destinos, sino el alma que habita en cada rincón. Sumérgete en el arte, la caligrafía y las tradiciones transmitidas durante milenios.",
+    "button": "Descubrir el patrimonio"
   }
 }

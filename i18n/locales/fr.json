@@ -69,12 +69,50 @@
     "password": "Mot de passe",
     "login": "Connexion",
     "forgotPassword": "Mot de passe oublié ?",
+    "forgotPasswordOpenError": "Impossible d'ouvrir le lien. Réessayez dans le navigateur.",
     "noAccount": "Vous n'avez pas de compte ?",
     "signUp": "S'inscrire",
     "requiredFields": "Veuillez remplir tous les champs obligatoires",
     "invalidCredentials": "Nom d'utilisateur ou mot de passe invalide",
     "logout": "Déconnexion",
     "profile": "Profil",
-    "guest": "Invité"
+    "guest": "Invité",
+    "validation": {
+      "usernameRequired": "Le nom d'utilisateur est requis",
+      "passwordRequired": "Le mot de passe est requis",
+      "displayNameRequired": "Le nom affiché est requis",
+      "emailRequired": "L'e-mail est requis",
+      "emailInvalid": "Entrez une adresse e-mail valide"
+    },
+    "profileForm": {
+      "displayName": "Nom affiché",
+      "displayNamePlaceholder": "Nom visible publiquement",
+      "firstName": "Prénom",
+      "firstNamePlaceholder": "Prénom",
+      "lastName": "Nom",
+      "lastNamePlaceholder": "Nom",
+      "biography": "Biographie",
+      "biographyPlaceholder": "Parlez de vous...",
+      "email": "E-mail",
+      "emailPlaceholder": "Votre e-mail",
+      "usernameSlug": "Identifiant (slug)",
+      "registrationDate": "Date d'inscription",
+      "saveChanges": "Enregistrer les modifications",
+      "member": "Membre",
+      "fallbackUsername": "@user"
+    },
+    "logoutConfirmMessage": "Voulez-vous vraiment vous déconnecter ?",
+    "profileUpdatedTitle": "Succès",
+    "profileUpdatedBody": "Profil mis à jour",
+    "profileUpdateFailed": "Échec de la mise à jour du profil",
+    "loginFooterNote": "La connexion utilise JWT sur notre serveur. L'inscription ouvre la page dans le navigateur.",
+    "copyright": "© 2024 Alsyaha Alarabiya",
+    "showPassword": "Afficher le mot de passe",
+    "hidePassword": "Masquer le mot de passe"
+  },
+  "cultural": {
+    "title": "Pouls de la culture arabe",
+    "description": "La culture ne se résume pas aux destinations, elle est l’âme qui habite chaque coin. Plongez dans les profondeurs de l’art, la calligraphie et les traditions transmises depuis des millénaires.",
+    "button": "Découvrir le patrimoine"
   }
 }

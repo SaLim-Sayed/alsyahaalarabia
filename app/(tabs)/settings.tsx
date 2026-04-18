@@ -7,23 +7,20 @@ import {
   Modal,
   ScrollView,
   Share,
-  Switch,
   Text,
   TouchableOpacity,
-  View,
+  View
 } from "react-native";
 import {
-  ArrowPathIcon,
   CheckIcon,
   ChevronRightIcon,
   DocumentTextIcon,
   InformationCircleIcon,
   LanguageIcon,
-  MoonIcon,
   ShareIcon,
   ShieldCheckIcon,
   UserIcon,
-  XMarkIcon,
+  XMarkIcon
 } from "react-native-heroicons/outline";
 
 const SettingItem = ({
@@ -96,28 +93,14 @@ export default function SettingsScreen() {
   return (
     <View className="flex-1 bg-secondary">
       <AppHeader />
-
-      <ScrollView
-        className="flex-1 px-6 pt-6"
-        showsVerticalScrollIndicator={false}
-      >
-        {/* Profile Card */}
-        <TouchableOpacity
+      <TouchableOpacity
           onPress={() =>
-            user
-              ? router.push("/settings/profile")
-              : router.push({
-                  pathname: "/(auth)/webview",
-                  params: {
-                    url: "https://alsyahaalarabia.com/login",
-                    mode: "login",
-                  },
-                })
+            user ? router.push("/settings/profile") : router.push("/(auth)/login")
           }
           activeOpacity={0.7}
-          className="mb-10 bg-primary p-6 rounded-[32px] flex-row items-center shadow-lg border border-white/5"
+          className="bg-primary p-4  flex-row items-center shadow-lg border border-white/5"
         >
-          <View className="w-16 h-16 rounded-3xl bg-accent items-center justify-center border-2 border-white/20">
+          <View className="w-12 h-12 rounded-3xl bg-accent items-center justify-center border-2 border-white/20">
             {user ? (
               <Text className="text-primary text-2xl font-[Cairo_700Bold]">
                 {user.name.charAt(0).toUpperCase()}
@@ -129,13 +112,13 @@ export default function SettingsScreen() {
           <View className="ms-5 flex-1">
             <Text
               className="text-white text-xl font-[Cairo_700Bold]"
-              style={{ textAlign: isRTL ? "right" : "left" }}
+               
             >
               {user ? user.name : t("auth.guest")}
             </Text>
             <Text
               className="text-accent text-xs font-[Cairo_700Bold] mt-1"
-              style={{ textAlign: isRTL ? "right" : "left" }}
+             
             >
               {user ? (isRTL ? "عرض الملف الشخصي" : "View Profile") : t("auth.login")}
             </Text>
@@ -145,6 +128,12 @@ export default function SettingsScreen() {
           </View>
         </TouchableOpacity>
 
+      <ScrollView
+        className="flex-1 px-6 pt-6"
+        showsVerticalScrollIndicator={false}
+      >
+        {/* Profile Card */}
+       
         <Text className={`text-2xl font-[Cairo_700Bold] text-primary mb-6 `}>
           {t("settings.title")}
         </Text>
@@ -220,30 +209,7 @@ export default function SettingsScreen() {
           </View>
         </Modal>
 
-        {/* Appearance Section */}
-        <View className="mb-6">
-          <Text
-            className={`text-gray-400 font-[Cairo_700Bold] text-xs uppercase tracking-widest mb-4`}
-          >
-            {t("settings.theme")}
-          </Text>
-          <View className="flex-row items-center justify-between p-5 bg-white mb-3 rounded-3xl shadow-sm border border-gray-100">
-            <View className="flex-row items-center">
-              <View className="bg-primary/5 w-10 h-10 rounded-2xl items-center justify-center">
-                <MoonIcon size={22} color="#1a3c34" strokeWidth={1.5} />
-              </View>
-              <Text className="text-gray-800 font-[Cairo_700Bold] text-base ms-4">
-                {t("settings.theme")}
-              </Text>
-            </View>
-            <Switch
-              value={theme === "dark"}
-              onValueChange={(val) => setTheme(val ? "dark" : "light")}
-              trackColor={{ false: "#f3f4f6", true: "#fbbf24" }}
-              thumbColor={theme === "dark" ? "#1a3c34" : "#fff"}
-            />
-          </View>
-        </View>
+       
 
         {/* About Section */}
         <View className="mb-6">
@@ -276,12 +242,7 @@ export default function SettingsScreen() {
             onPress={() => router.push("/settings/privacy")}
             isRTL={isRTL}
           />
-          <SettingItem
-            icon={ArrowPathIcon}
-            title={isRTL ? "إعادة تشغيل إجبارية" : "Force Restart"}
-            onPress={() => setLanguage(language)}
-            isRTL={isRTL}
-          />
+         
         </View>
 
         <View className="py-10 items-center">

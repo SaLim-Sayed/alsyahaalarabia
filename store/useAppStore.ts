@@ -28,6 +28,8 @@ interface User {
   registrationDate?: string;
   avatar?: string;
   role?: string;
+  /** Biography / "About" (WordPress `description`) */
+  description?: string;
 }
 
 interface AppState {

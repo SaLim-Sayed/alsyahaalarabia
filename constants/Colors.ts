@@ -17,3 +17,14 @@ export default {
     tabIconSelected: tintColorDark,
   },
 };
+
+/** React Native TextInput: caret + selection highlight */
+export const loginTextInputCaret = {
+  cursorColor: "#fbbf24",
+  selectionColor: "rgba(251, 191, 36, 0.4)",
+} as const;
+
+export const profileTextInputCaret = {
+  cursorColor: "#1a3c34",
+  selectionColor: "rgba(26, 60, 52, 0.25)",
+} as const;
