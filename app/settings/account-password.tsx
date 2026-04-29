@@ -27,6 +27,16 @@ import {
   ArrowLeftIcon,
   ArrowRightIcon,
 } from "react-native-heroicons/outline";
+import { SafeAreaView } from "react-native-safe-area-context";
+
+function FieldLabel({ text }: { text: string }) {
+  return (
+    <View className="flex-row items-center mb-2 px-1 gap-1">
+      <Text className="text-gray-500 font-[Cairo_700Bold] text-sm">{text}</Text>
+      <Text className="text-red-500 font-[Cairo_700Bold] text-sm">*</Text>
+    </View>
+  );
+}
 
 export default function AccountPasswordScreen() {
   const { t, i18n } = useTranslation();
@@ -90,8 +100,8 @@ export default function AccountPasswordScreen() {
     }
 
     setSaving(true);
+    let newToken = token;
     try {
-      let newToken = token;
       try {
         const jwt = await loginUser(loginIdentifier, data.currentPassword);
         if (jwt?.token) {
@@ -129,7 +139,7 @@ export default function AccountPasswordScreen() {
   const rootMsg = errors.root?.message as string | undefined;
 
   return (
-  
+    <SafeAreaView className="flex-1 bg-secondary">
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : undefined}
         className="flex-1"
@@ -155,6 +165,7 @@ export default function AccountPasswordScreen() {
           className="flex-1 px-6 pt-8"
           keyboardShouldPersistTaps="handled"
           showsVerticalScrollIndicator={false}
+          contentContainerStyle={{ paddingBottom: 32 }}
         >
           <Text className="text-gray-600 font-[Cairo_400Regular] text-sm mb-6 leading-6">
             {t("auth.accountPasswordSubtitle")}
@@ -165,9 +176,7 @@ export default function AccountPasswordScreen() {
             name="currentPassword"
             render={({ field: { value, onChange, onBlur } }) => (
               <View className="mb-4">
-                <Text className="text-gray-400 font-[Cairo_700Bold] text-xs uppercase tracking-widest mb-2 px-1">
-                  {t("auth.currentPassword")}
-                </Text>
+                <FieldLabel text={t("auth.currentPassword")} />
                 <View
                   className={`flex-row items-center bg-white border border-gray-100 rounded-3xl px-4 ${errors.currentPassword ? "border-red-300" : ""}`}
                 >
@@ -209,9 +218,7 @@ export default function AccountPasswordScreen() {
             name="newPassword"
             render={({ field: { value, onChange, onBlur } }) => (
               <View className="mb-4">
-                <Text className="text-gray-400 font-[Cairo_700Bold] text-xs uppercase tracking-widest mb-2 px-1">
-                  {t("auth.newPassword")}
-                </Text>
+                <FieldLabel text={t("auth.newPassword")} />
                 <View
                   className={`flex-row items-center bg-white border border-gray-100 rounded-3xl px-4 ${errors.newPassword ? "border-red-300" : ""}`}
                 >
@@ -228,6 +235,9 @@ export default function AccountPasswordScreen() {
                   <TouchableOpacity
                     onPress={() => setShowNew((v) => !v)}
                     className="p-2"
+                    accessibilityLabel={
+                      showNew ? t("auth.hidePassword") : t("auth.showPassword")
+                    }
                   >
                     <Ionicons
                       name={showNew ? "eye-off-outline" : "eye-outline"}
@@ -250,9 +260,7 @@ export default function AccountPasswordScreen() {
             name="confirmPassword"
             render={({ field: { value, onChange, onBlur } }) => (
               <View className="mb-4">
-                <Text className="text-gray-400 font-[Cairo_700Bold] text-xs uppercase tracking-widest mb-2 px-1">
-                  {t("auth.confirmNewPassword")}
-                </Text>
+                <FieldLabel text={t("auth.confirmNewPassword")} />
                 <View
                   className={`flex-row items-center bg-white border border-gray-100 rounded-3xl px-4 ${errors.confirmPassword ? "border-red-300" : ""}`}
                 >
@@ -269,6 +277,9 @@ export default function AccountPasswordScreen() {
                   <TouchableOpacity
                     onPress={() => setShowConfirm((v) => !v)}
                     className="p-2"
+                    accessibilityLabel={
+                      showConfirm ? t("auth.hidePassword") : t("auth.showPassword")
+                    }
                   >
                     <Ionicons
                       name={showConfirm ? "eye-off-outline" : "eye-outline"}
@@ -292,11 +303,10 @@ export default function AccountPasswordScreen() {
             </Text>
           ) : null}
 
-       
-        </ScrollView>   <TouchableOpacity
+          <TouchableOpacity
             onPress={handleSubmit(onSubmit)}
             disabled={saving}
-            className={`h-14 rounded-2xl items-center justify-center m-10 ${saving ? "bg-gray-300" : "bg-primary"}`}
+            className={`h-14 rounded-2xl items-center justify-center mt-2 mb-6 ${saving ? "bg-gray-300" : "bg-primary"}`}
           >
             {saving ? (
               <ActivityIndicator color="#fff" />
@@ -306,6 +316,8 @@ export default function AccountPasswordScreen() {
               </Text>
             )}
           </TouchableOpacity>
+        </ScrollView>
       </KeyboardAvoidingView>
-   );
+    </SafeAreaView>
+  );
 }
