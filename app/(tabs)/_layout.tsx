@@ -13,12 +13,38 @@ import {
   HomeIcon as HomeSolid,
   Cog6ToothIcon as SettingsSolid,
 } from "react-native-heroicons/solid";
+import { useAppStore } from "@/store/useAppStore";
+import Animated, {
+  useAnimatedStyle,
+  withTiming,
+} from "react-native-reanimated";
+import { BottomTabBar } from "@react-navigation/bottom-tabs";
 
 export default function TabLayout() {
   const { t, i18n } = useTranslation();
+  const { isTabBarVisible } = useAppStore();
+
+  const animatedStyle = useAnimatedStyle(() => {
+    return {
+      transform: [
+        {
+          translateY: withTiming(isTabBarVisible ? 0 : 100, { duration: 300 }),
+        },
+      ],
+      position: "absolute",
+      bottom: 0,
+      left: 0,
+      right: 0,
+    };
+  });
 
   return (
     <Tabs
+      tabBar={(props) => (
+        <Animated.View style={animatedStyle}>
+          <BottomTabBar {...props} />
+        </Animated.View>
+      )}
       screenOptions={{
         tabBarActiveTintColor: "#fbbf24",
         tabBarInactiveTintColor: "#6b7280",

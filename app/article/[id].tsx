@@ -26,7 +26,14 @@ import {
   ShareIcon,
 } from "react-native-heroicons/outline";
 import { UserCircleIcon } from "react-native-heroicons/solid";
+import { ChevronUpIcon } from "react-native-heroicons/outline";
 import RenderHtml from "react-native-render-html";
+import React, { useRef } from "react";
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withSpring,
+} from "react-native-reanimated";
 
 export default function ArticleDetailScreen() {
   const { t, i18n } = useTranslation();
@@ -113,6 +120,25 @@ export default function ArticleDetailScreen() {
     },
   };
 
+  const scrollY = useSharedValue(0);
+  const scrollViewRef = useRef<ScrollView>(null);
+
+  const handleScroll = (event: any) => {
+    scrollY.value = event.nativeEvent.contentOffset.y;
+  };
+
+  const scrollToTop = () => {
+    scrollViewRef.current?.scrollTo({ y: 0, animated: true });
+  };
+
+  const fabStyle = useAnimatedStyle(() => {
+    const show = scrollY.value > 500;
+    return {
+      transform: [{ scale: withSpring(show ? 1 : 0) }],
+      opacity: withSpring(show ? 1 : 0),
+    };
+  });
+
   return (
     <View className="flex-1 bg-white">
       <StatusBar
@@ -121,7 +147,13 @@ export default function ArticleDetailScreen() {
         backgroundColor="transparent"
       />
 
-      <ScrollView showsVerticalScrollIndicator={false} className="flex-1">
+      <Animated.ScrollView
+        ref={scrollViewRef}
+        onScroll={handleScroll}
+        scrollEventThrottle={16}
+        showsVerticalScrollIndicator={false}
+        className="flex-1"
+      >
         {/* Hero Section */}
         <View className="h-[60vh] relative">
           <Image
@@ -252,7 +284,27 @@ export default function ArticleDetailScreen() {
 
         {/* Footer */}
         <ArticleFooter />
-      </ScrollView>
+      </Animated.ScrollView>
+
+      {/* Scroll to Top FAB */}
+      <Animated.View
+        style={[
+          fabStyle,
+          {
+            position: "absolute",
+            bottom: 30,
+            right: 30,
+            zIndex: 100,
+          },
+        ]}
+      >
+        <TouchableOpacity
+          onPress={scrollToTop}
+          className="w-12 h-12 bg-green-700 items-center justify-center rounded-lg shadow-lg border border-white/20"
+        >
+          <ChevronUpIcon size={24} color="white" strokeWidth={2.5} />
+        </TouchableOpacity>
+      </Animated.View>
     </View>
   );
 }

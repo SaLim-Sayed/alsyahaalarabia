@@ -1,27 +1,47 @@
 import { AppHeader } from "@/components/AppHeader";
+import { ArticleFooter } from "@/components/ArticleFooter";
 import { CategorySection } from "@/components/CategorySection";
 import { ExploreGrid } from "@/components/ExploreGrid";
 import { HomeSlider } from "@/components/HomeSlider";
 import { NewsTicker } from "@/components/NewsTicker";
 import { SectionHeader } from "@/components/SectionHeader";
 import { usePostsByCategory } from "@/hooks/usePosts";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { ActivityIndicator, RefreshControl, Text, View } from "react-native";
+import { useAppStore } from "@/store/useAppStore";
+import { useScrollToHideTabBar } from "@/hooks/useScrollToHideTabBar";
 import Animated, {
-  useAnimatedScrollHandler,
-  useSharedValue,
+  useAnimatedStyle,
+  withSpring,
 } from "react-native-reanimated";
+import {
+  ActivityIndicator,
+  RefreshControl,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
+import { ChevronUpIcon } from "react-native-heroicons/outline";
 
 export default function HomeScreen() {
   const { t, i18n } = useTranslation();
   const [refreshing, setRefreshing] = useState(false);
-  const scrollY = useSharedValue(0);
+  const {
+    lastSyncTimestamp,
+  } = useAppStore();
+  const { scrollHandler, scrollY } = useScrollToHideTabBar();
+  const scrollViewRef = useRef<Animated.ScrollView>(null);
 
-  const scrollHandler = useAnimatedScrollHandler({
-    onScroll: (event) => {
-      scrollY.value = event.contentOffset.y;
-    },
+  const scrollToTop = () => {
+    scrollViewRef.current?.scrollTo({ y: 0, animated: true });
+  };
+
+  const fabStyle = useAnimatedStyle(() => {
+    const show = scrollY.value > 500;
+    return {
+      transform: [{ scale: withSpring(show ? 1 : 0) }],
+      opacity: withSpring(show ? 1 : 0),
+    };
   });
 
   const {
@@ -54,6 +74,7 @@ export default function HomeScreen() {
       <AppHeader />
 
       <Animated.ScrollView
+        ref={scrollViewRef}
         onScroll={scrollHandler}
         scrollEventThrottle={16}
         showsVerticalScrollIndicator={false}
@@ -121,8 +142,7 @@ export default function HomeScreen() {
               scrollY={scrollY}
             />
 
-            {/* Cultural Pulse Banner */}
-            {/* <CulturalPulse /> */}
+            <ArticleFooter />
           </>
         )}
 
@@ -134,6 +154,26 @@ export default function HomeScreen() {
           </View>
         )}
       </Animated.ScrollView>
+
+      {/* Scroll to Top FAB */}
+      <Animated.View
+        style={[
+          fabStyle,
+          {
+            position: "absolute",
+            bottom: 30,
+            right: 30,
+            zIndex: 100,
+          },
+        ]}
+      >
+        <TouchableOpacity
+          onPress={scrollToTop}
+          className="w-12 h-12 bg-green-700 items-center justify-center rounded-lg shadow-lg border border-white/20"
+        >
+          <ChevronUpIcon size={24} color="white" strokeWidth={2.5} />
+        </TouchableOpacity>
+      </Animated.View>
     </View>
   );
 }

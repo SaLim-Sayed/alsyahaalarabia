@@ -1,5 +1,6 @@
 import { AppHeader } from "@/components/AppHeader";
 import { useAppCategories } from "@/hooks/useCategories";
+import { useScrollToHideTabBar } from "@/hooks/useScrollToHideTabBar";
 import { BlurView } from "expo-blur";
 import { router } from "expo-router";
 import React from "react";
@@ -7,16 +8,17 @@ import { useTranslation } from "react-i18next";
 import {
   ActivityIndicator,
   ImageBackground,
-  ScrollView,
   Text,
   TouchableOpacity,
   View,
 } from "react-native";
+import Animated from "react-native-reanimated";
 
 export default function CategoriesScreen() {
   const { t, i18n } = useTranslation();
   const isRTL = i18n.language === "ar";
   const { data: categories, isLoading, isError } = useAppCategories();
+  const { scrollHandler } = useScrollToHideTabBar();
 
   if (isLoading) {
     return (
@@ -29,7 +31,9 @@ export default function CategoriesScreen() {
   return (
     <View className="flex-1 bg-white">
       <AppHeader />
-      <ScrollView
+      <Animated.ScrollView
+        onScroll={scrollHandler}
+        scrollEventThrottle={16}
         className="flex-1 px-6 pt-6"
         showsVerticalScrollIndicator={false}
       >
@@ -86,7 +90,7 @@ export default function CategoriesScreen() {
           </View>
         )}
         <View className="h-10" />
-      </ScrollView>
+      </Animated.ScrollView>
     </View>
   );
 }

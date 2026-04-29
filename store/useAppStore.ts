@@ -39,6 +39,8 @@ interface AppState {
   user: User | null;
   token: string | null;
   lastSyncTimestamp: number;
+  isTabBarVisible: boolean;
+  setTabBarVisible: (visible: boolean) => void;
   toggleSaveArticle: (article: Article) => void;
   isArticleSaved: (id: string) => boolean;
   setTheme: (theme: 'light' | 'dark') => void;
@@ -62,6 +64,8 @@ export const useAppStore = create<AppState>()(
       user: null,
       token: null,
       lastSyncTimestamp: 0,
+      isTabBarVisible: true,
+      setTabBarVisible: (visible) => set({ isTabBarVisible: visible }),
       setUser: (user, token) => set({ user, token }),
       updateUser: (data) => {
         const { user } = get();
@@ -127,6 +131,10 @@ export const useAppStore = create<AppState>()(
     {
       name: 'app-storage',
       storage: createJSONStorage(() => AsyncStorage),
+      partialize: (state) => {
+        const { isTabBarVisible, setTabBarVisible, ...rest } = state;
+        return rest;
+      },
     }
   )
 );

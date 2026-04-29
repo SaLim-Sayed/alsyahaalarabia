@@ -3,9 +3,10 @@ import { useAppStore } from "@/store/useAppStore";
 import { useRouter } from "expo-router";
 import React from "react";
 import { useTranslation } from "react-i18next";
+import { useScrollToHideTabBar } from "@/hooks/useScrollToHideTabBar";
+import Animated from "react-native-reanimated";
 import {
   Modal,
-  ScrollView,
   Share,
   Text,
   TouchableOpacity,
@@ -66,6 +67,7 @@ export default function SettingsScreen() {
   const { language, setLanguage, theme, setTheme, user, logout } =
     useAppStore();
   const [isLangModalVisible, setLangModalVisible] = React.useState(false);
+  const { scrollHandler } = useScrollToHideTabBar();
 
   const languages = [
     { code: "ar", name: t("settings.arabic"), nativeName: "العربية" },
@@ -128,7 +130,9 @@ export default function SettingsScreen() {
           </View>
         </TouchableOpacity>
 
-      <ScrollView
+      <Animated.ScrollView
+        onScroll={scrollHandler}
+        scrollEventThrottle={16}
         className="flex-1 px-6 pt-6"
         showsVerticalScrollIndicator={false}
       >
@@ -250,7 +254,7 @@ export default function SettingsScreen() {
             {t("settings.madeWith")}
           </Text>
         </View>
-      </ScrollView>
+      </Animated.ScrollView>
     </View>
   );
 }

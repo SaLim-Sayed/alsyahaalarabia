@@ -18,7 +18,7 @@ export const AppHeader = () => {
         <View className="flex-1 items-start">
           <Image
             source={require("@/assets/images/Al-Syaha-Updated-2.png")}
-            style={{ width: 140, height: 35 }}
+            style={{ width: 150, height: 50 }}
             resizeMode="contain"
           />
         </View>

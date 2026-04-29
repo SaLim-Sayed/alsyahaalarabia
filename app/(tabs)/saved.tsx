@@ -1,22 +1,27 @@
 import React from 'react';
-import { View, Text, FlatList } from 'react-native';
+import { View, Text } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { AppHeader } from '@/components/AppHeader';
 import { ArticleCard } from '@/components/ArticleCard';
 import { useAppStore } from '@/store/useAppStore';
 import { BookmarkIcon } from 'react-native-heroicons/outline';
+import { useScrollToHideTabBar } from '@/hooks/useScrollToHideTabBar';
+import Animated from 'react-native-reanimated';
 
 export default function SavedScreen() {
   const { t, i18n } = useTranslation();
   const isRTL = i18n.language === 'ar';
   const { savedArticles } = useAppStore();
+  const { scrollHandler } = useScrollToHideTabBar();
 
   return (
     <View className="flex-1 bg-white">
       <AppHeader />
       
       {savedArticles.length > 0 ? (
-        <FlatList
+        <Animated.FlatList
+          onScroll={scrollHandler}
+          scrollEventThrottle={16}
           data={savedArticles}
           keyExtractor={(item) => item.id}
           contentContainerStyle={{ padding: 24 }}
