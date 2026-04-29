@@ -56,9 +56,7 @@ export const ArticleFooter = () => {
         <View className="w-full h-[1px] bg-white/10 mb-8" />
 
         <Text className="text-white/40 font-[Cairo_400Regular] text-[10px] text-center">
-          {isRTL
-            ? "© 2026 مجلة السياحة العربية. جميع الحقوق محفوظة."
-            : "© 2026 Arab Tourism Magazine. All rights reserved."}
+          {t("common.copyright")}
         </Text>
       </View>
     </View>

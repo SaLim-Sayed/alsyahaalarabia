@@ -80,42 +80,42 @@ export default function HomeScreen() {
 
             {/* Magazine Sections */}
             <CategorySection
-              title="السياحة السعودية"
+              title={t("common.saudiTourism")}
               categoryId="52"
               accentColor="#1a3c34"
               scrollY={scrollY}
             />
 
             <CategorySection
-              title="السياحة العالمية"
+              title={t("common.globalTourism")}
               categoryId="13"
               accentColor="#fbbf24"
               scrollY={scrollY}
             />
 
             <CategorySection
-              title="السياحة الميسرة (الدامجة)"
+              title={t("common.accessibleTourism")}
               categoryId="9898"
               accentColor="#10b981"
               scrollY={scrollY}
             />
 
             <CategorySection
-              title="أخبار الرياضة"
+              title={t("common.sportsNews")}
               categoryId="4857"
               accentColor="#ef4444"
               scrollY={scrollY}
             />
 
             <CategorySection
-              title="فنادق ومنتجعات"
+              title={t("common.hotelsResorts")}
               categoryId="50"
               accentColor="#8b5cf6"
               scrollY={scrollY}
             />
 
             <CategorySection
-              title="Global Tourism"
+              title={t("common.globalTourism")}
               categoryId="9896"
               accentColor="#3b82f6"
               scrollY={scrollY}

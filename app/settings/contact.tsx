@@ -19,62 +19,77 @@ export default function ContactScreen() {
 
   const contactSections = [
     {
-      title: isRTL ? 'الإدارة والتحرير' : 'Management & Editorial',
-      person: isRTL ? 'الأستاذ: عباس الإبراهيم' : 'Mr. Abbas Al-Ibrahim',
-      email: 'info@alsyahaalarabia.com',
+      title: t("contact.sections.management"),
+      person: t("contact.sections.abbas"),
+      email: "info@alsyahaalarabia.com",
       icon: UserIcon,
-      color: '#1a3c34'
+      color: "#1a3c34",
     },
     {
-      title: isRTL ? 'الدعم الفني والتقني' : 'Technical Support',
-      person: isRTL ? 'علي محمد الشغب – Beedco' : 'Ali Mohammed Al-Shaghab – Beedco',
-      email: 'Support@alsyahaalarabia.com',
-      phone: '0550442290',
+      title: t("contact.sections.technical"),
+      person: t("contact.sections.beedco"),
+      email: "Support@alsyahaalarabia.com",
+      phone: "0550442290",
       icon: WrenchScrewdriverIcon,
-      color: '#fbbf24'
+      color: "#fbbf24",
     },
     {
-      title: isRTL ? 'سياسات الخصوصية' : 'Privacy Policies',
-      email: 'privacy@alsyahaalarabia.com',
+      title: t("contact.sections.privacy"),
+      email: "privacy@alsyahaalarabia.com",
       icon: EnvelopeIcon,
-      color: '#1a3c34'
-    }
+      color: "#1a3c34",
+    },
   ];
 
   return (
     <View className="flex-1 bg-secondary">
       {/* Header */}
       <View className="bg-primary pt-14 pb-10 px-6 rounded-b-[40px] shadow-lg">
-        <TouchableOpacity 
+        <TouchableOpacity
           onPress={() => router.back()}
           className="w-10 h-10 items-center justify-center rounded-full bg-white/10 mb-6"
         >
-          {isRTL ? <ArrowRightIcon size={22} color="white" /> : <ArrowLeftIcon size={22} color="white" />}
+          {isRTL ? (
+            <ArrowRightIcon size={22} color="white" />
+          ) : (
+            <ArrowLeftIcon size={22} color="white" />
+          )}
         </TouchableOpacity>
         <Text className="text-white text-3xl font-[Cairo_700Bold]">
-          {isRTL ? 'اتصل بنا' : 'Contact Us'}
+          {t("contact.title")}
         </Text>
         <Text className="text-accent text-sm font-[Cairo_400Regular] mt-2">
-          {isRTL ? 'نحن هنا للإجابة على استفساراتكم' : 'We are here to answer your inquiries'}
+          {t("contact.subtitle")}
         </Text>
       </View>
 
-      <ScrollView className="flex-1 px-6 pt-8" showsVerticalScrollIndicator={false}>
-        <TouchableOpacity onPress={() => Linking.openURL('https://alsyahaalarabia.com/contact-us')}>
-            <Text className="text-accent/60 text-[10px] font-[Cairo_400Regular] mb-6 text-center underline">
-              Source: https://alsyahaalarabia.com/contact-us
-            </Text>
+      <ScrollView
+        className="flex-1 px-6 pt-8"
+        showsVerticalScrollIndicator={false}
+      >
+        <TouchableOpacity
+          onPress={() =>
+            Linking.openURL("https://alsyahaalarabia.com/contact-us")
+          }
+        >
+          <Text className="text-accent/60 text-[10px] font-[Cairo_400Regular] mb-6 text-center underline">
+            {t("privacy.source")}: https://alsyahaalarabia.com/contact-us
+          </Text>
         </TouchableOpacity>
         {contactSections.map((section, index) => (
           <View key={index} className="mb-8">
             <Text className="text-gray-400 font-[Cairo_700Bold] text-xs uppercase tracking-widest mb-4 px-2">
               {section.title}
             </Text>
-            
+
             <View className="bg-white rounded-[32px] p-6 shadow-sm border border-gray-100">
               <View className="flex-row items-center mb-6">
                 <View className="w-12 h-12 rounded-2xl bg-secondary items-center justify-center me-4">
-                  <section.icon size={26} color={section.color} strokeWidth={1.5} />
+                  <section.icon
+                    size={26}
+                    color={section.color}
+                    strokeWidth={1.5}
+                  />
                 </View>
                 <View className="flex-1">
                   {section.person && (
@@ -90,7 +105,7 @@ export default function ContactScreen() {
 
               {/* Actions */}
               <View className="space-y-3">
-                <TouchableOpacity 
+                <TouchableOpacity
                   onPress={() => handleEmail(section.email)}
                   className="flex-row items-center bg-secondary/50 p-4 rounded-2xl"
                 >
@@ -101,7 +116,7 @@ export default function ContactScreen() {
                 </TouchableOpacity>
 
                 {section.phone && (
-                  <TouchableOpacity 
+                  <TouchableOpacity
                     onPress={() => handlePhone(section.phone!)}
                     className="flex-row items-center bg-secondary/50 p-4 rounded-2xl mt-3"
                   >
@@ -118,9 +133,7 @@ export default function ContactScreen() {
 
         <View className="py-10 items-center">
           <Text className="text-gray-400 font-[Cairo_400Regular] text-xs text-center px-10 leading-5">
-            {isRTL 
-              ? 'ساعات العمل: الأحد - الخميس\n9:00 صباحاً - 5:00 مساءً' 
-              : 'Working Hours: Sunday - Thursday\n9:00 AM - 5:00 PM'}
+            {t("contact.workingHours")}
           </Text>
         </View>
       </ScrollView>

@@ -120,7 +120,7 @@ export default function SettingsScreen() {
               className="text-accent text-xs font-[Cairo_700Bold] mt-1"
              
             >
-              {user ? (isRTL ? "عرض الملف الشخصي" : "View Profile") : t("auth.login")}
+              {user ? t("settings.viewProfile") : t("auth.login")}
             </Text>
           </View>
           <View style={{ transform: [{ rotate: isRTL ? "180deg" : "0deg" }] }}>
@@ -247,7 +247,7 @@ export default function SettingsScreen() {
 
         <View className="py-10 items-center">
           <Text className="text-gray-300 font-[Cairo_400Regular] text-xs">
-            Made with D Arrow in Riyadh
+            {t("settings.madeWith")}
           </Text>
         </View>
       </ScrollView>

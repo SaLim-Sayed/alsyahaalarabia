@@ -14,7 +14,15 @@
     "goBack": "Go Back",
     "gallery": "Gallery",
     "settings": "Settings",
-    "viewAll": "View All"
+    "viewAll": "View All",
+    "on": "on",
+    "cairo": "Cairo",
+    "saudiTourism": "Saudi Tourism",
+    "globalTourism": "Global Tourism",
+    "accessibleTourism": "Accessible Tourism",
+    "sportsNews": "Sports News",
+    "hotelsResorts": "Hotels & Resorts",
+    "copyright": "© 2026 Arab Tourism Magazine. All rights reserved."
   },
   "home": {
     "loadingNews": "Loading news...",
@@ -63,7 +71,9 @@
     "developer": "Developer",
     "contact": "Contact Us",
     "privacy": "Privacy Policy",
-    "terms": "Terms of Use"
+    "terms": "Terms of Use",
+    "viewProfile": "View Profile",
+    "madeWith": "Made with love in Riyadh"
   },
   "auth": {
     "welcomeBack": "Welcome Back",
@@ -142,11 +152,51 @@
     "loginFooterNote": "Sign-in uses the JWT endpoint on our server. Sign up uses the site registration form in the app.",
     "copyright": "© 2024 Alsyaha Alarabiya",
     "showPassword": "Show password",
-    "hidePassword": "Hide password"
+    "hidePassword": "Hide password",
+    "registerWebSubtitle": "Create your account on our website to access all features.",
+    "forgotPasswordWebSubtitle": "Follow the instructions on our website to reset your password."
+  },
+  "about": {
+    "visionTitle": "Our Vision & Goals",
+    "visionContent": "Arab Tourism Magazine takes pride in being the first Saudi magazine specializing in tourism. We aim to highlight Arab treasures and global tourist attractions with a modern vision that keeps pace with the significant developments in the tourism sector in Saudi Arabia and the region.",
+    "whyTitle": "Why Arab Tourism Magazine?",
+    "gatewaySubtitle": "Your Gateway to Luxury & Heritage",
+    "achievements": {
+      "oscarsTitle": "Two Tourism Media Oscars",
+      "oscarsDesc": "The highest international awards in tourism media.",
+      "licensedTitle": "Officially Licensed",
+      "licensedDesc": "Saudi General Authority for Media License: 160495.",
+      "leadershipTitle": "Leadership & Excellence",
+      "leadershipDesc": "The first Saudi publication specialized in the tourism sector."
+    }
+  },
+  "contact": {
+    "title": "Contact Us",
+    "subtitle": "We are here to answer your inquiries",
+    "workingHours": "Working Hours: Sunday - Thursday\n9:00 AM - 5:00 PM",
+    "sections": {
+      "management": "Management & Editorial",
+      "technical": "Technical Support",
+      "privacy": "Privacy Policies",
+      "abbas": "Mr. Abbas Al-Ibrahim",
+      "beedco": "Ali Mohammed Al-Shaghab – Beedco"
+    }
   },
   "cultural": {
     "title": "Pulse of Arabic Culture",
     "description": "Culture is not just destinations, but the soul that inhabits every corner. Dive into the depths of art, calligraphy, and traditions passed down for millennia.",
     "button": "Discover Heritage"
+  },
+  "privacy": {
+    "title": "Privacy Policy",
+    "introTitle": "Introduction",
+    "introContent": "Arab Tourism Magazine is concerned with the tourism heritage of the Kingdom of Saudi Arabia to keep pace with the global trends pursued by the Kingdom.",
+    "dataTitle": "Data Collection & Use",
+    "dataContent": "The magazine's data is available to government agencies or other related departments in order to better serve you. This data may also be available to authorized non-governmental organizations.",
+    "disclaimerTitle": "Disclaimer",
+    "disclaimerContent": "The magazine is not responsible for any direct or indirect damages that may result from the use of the site or reliance on the information contained therein.",
+    "updatesTitle": "Updates",
+    "updatesContent": "This policy was last updated on August 26, 2025. Current Version: 1.0.",
+    "source": "Source"
   }
 }

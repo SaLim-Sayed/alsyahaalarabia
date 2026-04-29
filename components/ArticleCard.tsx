@@ -47,51 +47,36 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
   if (variant === "hero") {
     return (
       <Link href={`/article/${article.id}`} asChild>
-        <TouchableOpacity className="mb-6 overflow-hidden bg-white shadow-lg h-[450px]">
+        <TouchableOpacity className="overflow-hidden bg-white h-[300px] w-full">
           <Image
             source={{ uri: article.image }}
             className="absolute inset-0 w-full h-full"
             resizeMode="cover"
           />
           <LinearGradient
-            colors={["transparent", "rgba(0,0,0,0.8)"]}
-            className="absolute inset-0 px-6 pb-8 justify-end"
+            colors={["transparent", "rgba(0,0,0,0.7)"]}
+            className="absolute inset-0 px-6 pb-6 gap-8 justify-center items-start"
           >
-            <View
-              className={`bg-accent/90 px-4 py-1.5 rounded-xl mb-4  self-start`}
-            >
+            {/* Category Badge - Top Right */}
+            <View className=" bg-teal-900/90 px-4 py-1.5 rounded-lg">
               <Text className="text-white text-[12px] font-[Cairo_700Bold]">
                 {article.category}
               </Text>
             </View>
 
+            {/* Title - Centered */}
             <Text
-              className="text-2xl font-[Cairo_700Bold] text-white leading-[38px] mb-4"
+              className="text-xl font-[Cairo_700Bold] text-white leading-8  mb-4"
               numberOfLines={3}
             >
               {article.title}
             </Text>
 
-            <Text
-              className="text-gray-300 text-[14px] font-[Cairo_400Regular] mb-6 leading-6"
-              numberOfLines={2}
-            >
-              {article.excerpt ||
-                (isRTL
-                  ? "اكتشف أسرار الحضارات القديمة في قلب الصحراء العربية، حيث تلتقي الفخامة بالتاريخ في تجربة لا تنسى."
-                  : "Discover the secrets of ancient civilizations in the heart of the Arabian desert, where luxury meets history in an unforgettable experience.")}
+            {/* Meta Info */}
+            <Text className="text-white text-[12px] font-[Cairo_400Regular] text-center opacity-90">
+              {article.author} - {article?.location || t("common.cairo")}{" "}
+              {t("common.on")} {article.date}
             </Text>
-
-            <View className="flex-row">
-              <Link href={`/article/${article.id}`} asChild>
-                <TouchableOpacity className="bg-accent px-8 py-3 rounded-2xl shadow-lg flex-row items-center">
-                  <Text className="text-primary font-[Cairo_700Bold] text-base">
-                    {t("article.readMore") ||
-                      (isRTL ? "اقرأ المزيد" : "Read More")}
-                  </Text>
-                </TouchableOpacity>
-              </Link>
-            </View>
           </LinearGradient>
         </TouchableOpacity>
       </Link>

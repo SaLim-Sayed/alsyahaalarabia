@@ -21,28 +21,20 @@ export default function PrivacyScreen() {
 
   const sections = [
     {
-      title: isRTL ? "مقدمة" : "Introduction",
-      content: isRTL
-        ? "تهتم مجلة السياحة العربية بالموروث السياحي للمملكة العربية السعودية لمواكبة التوجهات العالمية التي تنتهجها المملكة العربية."
-        : "Arab Tourism Magazine is concerned with the tourism heritage of the Kingdom of Saudi Arabia to keep pace with the global trends pursued by the Kingdom.",
+      title: t("privacy.introTitle"),
+      content: t("privacy.introContent"),
     },
     {
-      title: isRTL ? "جمع البيانات واستخدامها" : "Data Collection & Use",
-      content: isRTL
-        ? "بيانات المجلة متاحة للجهات الحكومية أو إدارات أخرى ذات العلاقة، من أجل خدمتك بشكل أفضل. وقد تكون هذه البيانات متاحة أيضاً للهيئات غير الحكومية ذات العلاقة والمصرح لها."
-        : "The magazine's data is available to government agencies or other related departments in order to better serve you. This data may also be available to authorized non-governmental organizations.",
+      title: t("privacy.dataTitle"),
+      content: t("privacy.dataContent"),
     },
     {
-      title: isRTL ? "إخلاء المسؤولية" : "Disclaimer",
-      content: isRTL
-        ? "المجلة غير مسؤولة عن أي أضرار مباشرة أو غير مباشرة قد تنتج عن استخدام الموقع أو الاعتماد على المعلومات الواردة فيه."
-        : "The magazine is not responsible for any direct or indirect damages that may result from the use of the site or reliance on the information contained therein.",
+      title: t("privacy.disclaimerTitle"),
+      content: t("privacy.disclaimerContent"),
     },
     {
-      title: isRTL ? "التحديثات" : "Updates",
-      content: isRTL
-        ? "تم تحديث هذه السياسة آخر مرة في 26 أغسطس 2025. الإصدار الحالي: 1.0."
-        : "This policy was last updated on August 26, 2025. Current Version: 1.0.",
+      title: t("privacy.updatesTitle"),
+      content: t("privacy.updatesContent"),
     },
   ];
 
@@ -67,7 +59,7 @@ export default function PrivacyScreen() {
             style={{ marginRight: isRTL ? 0 : 10, marginLeft: isRTL ? 10 : 0 }}
           />
           <Text className="text-white text-3xl font-[Cairo_700Bold]">
-            {isRTL ? "سياسة الخصوصية" : "Privacy Policy"}
+            {t("privacy.title")}
           </Text>
         </View>
       </View>

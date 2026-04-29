@@ -27,26 +27,18 @@ export default function AboutScreen() {
 
   const achievements = [
     {
-      title: isRTL
-        ? "جائزتي أوسكار للإعلام السياحي"
-        : "Two Tourism Media Oscars",
-      desc: isRTL
-        ? "أرفع الجوائز العالمية في مجال الإعلام السياحي."
-        : "The highest international awards in tourism media.",
+      title: t("about.achievements.oscarsTitle"),
+      desc: t("about.achievements.oscarsDesc"),
       icon: TrophyIcon,
     },
     {
-      title: isRTL ? "مرخصة رسمياً" : "Officially Licensed",
-      desc: isRTL
-        ? "ترخيص الهيئة العامة للإعلام السعودي رقم: 160495."
-        : "Saudi General Authority for Media License: 160495.",
+      title: t("about.achievements.licensedTitle"),
+      desc: t("about.achievements.licensedDesc"),
       icon: ShieldCheckIcon,
     },
     {
-      title: isRTL ? "الريادة والتميز" : "Leadership & Excellence",
-      desc: isRTL
-        ? "أول مطبوعة سعودية متخصصة في قطاع السياحة."
-        : "The first Saudi publication specialized in the tourism sector.",
+      title: t("about.achievements.leadershipTitle"),
+      desc: t("about.achievements.leadershipDesc"),
       icon: SparklesIcon,
     },
   ];
@@ -69,9 +61,7 @@ export default function AboutScreen() {
           {t("settings.about")}
         </Text>
         <Text className="text-accent text-sm font-[Cairo_400Regular] mt-2">
-          {isRTL
-            ? "بوابتك إلى الفخامة والتراث"
-            : "Your Gateway to Luxury & Heritage"}
+          {t("about.gatewaySubtitle")}
         </Text>
       </View>
 
@@ -83,24 +73,22 @@ export default function AboutScreen() {
           onPress={() => Linking.openURL("https://alsyahaalarabia.com/about")}
         >
           <Text className="text-accent/60 text-[10px] font-[Cairo_400Regular] mb-6 text-center underline">
-            Source: https://alsyahaalarabia.com/about
+            {t("privacy.source")}: https://alsyahaalarabia.com/about
           </Text>
         </TouchableOpacity>
         {/* Content Card */}
         <View className="bg-white rounded-[32px] p-8 shadow-sm border border-gray-100 mb-8">
           <Text className="text-gray-800 font-[Cairo_700Bold] text-2xl mb-6">
-            {isRTL ? "رؤيتنا وأهدافنا" : "Our Vision & Goals"}
+            {t("about.visionTitle")}
           </Text>
           <Text className="text-gray-500 font-[Cairo_400Regular] leading-7 text-base">
-            {isRTL
-              ? 'تفتخر "مجلة السياحة العربية" بكونها المجلة السعودية الأولى المتخصصة في السياحة. نهدف إلى إبراز الكنوز العربية والمعالم السياحية العالمية برؤية عصرية تواكب التطورات الكبيرة التي يشهدها القطاع السياحي في المملكة العربية السعودية والمنطقة.'
-              : "Arab Tourism Magazine takes pride in being the first Saudi magazine specializing in tourism. We aim to highlight Arab treasures and global tourist attractions with a modern vision that keeps pace with the significant developments in the tourism sector in Saudi Arabia and the region."}
+            {t("about.visionContent")}
           </Text>
         </View>
 
         {/* Achievements Section */}
         <Text className="text-primary font-[Cairo_700Bold] text-xl mb-6 px-2">
-          {isRTL ? "لماذا مجلة السياحة العربية؟" : "Why Arab Tourism Magazine?"}
+          {t("about.whyTitle")}
         </Text>
 
         {achievements.map((item, index) => (
