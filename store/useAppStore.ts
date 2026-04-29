@@ -41,6 +41,8 @@ interface AppState {
   lastSyncTimestamp: number;
   isTabBarVisible: boolean;
   setTabBarVisible: (visible: boolean) => void;
+  hasSeenIntro: boolean;
+  setHasSeenIntro: (seen: boolean) => void;
   toggleSaveArticle: (article: Article) => void;
   isArticleSaved: (id: string) => boolean;
   setTheme: (theme: 'light' | 'dark') => void;
@@ -66,6 +68,8 @@ export const useAppStore = create<AppState>()(
       lastSyncTimestamp: 0,
       isTabBarVisible: true,
       setTabBarVisible: (visible) => set({ isTabBarVisible: visible }),
+      hasSeenIntro: false,
+      setHasSeenIntro: (seen) => set({ hasSeenIntro: seen }),
       setUser: (user, token) => set({ user, token }),
       updateUser: (data) => {
         const { user } = get();

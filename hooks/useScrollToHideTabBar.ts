@@ -14,7 +14,8 @@ export const useScrollToHideTabBar = () => {
       const currentOffset = event.contentOffset.y;
       const diff = currentOffset - scrollY.value;
 
-      // Hide on scroll down, show on scroll up
+      // Tab bar hiding disabled by user request
+      /*
       if (currentOffset > 100) {
         if (diff > 10 && isTabBarVisible) {
           runOnJS(setTabBarVisible)(false);
@@ -24,6 +25,7 @@ export const useScrollToHideTabBar = () => {
       } else if (!isTabBarVisible) {
         runOnJS(setTabBarVisible)(true);
       }
+      */
 
       scrollY.value = currentOffset;
     },

@@ -42,6 +42,9 @@ export default function ArticleDetailScreen() {
   const { width } = useWindowDimensions();
   const { toggleSaveArticle, isArticleSaved } = useAppStore();
 
+  const scrollY = useSharedValue(0);
+  const scrollViewRef = useRef<ScrollView>(null);
+
   const { data: article, isLoading, isError } = usePostDetail(id as string);
 
   // Fetch related articles from same category
@@ -49,6 +52,22 @@ export default function ArticleDetailScreen() {
     article?.categoryId || null,
     4,
   );
+
+  const handleScroll = (event: any) => {
+    scrollY.value = event.nativeEvent.contentOffset.y;
+  };
+
+  const scrollToTop = () => {
+    scrollViewRef.current?.scrollTo({ y: 0, animated: true });
+  };
+
+  const fabStyle = useAnimatedStyle(() => {
+    const show = scrollY.value > 500;
+    return {
+      transform: [{ scale: withSpring(show ? 1 : 0) }],
+      opacity: withSpring(show ? 1 : 0),
+    };
+  });
 
   if (isLoading) {
     return (
@@ -76,16 +95,6 @@ export default function ArticleDetailScreen() {
 
   const isSaved = isArticleSaved(article.id);
   const isRTL = i18n.language === "ar";
-
-  const handleShare = async () => {
-    try {
-      await Share.share({
-        message: `${article.title}\n\n${t("article.shareMessage")}\n${article.link || ""}`,
-      });
-    } catch (error) {
-      console.error(error);
-    }
-  };
 
   const tagsStyles = {
     body: {
@@ -120,24 +129,15 @@ export default function ArticleDetailScreen() {
     },
   };
 
-  const scrollY = useSharedValue(0);
-  const scrollViewRef = useRef<ScrollView>(null);
-
-  const handleScroll = (event: any) => {
-    scrollY.value = event.nativeEvent.contentOffset.y;
+  const handleShare = async () => {
+    try {
+      await Share.share({
+        message: `${article.title}\n\n${t("article.shareMessage")}\n${article.link || ""}`,
+      });
+    } catch (error) {
+      console.error(error);
+    }
   };
-
-  const scrollToTop = () => {
-    scrollViewRef.current?.scrollTo({ y: 0, animated: true });
-  };
-
-  const fabStyle = useAnimatedStyle(() => {
-    const show = scrollY.value > 500;
-    return {
-      transform: [{ scale: withSpring(show ? 1 : 0) }],
-      opacity: withSpring(show ? 1 : 0),
-    };
-  });
 
   return (
     <View className="flex-1 bg-white">

@@ -182,6 +182,16 @@
       "beedco": "Ali Mohammed Al-Shaghab – Beedco"
     }
   },
+  "intro": {
+    "slide1Title": "World Class Tourism",
+    "slide1Desc": "Discover the most luxurious destinations and heritage sites across the Arab world.",
+    "slide2Title": "Exclusive Coverage",
+    "slide2Desc": "Get deep insights into the tourism industry with our award-winning journalism.",
+    "slide3Title": "Stay Updated",
+    "slide3Desc": "Real-time news and updates from the pulse of Arab culture and tourism.",
+    "getStarted": "Get Started",
+    "skip": "Skip"
+  },
   "cultural": {
     "title": "Pulse of Arabic Culture",
     "description": "Culture is not just destinations, but the soul that inhabits every corner. Dive into the depths of art, calligraphy, and traditions passed down for millennia.",

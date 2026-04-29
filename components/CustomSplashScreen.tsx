@@ -1,70 +1,75 @@
-import React, { useEffect } from 'react';
-import { View, Text, ImageBackground, StyleSheet, Dimensions } from 'react-native';
-import Animated, { useSharedValue, useAnimatedStyle, withTiming, withDelay } from 'react-native-reanimated';
-import { SparklesIcon } from 'react-native-heroicons/solid';
+import React, { useEffect } from "react";
+import { Dimensions, Image, StyleSheet, Text, View } from "react-native";
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
+} from "react-native-reanimated";
 
-const { width, height } = Dimensions.get('window');
+const { width, height } = Dimensions.get("window");
 
 interface CustomSplashScreenProps {
   onFinish: () => void;
 }
 
-export const CustomSplashScreen: React.FC<CustomSplashScreenProps> = ({ onFinish }) => {
-  const opacity = useSharedValue(1);
-  const scale = useSharedValue(1);
+export const CustomSplashScreen: React.FC<CustomSplashScreenProps> = ({
+  onFinish,
+}) => {
+  const opacity = useSharedValue(0);
+  const logoScale = useSharedValue(0.8);
+  const bgOpacity = useSharedValue(1);
 
   useEffect(() => {
-    // Show splash for 2.5 seconds then fade out
+    // Initial entrance animation
+    opacity.value = withTiming(1, { duration: 1000 });
+    logoScale.value = withTiming(1, { duration: 1200 });
+
     const timeout = setTimeout(() => {
-      opacity.value = withTiming(0, { duration: 800 });
-      scale.value = withTiming(1.1, { duration: 1000 });
-      
-      // Notify parent to unmount after animation
+      // Fade out background and notify finish
+      bgOpacity.value = withTiming(0, { duration: 800 });
       setTimeout(onFinish, 900);
-    }, 2500);
+    }, 3000);
 
     return () => clearTimeout(timeout);
   }, []);
 
-  const animatedStyle = useAnimatedStyle(() => ({
+  const logoStyle = useAnimatedStyle(() => ({
     opacity: opacity.value,
-    transform: [{ scale: scale.value }],
+    transform: [{ scale: logoScale.value }],
+  }));
+
+  const containerStyle = useAnimatedStyle(() => ({
+    opacity: bgOpacity.value,
   }));
 
   return (
-    <Animated.View style={[styles.container, animatedStyle]}>
-      <ImageBackground 
-        source={require('../assets/images/splash_bg.png')}
-        style={styles.background}
-        resizeMode="cover"
-      >
-        <View style={styles.overlay}>
-          {/* Top Gold Line */}
-          <View className="w-12 h-1 bg-accent rounded-full mb-10" />
+    <Animated.View style={[styles.container, containerStyle]}>
+      <View style={styles.overlay}>
+        {/* Main Logo Icon */}
+        <Animated.View style={[styles.logoContainer, logoStyle]}>
+          <Image
+            source={require("../assets/images/ATـLogo.png")}
+            style={styles.atLogo}
+            resizeMode="contain"
+          />
 
-          {/* Main Title */}
-          <Text className="text-accent text-5xl font-[Cairo_700Bold] text-center px-10 leading-[70px]">
-            مجلة السياحة العربية
+          <View className="h-4" />
+
+          <Image
+            source={require("../assets/images/Al-Syaha-Updated-2.png")}
+            style={styles.textLogo}
+            resizeMode="contain"
+          />
+        </Animated.View>
+
+        {/* Bottom Branding */}
+        <View style={styles.bottomSection}>
+          <View className="w-16 h-[2px] bg-accent mb-6" />
+          <Text className="text-accent text-[10px] font-[Cairo_700Bold] uppercase tracking-[4px]">
+            Alsyaha Alarabiya
           </Text>
-
-          {/* Subtitle */}
-          <Text className="text-white/60 text-lg font-[Cairo_400Regular] text-center mt-6 tracking-[2px]">
-            بوابتك إلى الفخامة والتراث
-          </Text>
-
-          {/* Bottom Section */}
-          <View style={styles.bottomSection}>
-            <View className="w-48 h-[1px] bg-accent/20 mb-6" />
-            <Text className="text-accent/40 text-xs font-[Cairo_400Regular] tracking-[3px]">
-              جاري التحميل...
-            </Text>
-            
-            <View className="mt-10">
-               <SparklesIcon size={32} color="#fbbf24" opacity={0.5} />
-            </View>
-          </View>
         </View>
-      </ImageBackground>
+      </View>
     </Animated.View>
   );
 };
@@ -73,22 +78,28 @@ const styles = StyleSheet.create({
   container: {
     ...StyleSheet.absoluteFillObject,
     zIndex: 9999,
-    backgroundColor: '#1a3c34',
-  },
-  background: {
-    width: width,
-    height: height,
+    backgroundColor: "#fff",
   },
   overlay: {
     flex: 1,
-    backgroundColor: 'rgba(26, 60, 52, 0.7)',
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingBottom: 100,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  logoContainer: {
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  atLogo: {
+    width: 140,
+    height: 140,
+  },
+  textLogo: {
+    width: 280,
+    height: 90,
   },
   bottomSection: {
-    position: 'absolute',
+    position: "absolute",
     bottom: 80,
-    alignItems: 'center',
-  }
+    alignItems: "center",
+  },
 });
