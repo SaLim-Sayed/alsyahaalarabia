@@ -33,11 +33,16 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
               {article.category}
             </Text>
             <Text
-              className="text-lg font-[Cairo_700Bold] text-gray-800 leading-7"
+              className="text-lg font-[Cairo_700Bold] text-gray-800 leading-7 mb-2"
               numberOfLines={2}
             >
               {article.title}
             </Text>
+            <View className="flex-row items-center">
+              <Text className="text-gray-400 font-[Cairo_400Regular] text-[10px]">
+                {t("article.writtenBy")}: {article.author} • {article.date}
+              </Text>
+            </View>
           </View>
         </TouchableOpacity>
       </Link>
@@ -54,29 +59,36 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
             resizeMode="cover"
           />
           <LinearGradient
-            colors={["transparent", "rgba(0,0,0,0.7)"]}
-            className="absolute inset-0 px-6 pb-6 gap-8 justify-center items-start"
+            colors={["transparent", "rgba(0,0,0,0.85)"]}
+            className="absolute left-0 right-0 top-0 bottom-0 p-6 flex-1 flex-col justify-end items-start"
           >
             {/* Category Badge - Top Right */}
-            <View className=" bg-teal-900/90 px-4 py-1.5 rounded-lg">
+            <View className=" bg-teal-900/90 px-4 py-1.5 w-fit max-w-40 rounded-lg mb-4">
               <Text className="text-white text-[12px] font-[Cairo_700Bold]">
                 {article.category}
               </Text>
             </View>
 
-            {/* Title - Centered */}
+            {/* Title */}
             <Text
-              className="text-xl font-[Cairo_700Bold] text-white leading-8  mb-4"
+              className="text-xl font-[Cairo_700Bold] text-white leading-8 mb-3"
               numberOfLines={3}
             >
               {article.title}
             </Text>
 
             {/* Meta Info */}
-            <Text className="text-white text-[12px] font-[Cairo_400Regular] text-center opacity-90">
-              {article.author} - {article?.location || t("common.cairo")}{" "}
-              {t("common.on")} {article.date}
-            </Text>
+            <View className="flex-row items-center">
+              <UserIcon size={12} color="#fbbf24" />
+              <Text className="text-white text-[12px] font-[Cairo_400Regular] ms-1 opacity-90">
+                {t("article.writtenBy")}: {article.author}
+              </Text>
+              <View className="w-1 h-1 bg-white/40 rounded-full mx-2" />
+              <ClockIcon size={12} color="#fbbf24" />
+              <Text className="text-white text-[12px] font-[Cairo_400Regular] ms-1 opacity-90">
+                {article.date}
+              </Text>
+            </View>
           </LinearGradient>
         </TouchableOpacity>
       </Link>
@@ -93,20 +105,22 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
             resizeMode="cover"
           />
           <LinearGradient
-            colors={["transparent", "rgba(0,0,0,0.7)"]}
+            colors={["transparent", "rgba(0,0,0,0.8)"]}
             className="absolute inset-0 p-5 justify-end"
           >
             <Text
-              className="text-lg font-[Cairo_700Bold] text-white"
+              className="text-lg font-[Cairo_700Bold] text-white mb-2"
               numberOfLines={2}
             >
               {article.title}
             </Text>
-            <View className="flex-row items-center mt-2">
+            <View className="flex-row items-center">
+              <Text className="text-accent text-[11px] font-[Cairo_700Bold]">
+                {article.author}
+              </Text>
+              <View className="w-1 h-1 bg-white/40 rounded-full mx-2" />
               <ClockIcon size={12} color="#fbbf24" />
-              <Text
-                className={`text-accent text-[11px] font-[Cairo_400Regular] ${isRTL ? "mr-1" : "ml-1"}`}
-              >
+              <Text className="text-white text-[11px] font-[Cairo_400Regular] ms-1">
                 {article.date}
               </Text>
             </View>
@@ -124,9 +138,7 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
           className="w-24 h-24 rounded-2xl"
           resizeMode="cover"
         />
-        <View
-          className={`flex-1 px-4 justify-center ${isRTL ? "items-end" : "items-start"}`}
-        >
+        <View className="flex-1 px-4 justify-center items-start">
           <Text
             className="text-base font-[Cairo_700Bold] text-gray-800 leading-6 mb-1"
             numberOfLines={2}
@@ -134,32 +146,16 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
             {article.title}
           </Text>
           <View className="flex-row items-center flex-wrap">
-            <View className="flex-row items-center me-2">
-              <UserIcon size={12} color="#9ca3af" />
-              <Text
-                className="text-[11px] text-gray-400 font-[Cairo_400Regular] ms-1"
-                style={{ textAlign: isRTL ? "right" : "left" }}
-              >
+            <View className="flex-row items-center me-3">
+              <UserIcon size={12} color="#1a3c34" />
+              <Text className="text-[11px] text-primary font-[Cairo_700Bold] ms-1">
                 {article.author}
               </Text>
             </View>
-            <View className="flex-row items-center me-2">
+            <View className="flex-row items-center">
               <ClockIcon size={12} color="#9ca3af" />
-              <Text
-                className="text-[11px] text-gray-400 font-[Cairo_400Regular] ms-1"
-                style={{ textAlign: isRTL ? "right" : "left" }}
-              >
+              <Text className="text-[11px] text-gray-400 font-[Cairo_400Regular] ms-1">
                 {article.date}
-              </Text>
-            </View>
-
-            <View className="flex-row items-center me-2">
-              <View className="mx-1 w-1 h-1 bg-gray-200 rounded-full" />
-              <Text
-                className="text-[11px] text-teal-900 font-[Cairo_700Bold]"
-                style={{ textAlign: isRTL ? "right" : "left" }}
-              >
-                {article.category}
               </Text>
             </View>
           </View>

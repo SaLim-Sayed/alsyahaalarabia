@@ -162,7 +162,7 @@ export default function HomeScreen() {
           {
             position: "absolute",
             bottom: 30,
-            right: 30,
+            end: 30,
             zIndex: 100,
           },
         ]}

@@ -94,41 +94,39 @@ export const useAppStore = create<AppState>()(
       setTheme: (theme) => set({ theme }),
       setLanguage: async (lang) => {
         const isRTL = lang === 'ar' || lang === 'ur';
-        const { lastSyncTimestamp, language: currentLang } = get();
-        const now = Date.now();
+        const { language: currentLang } = get();
         
-        // Safety: If it's a simple language toggle without direction change (or recently synced), 
-        // just update state.
+        // If language hasn't changed, do nothing
+        if (currentLang === lang && I18nManager.isRTL === isRTL) return;
+
+        console.log(`[Store] Switching language to ${lang}, RTL: ${isRTL}`);
+        
+        // Update state first
+        set({ language: lang, lastSyncTimestamp: Date.now() });
+
         const directionMismatch = I18nManager.isRTL !== isRTL;
         
         if (directionMismatch) {
-          console.log('[Store] Direction mismatch, forcing RTL:', isRTL);
           I18nManager.allowRTL(isRTL);
           I18nManager.forceRTL(isRTL);
-          
-          set({ language: lang, lastSyncTimestamp: now });
           
           // Delay to ensure persistence finishes before restart
           setTimeout(async () => {
             try {
-              if (RNRestart && typeof (RNRestart as any).Restart === 'function') {
-                return (RNRestart as any).Restart();
+              if (Updates && Updates.reloadAsync) {
+                await Updates.reloadAsync();
+              } else if (RNRestart && (RNRestart as any).Restart) {
+                (RNRestart as any).Restart();
+              } else if (RNRestart && (RNRestart as any).restart) {
+                (RNRestart as any).restart();
+              } else {
+                DevSettings.reload();
               }
-              if (RNRestart && typeof (RNRestart as any).restart === 'function') {
-                return (RNRestart as any).restart();
-              }
-              if (Updates && typeof Updates.reloadAsync === 'function') {
-                return await Updates.reloadAsync();
-              }
-              DevSettings.reload();
             } catch (error) {
               console.warn('[Store] Restart failed, falling back to reload', error);
               DevSettings.reload();
             }
           }, 300);
-        } else {
-          // If native direction is already correct (or no change), just swap i18n
-          set({ language: lang });
         }
       },
     }),

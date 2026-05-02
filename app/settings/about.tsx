@@ -76,13 +76,23 @@ export default function AboutScreen() {
             {t("privacy.source")}: https://alsyahaalarabia.com/about
           </Text>
         </TouchableOpacity>
-        {/* Content Card */}
-        <View className="bg-white rounded-[32px] p-8 shadow-sm border border-gray-100 mb-8">
+        {/* Vision Card */}
+        <View className="bg-white rounded-[32px] p-8 shadow-sm border border-gray-100 mb-6">
           <Text className="text-gray-800 font-[Cairo_700Bold] text-2xl mb-6">
             {t("about.visionTitle")}
           </Text>
           <Text className="text-gray-500 font-[Cairo_400Regular] leading-7 text-base">
             {t("about.visionContent")}
+          </Text>
+        </View>
+
+        {/* History Card */}
+        <View className="bg-white rounded-[32px] p-8 shadow-sm border border-gray-100 mb-8">
+          <Text className="text-gray-800 font-[Cairo_700Bold] text-2xl mb-6">
+            {t("about.historyTitle")}
+          </Text>
+          <Text className="text-gray-500 font-[Cairo_400Regular] leading-7 text-base">
+            {t("about.historyContent")}
           </Text>
         </View>
 

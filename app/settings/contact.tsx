@@ -22,6 +22,7 @@ export default function ContactScreen() {
       title: t("contact.sections.management"),
       person: t("contact.sections.abbas"),
       email: "info@alsyahaalarabia.com",
+      website: "https://alsyahaalarabia.com",
       icon: UserIcon,
       color: "#1a3c34",
     },
@@ -123,6 +124,18 @@ export default function ContactScreen() {
                     <PhoneIcon size={20} color="#1a3c34" />
                     <Text className="text-primary font-[Cairo_700Bold] text-sm ms-3">
                       {section.phone}
+                    </Text>
+                  </TouchableOpacity>
+                )}
+
+                {section.website && (
+                  <TouchableOpacity
+                    onPress={() => Linking.openURL(section.website!)}
+                    className="flex-row items-center bg-secondary/50 p-4 rounded-2xl mt-3"
+                  >
+                    <UserIcon size={20} color="#1a3c34" />
+                    <Text className="text-primary font-[Cairo_700Bold] text-sm ms-3">
+                      {section.website}
                     </Text>
                   </TouchableOpacity>
                 )}

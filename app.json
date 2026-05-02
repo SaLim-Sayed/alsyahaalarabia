@@ -15,11 +15,17 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.alsyahaalarabia2.app"
+      "bundleIdentifier": "com.alsyahaalarabia2.app",
+      "supportsRTL": true,
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false,
+        "ExpoLocalization_supportsRTL": true
+      }
     },
     "android": {
       "package": "com.alsyahaalarabia2.app",
       "versionCode": 4,
+      "supportsRTL": true,
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon-foreground.png",
         "backgroundColor": "#ffffff"
@@ -40,7 +46,10 @@
       "output": "static",
       "favicon": "./assets/images/app-icon-1024.png"
     },
-    "plugins": ["expo-router", "expo-localization"],
+    "plugins": [
+      "expo-router",
+      "expo-localization"
+    ],
     "experiments": {
       "typedRoutes": true
     },

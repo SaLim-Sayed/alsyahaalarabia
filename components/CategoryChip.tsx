@@ -18,15 +18,14 @@ export const CategoryChip: React.FC<CategoryChipProps> = ({ categories, selected
       showsHorizontalScrollIndicator={false} 
       className="py-4"
       contentContainerStyle={{ 
-        paddingHorizontal: 24, 
-        flexDirection: isRTL ? 'row-reverse' : 'row' 
+        paddingHorizontal: 24
       }}
     >
       {categories.map((cat) => (
         <TouchableOpacity
           key={cat.id}
           onPress={() => onSelect(cat.id)}
-          className={`px-6 py-2.5 rounded-2xl ${isRTL ? 'ml-3' : 'mr-3'} ${
+          className={`px-6 py-2.5 rounded-2xl me-3 ${
             selectedId === cat.id ? 'bg-primary shadow-lg' : 'bg-gray-100'
           }`}
         >

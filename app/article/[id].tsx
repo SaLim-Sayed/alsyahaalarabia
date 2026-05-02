@@ -4,6 +4,7 @@ import { usePostDetail, usePostsByCategory } from "@/hooks/usePosts";
 import { useAppStore } from "@/store/useAppStore";
 import { LinearGradient } from "expo-linear-gradient";
 import { useLocalSearchParams, useRouter } from "expo-router";
+import React, { useRef } from "react";
 import { useTranslation } from "react-i18next";
 import {
   ActivityIndicator,
@@ -20,20 +21,17 @@ import {
   ArrowLeftIcon,
   ArrowRightIcon,
   BookmarkIcon,
-  ChatBubbleBottomCenterTextIcon,
+  ChevronUpIcon,
   ClockIcon,
-  FolderIcon,
   ShareIcon,
 } from "react-native-heroicons/outline";
 import { UserCircleIcon } from "react-native-heroicons/solid";
-import { ChevronUpIcon } from "react-native-heroicons/outline";
-import RenderHtml from "react-native-render-html";
-import React, { useRef } from "react";
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
   withSpring,
 } from "react-native-reanimated";
+import RenderHtml from "react-native-render-html";
 
 export default function ArticleDetailScreen() {
   const { t, i18n } = useTranslation();
@@ -148,7 +146,6 @@ export default function ArticleDetailScreen() {
       />
 
       <Animated.ScrollView
-        ref={scrollViewRef}
         onScroll={handleScroll}
         scrollEventThrottle={16}
         showsVerticalScrollIndicator={false}
@@ -208,38 +205,20 @@ export default function ArticleDetailScreen() {
               {article.title}
             </Text>
 
-            <View className="flex-row flex-wrap items-center justify-center px-2 py-3 bg-gray-50 rounded-2xl border border-gray-100/50">
+            <View className="flex-row flex-wrap items-center justify-center px-4 py-3 bg-gray-50 rounded-2xl border border-gray-100/50">
               <View className="flex-row items-center">
                 <UserCircleIcon size={20} color="#ca8a04" />
                 <Text className="text-primary font-[Cairo_700Bold] text-xs ms-2">
-                  {article.author}
+                  {t("article.writtenBy")}: {article.author}
                 </Text>
               </View>
 
-              <Text className="text-gray-300 mx-3">-</Text>
+              <View className="w-1 h-1 bg-gray-300 mx-4 rounded-full" />
 
               <View className="flex-row items-center">
-                <ClockIcon size={14} color="#ca8a04" />
-                <Text className="text-gray-500 font-[Cairo_400Regular] text-xs ms-1 mt-0.5">
+                <ClockIcon size={16} color="#ca8a04" />
+                <Text className="text-gray-500 font-[Cairo_400Regular] text-xs ms-2">
                   {article.date}
-                </Text>
-              </View>
-
-              <Text className="text-gray-300 mx-3">-</Text>
-
-              <View className="flex-row items-center">
-                <FolderIcon size={14} color="#ca8a04" />
-                <Text className="text-gray-500 font-[Cairo_400Regular] text-xs ms-1 mt-0.5">
-                  {article.category}
-                </Text>
-              </View>
-
-              <Text className="text-gray-300 mx-3">-</Text>
-
-              <View className="flex-row items-center">
-                <ChatBubbleBottomCenterTextIcon size={14} color="#ca8a04" />
-                <Text className="text-gray-500 font-[Cairo_400Regular] text-xs ms-1 mt-0.5">
-                  {article.commentCount}
                 </Text>
               </View>
             </View>
@@ -273,9 +252,9 @@ export default function ArticleDetailScreen() {
 
             <View>
               {relatedArticles
-                ?.filter((a) => a.id !== article.id)
+                ?.filter((a: any) => a.id !== article.id)
                 .slice(0, 3)
-                .map((item) => (
+                .map((item: any) => (
                   <ArticleCard key={item.id} article={item} variant="compact" />
                 ))}
             </View>

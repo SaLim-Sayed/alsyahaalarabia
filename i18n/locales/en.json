@@ -158,9 +158,11 @@
   },
   "about": {
     "visionTitle": "Our Vision & Goals",
-    "visionContent": "Arab Tourism Magazine takes pride in being the first Saudi magazine specializing in tourism. We aim to highlight Arab treasures and global tourist attractions with a modern vision that keeps pace with the significant developments in the tourism sector in Saudi Arabia and the region.",
+    "visionContent": "Arab Tourism Magazine takes pride in being the first Saudi magazine specializing in tourism. We aim to highlight Arab treasures and global tourist attractions with a modern vision that keeps pace with the significant developments in the tourism sector in Saudi Arabia and the region, committed to spreading tourism knowledge and cultural communication.",
     "whyTitle": "Why Arab Tourism Magazine?",
     "gatewaySubtitle": "Your Gateway to Luxury & Heritage",
+    "historyTitle": "Our History",
+    "historyContent": "The magazine was established to be the primary reference for tourism in the region. It has gained international recognition through its distinguished coverage and participation in international forums, making it a strategic partner in highlighting the Kingdom's destinations to the world.",
     "achievements": {
       "oscarsTitle": "Two Tourism Media Oscars",
       "oscarsDesc": "The highest international awards in tourism media.",
@@ -175,11 +177,12 @@
     "subtitle": "We are here to answer your inquiries",
     "workingHours": "Working Hours: Sunday - Thursday\n9:00 AM - 5:00 PM",
     "sections": {
-      "management": "Management & Editorial",
-      "technical": "Technical Support",
-      "privacy": "Privacy Policies",
-      "abbas": "Mr. Abbas Al-Ibrahim",
-      "beedco": "Ali Mohammed Al-Shaghab – Beedco"
+      "management": "To contact the management of Arab Tourism Magazine",
+      "technical": "To contact technical support for technical problems",
+      "privacy": "For inquiries regarding privacy policies",
+      "abbas": "Professor: Abbas Al-Ibrahim",
+      "beedco": "Beedco: Ali Mohammed Al-Shaghab",
+      "website": "Website"
     }
   },
   "intro": {
@@ -199,14 +202,34 @@
   },
   "privacy": {
     "title": "Privacy Policy",
-    "introTitle": "Introduction",
-    "introContent": "Arab Tourism Magazine is concerned with the tourism heritage of the Kingdom of Saudi Arabia to keep pace with the global trends pursued by the Kingdom.",
-    "dataTitle": "Data Collection & Use",
-    "dataContent": "The magazine's data is available to government agencies or other related departments in order to better serve you. This data may also be available to authorized non-governmental organizations.",
-    "disclaimerTitle": "Disclaimer",
-    "disclaimerContent": "The magazine is not responsible for any direct or indirect damages that may result from the use of the site or reliance on the information contained therein.",
-    "updatesTitle": "Updates",
-    "updatesContent": "This policy was last updated on August 26, 2025. Current Version: 1.0.",
+    "lastUpdate": "Last Updated: August 26, 2025",
+    "version": "Version: 1.0",
+    "introTitle": "A. Introduction",
+    "introContent": "Arab Tourism Magazine is dedicated to preserving the tourism heritage of the Kingdom of Saudi Arabia while keeping pace with global trends. We are committed to protecting your privacy and being transparent about our data practices. This policy explains how we collect, use, and share your personal information when you use our website or application.",
+    "licensingTitle": "Media Licenses 📜:",
+    "licensingContent": "1. Saudi Media License No: 160495\n2. London Media License No: 16321584",
+    "collectionTitle": "B. Information We Collect",
+    "collectionContent": "We collect information to provide and improve our services:\n• Information you provide: Includes your name, email, and phone number when registering or subscribing.\n• Automatically collected info: We automatically collect device and interaction data, including IP address, browser type, and page views.\n• User-generated content: Content from authors and journalists is collected but only published after strict editorial review.",
+    "usageTitle": "C. How We Use Information",
+    "usageContent": "We use your data to:\n• Provide and maintain our services.\n• Manage user accounts and communications.\n• Facilitate the publishing workflow (for editors and authors).\n• Send administrative updates and security alerts.\n• Analyze trends and improve user experience.",
+    "legalBasisTitle": "D. Legal Basis for Processing (GDPR)",
+    "legalBasisContent": "We process your data based on:\n• Performance of a contract: Necessary to provide our services to you.\n• Legitimate interest: Necessary for our legitimate business purposes.\n• Consent: In specific cases, we will ask for your explicit consent before processing (e.g., newsletters).",
+    "sharingTitle": "E. How We Share Information",
+    "sharingContent": "We do not sell your personal data. We may share it with:\n• Service Providers: Hosting and analytics providers that help us run our app.\n• Legal Compliance: When required by law or in response to legal processes.",
+    "transferTitle": "F. International Data Transfers",
+    "transferContent": "Your data may be processed and stored in Saudi Arabia and the UK. We ensure these transfers comply with applicable data protection laws.",
+    "rightsTitle": "G. Your Rights",
+    "rightsContent": "You have the right to:\n• Access: Request a copy of the data we hold about you.\n• Rectification: Request correction of inaccurate data.\n• Erasure: Request deletion of your data from our records.\n• Restrict Processing: Request restriction on how we process your data.",
+    "childrenTitle": "H. Children's Privacy",
+    "childrenContent": "We do not knowingly collect information from children under 13. If you discover your child has provided us with info, please contact us immediately for deletion.",
+    "appSpecificTitle": "I. Mobile App Privacy Addendum",
+    "appSpecificContent": "In addition to the above, the app collects:\n• Device Identifiers: Such as Google Advertising ID or IDFA.\n• App Performance Data: Crash logs and diagnostic data.\n• Device Permissions: The app may request access to camera or photos for content uploads (authors only).\n• Content & Media: We collect text, images, and videos uploaded by authors via integrated forms.",
+    "translationTitle": "S. Machine Translation",
+    "translationContent": "We provide automated translation services via Google Translate. Please note that these translations may not be 100% accurate, and the original Arabic content remains the primary reference in case of conflict.",
+    "freeServicesTitle": "T. Nature of Free Services",
+    "freeServicesContent": "Arab Tourism Magazine provides most of its services for free. We do not charge fees for creating accounts or reading basic content. Premium services may be introduced in the future and will be announced separately.",
+    "contactTitle": "U. Contact Us",
+    "contactContent": "If you have any questions about this Privacy Policy, please contact us at:\nprivacy@alsyahaalarabia.com",
     "source": "Source"
   }
 }

@@ -14,7 +14,6 @@ import {
   CalendarIcon,
   ChevronLeftIcon,
   ChevronRightIcon,
-  TagIcon,
   UserIcon,
 } from "react-native-heroicons/solid";
 import Animated, {
@@ -97,20 +96,14 @@ export const CategorySection: React.FC<CategorySectionProps> = ({
     >
       <View className="flex-row items-center me-4">
         <UserIcon size={14} color="#4b5563" />
-        <Text className="text-gray-500 font-[Cairo_400Regular] text-[11px] ms-1 mt-0.5">
-          {article.author}
+        <Text className="text-gray-500 font-[Cairo_700Bold] text-[11px] ms-1 mt-0.5">
+          {t("article.writtenBy")}: {article.author}
         </Text>
       </View>
       <View className="flex-row items-center me-4">
         <CalendarIcon size={14} color="#4b5563" />
         <Text className="text-gray-500 font-[Cairo_400Regular] text-[11px] ms-1 mt-0.5">
           {article.date}
-        </Text>
-      </View>
-      <View className="flex-row items-center">
-        <TagIcon size={14} color="#4b5563" />
-        <Text className="text-gray-500 font-[Cairo_400Regular] text-[11px] ms-1 mt-0.5">
-          {article.category}
         </Text>
       </View>
     </View>
@@ -186,7 +179,7 @@ export const CategorySection: React.FC<CategorySectionProps> = ({
 
       {/* List Articles (Bottom Stack) */}
       <View>
-        {listArticles.map((article) => (
+        {listArticles.map((article: any) => (
           <ArticleCard key={article.id} article={article} variant="list" />
         ))}
       </View>

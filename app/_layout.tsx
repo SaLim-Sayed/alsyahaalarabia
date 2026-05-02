@@ -73,29 +73,31 @@ export default function RootLayout() {
 
   // Check for RTL/Language synchronization on boot
   useEffect(() => {
-    if (loaded) {
-      const { language, setLanguage, lastSyncTimestamp } =
-        useAppStore.getState();
-      const isRTL = language === "ar";
+    const checkRTL = async () => {
+      const state = useAppStore.getState();
+      const language = state.language;
+      const isRTL = language === "ar" || language === "ur";
 
       // Sync i18n instance
       if (i18n.language !== language) {
-        i18n.changeLanguage(language);
+        await i18n.changeLanguage(language);
       }
 
       // If native direction doesn't match our language, force a sync restart
       // We only do this if it's not a fresh reboot to avoid loops
-      const freshReboot = Date.now() - lastSyncTimestamp < 5000;
+      const lastSync = state.lastSyncTimestamp;
+      const freshReboot = Date.now() - lastSync < 5000;
 
       if (RN.I18nManager.isRTL !== isRTL && !freshReboot) {
-        console.log(
-          "[Layout] Boot mismatch. Target Arabic:",
-          isRTL,
-          "Current RTL:",
-          RN.I18nManager.isRTL,
-        );
-        setLanguage(language);
+        console.log("[Layout] Boot mismatch, fixing RTL direction...");
+        RN.I18nManager.allowRTL(isRTL);
+        RN.I18nManager.forceRTL(isRTL);
+        state.setLanguage(language);
       }
+    };
+
+    if (loaded) {
+      checkRTL();
     }
   }, [loaded]);
 

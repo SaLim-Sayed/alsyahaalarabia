@@ -118,7 +118,7 @@ export const NewsTicker: React.FC<NewsTickerProps> = ({ articles }) => {
                 {currentArticle.image && (
                   <Image
                     source={{ uri: currentArticle.image }}
-                    className={`${isRTL ? "mr-3" : "ml-3"} w-8 h-8 rounded-full border-[1.5px] border-[#c5a059]/30`}
+                    className="ms-3 w-8 h-8 rounded-full border-[1.5px] border-[#c5a059]/30"
                     resizeMode="cover"
                   />
                 )}

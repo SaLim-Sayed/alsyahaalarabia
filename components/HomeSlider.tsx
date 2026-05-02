@@ -82,9 +82,9 @@ export const HomeSlider: React.FC<HomeSliderProps> = ({
           </View>
         </View>
         <TouchableOpacity className="flex-row items-center">
-          <Text className="text-black text-base font-[Cairo_700Bold] ml-1">
+          <Text className="text-black text-base font-[Cairo_700Bold] ms-1">
             {t("common.viewAll")}
-          </Text>{" "}
+          </Text>
           <ChevronLeftIcon size={16} color="#000" />
         </TouchableOpacity>
       </View>
