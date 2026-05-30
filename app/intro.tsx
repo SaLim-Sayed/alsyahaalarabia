@@ -7,6 +7,7 @@ import {
   Dimensions,
   FlatList,
   Image,
+  StyleSheet,
   Text,
   TouchableOpacity,
   View,
@@ -80,7 +81,7 @@ export default function IntroScreen() {
           <Icon size={120} color="#fbbf24" strokeWidth={1} />
           <LinearGradient
             colors={["transparent", "rgba(26, 60, 52, 0.4)"]}
-            className="absolute inset-0"
+            style={StyleSheet.absoluteFill}
           />
         </Animated.View>
 
@@ -103,7 +104,7 @@ export default function IntroScreen() {
     <View className="flex-1 bg-primary">
       <LinearGradient
         colors={["#1a3c34", "#0a1a16"]}
-        className="absolute inset-0"
+        style={StyleSheet.absoluteFill}
       />
 
       {/* Top Logo */}

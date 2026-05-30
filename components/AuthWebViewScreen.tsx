@@ -67,7 +67,7 @@ export function AuthWebViewScreen({
         </View>
       </View>
 
-      <View className="flex-1 bg-white relative">
+      <View className="flex-1 m-1 bg-white relative">
         {loading ? (
           <View className="absolute inset-0 z-10 bg-white items-center justify-center">
             <ActivityIndicator size="large" color="#1a3c34" />
@@ -76,7 +76,7 @@ export function AuthWebViewScreen({
 
         <WebView
           source={{ uri }}
-          style={{ flex: 1 }}
+          style={{ flex: 1, padding: 20 }}
           onLoadStart={() => handleNavChange(true)}
           onLoadEnd={() => handleNavChange(false)}
           onError={() => handleNavChange(false)}
@@ -90,6 +90,7 @@ export function AuthWebViewScreen({
           mixedContentMode="compatibility"
           allowsBackForwardNavigationGestures
           setSupportMultipleWindows={false}
+          showsVerticalScrollIndicator={false}
           onShouldStartLoadWithRequest={(req) => {
             const url = req.url;
             if (url.startsWith("mailto:") || url.startsWith("tel:")) {

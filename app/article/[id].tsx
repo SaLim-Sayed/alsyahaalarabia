@@ -160,7 +160,15 @@ export default function ArticleDetailScreen() {
           />
           <LinearGradient
             colors={["rgba(0,0,0,0.5)", "transparent"]}
-            className="absolute inset-0 px-8 pb-20"
+            style={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              paddingHorizontal: 32,
+              paddingBottom: 80,
+            }}
           >
             {/* Header Buttons */}
             <View className="absolute top-14 left-6 right-6 flex-row items-center justify-between">

@@ -60,7 +60,17 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
           />
           <LinearGradient
             colors={["transparent", "rgba(0,0,0,0.85)"]}
-            className="absolute left-0 right-0 top-0 bottom-0 p-6 flex-1 flex-col justify-end items-start"
+            style={{
+              position: "absolute",
+              left: 0,
+              right: 0,
+              top: 0,
+              bottom: 0,
+              padding: 24,
+              flexDirection: "column",
+              justifyContent: "flex-end",
+              alignItems: "flex-start",
+            }}
           >
             {/* Category Badge - Top Right */}
             <View className=" bg-teal-900/90 px-4 py-1.5 w-fit max-w-40 rounded-lg mb-4">
@@ -106,7 +116,15 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
           />
           <LinearGradient
             colors={["transparent", "rgba(0,0,0,0.8)"]}
-            className="absolute inset-0 p-5 justify-end"
+            style={{
+              position: "absolute",
+              left: 0,
+              right: 0,
+              top: 0,
+              bottom: 0,
+              padding: 20,
+              justifyContent: "flex-end",
+            }}
           >
             <Text
               className="text-lg font-[Cairo_700Bold] text-white mb-2"

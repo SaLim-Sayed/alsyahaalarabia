@@ -78,7 +78,14 @@ export const NewsTicker: React.FC<NewsTickerProps> = ({ articles }) => {
         {/* Fixed Title Label */}
         <LinearGradient
           colors={["#1a3c34", "#122a24"]}
-          className="px-5 h-full justify-center z-10 shadow-lg border-r border-[#c5a059]/30"
+          style={{
+            paddingHorizontal: 20,
+            height: "100%",
+            justifyContent: "center",
+            zIndex: 10,
+            borderRightWidth: 1,
+            borderRightColor: "rgba(197, 160, 89, 0.3)",
+          }}
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 1 }}
         >

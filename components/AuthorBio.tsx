@@ -1,7 +1,7 @@
 import { FontAwesome } from "@expo/vector-icons";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { Image, Text, TouchableOpacity, View } from "react-native";
+import { Text, TouchableOpacity, View } from "react-native";
 
 interface AuthorBioProps {
   name: string;
@@ -35,15 +35,6 @@ export const AuthorBio: React.FC<AuthorBioProps> = ({ name, avatar, bio }) => {
           </TouchableOpacity>
         </View>
       </View>
-
-      <Image
-        source={{
-          uri:
-            avatar ||
-            "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=200&auto=format&fit=crop",
-        }}
-        className="w-28 h-28 rounded-3xl ms-6"
-      />
     </View>
   );
 };
