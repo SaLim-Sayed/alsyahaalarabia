@@ -1,11 +1,13 @@
-import { create } from 'zustand';
-import { persist, createJSONStorage } from 'zustand/middleware';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { create } from "zustand";
+import { createJSONStorage, persist } from "zustand/middleware";
 
-import { I18nManager, DevSettings } from 'react-native';
-import RNRestart from 'react-native-restart';
-import * as Updates from 'expo-updates';
-import * as Localization from 'expo-localization';
+import * as Localization from "expo-localization";
+import { DevSettings, I18nManager } from "react-native";
+import RNRestart from "react-native-restart";
+
+/** Skip stacking RTL reloads when layout/store retries same language before native catches up. */
+const RTL_RESTART_COOLDOWN_MS = 30_000;
 
 interface Article {
   id: string;
@@ -34,8 +36,8 @@ interface User {
 
 interface AppState {
   savedArticles: Article[];
-  theme: 'light' | 'dark';
-  language: 'ar' | 'en' | 'kk' | 'ur';
+  theme: "light" | "dark";
+  language: "ar" | "en" | "kk" | "ur";
   user: User | null;
   token: string | null;
   lastSyncTimestamp: number;
@@ -45,23 +47,29 @@ interface AppState {
   setHasSeenIntro: (seen: boolean) => void;
   toggleSaveArticle: (article: Article) => void;
   isArticleSaved: (id: string) => boolean;
-  setTheme: (theme: 'light' | 'dark') => void;
-  setLanguage: (lang: 'ar' | 'en' | 'kk' | 'ur') => void;
+  setTheme: (theme: "light" | "dark") => void;
+  setLanguage: (lang: "ar" | "en" | "kk" | "ur") => void;
   updateSyncTimestamp: () => void;
   setUser: (user: User | null, token: string | null) => void;
   updateUser: (data: Partial<User>) => void;
   logout: () => void;
+  hasHydrated: boolean;
+  setHasHydrated: (hydrated: boolean) => void;
 }
 
 export const useAppStore = create<AppState>()(
   persist(
     (set, get) => ({
       savedArticles: [],
-      theme: 'light',
+      theme: "light",
       language: (() => {
-        const lang = Localization.getLocales()[0]?.languageCode || 'ar';
-        const supported = ['ar', 'en', 'kk', 'ur'];
-        return (supported.includes(lang) ? lang : 'ar') as 'ar' | 'en' | 'kk' | 'ur';
+        const lang = Localization.getLocales()[0]?.languageCode || "ar";
+        const supported = ["ar", "en", "kk", "ur"];
+        return (supported.includes(lang) ? lang : "ar") as
+          | "ar"
+          | "en"
+          | "kk"
+          | "ur";
       })(),
       user: null,
       token: null,
@@ -83,7 +91,9 @@ export const useAppStore = create<AppState>()(
         const { savedArticles } = get();
         const isSaved = savedArticles.some((a) => a.id === article.id);
         if (isSaved) {
-          set({ savedArticles: savedArticles.filter((a) => a.id !== article.id) });
+          set({
+            savedArticles: savedArticles.filter((a) => a.id !== article.id),
+          });
         } else {
           set({ savedArticles: [...savedArticles, article] });
         }
@@ -92,51 +102,126 @@ export const useAppStore = create<AppState>()(
         return get().savedArticles.some((a) => a.id === id);
       },
       setTheme: (theme) => set({ theme }),
+      hasHydrated: false,
+      setHasHydrated: (hydrated) => set({ hasHydrated: hydrated }),
       setLanguage: async (lang) => {
-        const isRTL = lang === 'ar' || lang === 'ur';
+        const isRTL = lang === "ar" || lang === "ur";
         const { language: currentLang } = get();
-        
-        // If language hasn't changed, do nothing
-        if (currentLang === lang && I18nManager.isRTL === isRTL) return;
 
-        console.log(`[Store] Switching language to ${lang}, RTL: ${isRTL}`);
-        
-        // Update state first
-        set({ language: lang, lastSyncTimestamp: Date.now() });
+        console.log(
+          `[Store] setLanguage called with: ${lang} (Current: ${currentLang})`,
+        );
 
         const directionMismatch = I18nManager.isRTL !== isRTL;
-        
+
+        if (currentLang === lang && !directionMismatch) return;
+
+        // After forceRTL, native may still report the old direction until reload; layout may call
+        // setLanguage again after JS reload — without this we restart in a tight loop.
+        if (currentLang === lang && directionMismatch) {
+          const { lastSyncTimestamp } = get();
+          if (
+            lastSyncTimestamp > 0 &&
+            Date.now() - lastSyncTimestamp < RTL_RESTART_COOLDOWN_MS
+          ) {
+            console.log(
+              `[Store] Skipping RTL restart for ${lang} (cooldown, native RTL may lag)`,
+            );
+            return;
+          }
+        }
+
+        console.trace(`[Store] Trace for setLanguage(${lang})`);
+
+        console.log(`[Store] Switching language to ${lang}, RTL: ${isRTL}`);
+
+        // Only bump lastSyncTimestamp when a native RTL reload will run —otherwise RootLayout
+        // treats every language change like a reboot and unmounts the whole tree (multi "reload").
+        set({
+          language: lang,
+          ...(directionMismatch ? { lastSyncTimestamp: Date.now() } : {}),
+        });
+
+        // Manually flush to AsyncStorage to be absolutely sure it's saved before restart
+        try {
+          const state = get();
+          const {
+            isTabBarVisible,
+            setTabBarVisible,
+            hasHydrated,
+            setHasHydrated,
+            ...rest
+          } = state;
+          await AsyncStorage.setItem(
+            "app-storage",
+            JSON.stringify({ state: rest, version: 0 }),
+          );
+          console.log("[Store] Manual persistence flush complete");
+        } catch (e) {
+          console.warn("[Store] Manual flush failed", e);
+        }
+
         if (directionMismatch) {
           I18nManager.allowRTL(isRTL);
           I18nManager.forceRTL(isRTL);
-          
-          // Delay to ensure persistence finishes before restart
-          setTimeout(async () => {
+
+          // Give AsyncStorage more time to flush before the process restarts
+          setTimeout(() => {
+            console.log(`[Store] Restarting now for ${lang}`);
             try {
-              if (Updates && Updates.reloadAsync) {
-                await Updates.reloadAsync();
-              } else if (RNRestart && (RNRestart as any).Restart) {
-                (RNRestart as any).Restart();
-              } else if (RNRestart && (RNRestart as any).restart) {
-                (RNRestart as any).restart();
-              } else {
-                DevSettings.reload();
+              // Priority 1: Native Restart (Best for RTL)
+              if (RNRestart && I18nManager.isRTL) {
+                const restartFunc =
+                  (RNRestart as any).Restart || (RNRestart as any).restart;
+                if (typeof restartFunc === "function") {
+                  console.log("[Store] Calling RNRestart.Restart()");
+                  restartFunc();
+                  return;
+                }
               }
+
+              // Priority 2: DevSettings (JS reload)
+              if (DevSettings && typeof DevSettings.reload === "function") {
+                console.log("[Store] Calling DevSettings.reload()");
+                DevSettings.reload();
+                return;
+              }
+
+              console.warn("[Store] No restart method found");
             } catch (error) {
-              console.warn('[Store] Restart failed, falling back to reload', error);
-              DevSettings.reload();
+              console.error("[Store] Restart error:", error);
             }
-          }, 300);
+          }, 2000);
         }
       },
     }),
     {
-      name: 'app-storage',
+      name: "app-storage",
       storage: createJSONStorage(() => AsyncStorage),
       partialize: (state) => {
-        const { isTabBarVisible, setTabBarVisible, ...rest } = state;
+        const {
+          isTabBarVisible,
+          setTabBarVisible,
+          hasHydrated,
+          setHasHydrated,
+          ...rest
+        } = state;
         return rest;
       },
-    }
-  )
+      onRehydrateStorage: (state) => {
+        console.log("[Store] Rehydration started...");
+        return (rehydratedState, error) => {
+          if (error) {
+            console.error("[Store] Rehydration error:", error);
+          } else {
+            console.log(
+              "[Store] Rehydration complete. Language:",
+              rehydratedState?.language,
+            );
+            rehydratedState?.setHasHydrated(true);
+          }
+        };
+      },
+    },
+  ),
 );

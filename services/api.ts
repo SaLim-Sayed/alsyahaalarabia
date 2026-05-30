@@ -23,7 +23,7 @@ export interface JwtAuthTokenResponse {
 
 export const api = axios.create({
   baseURL: BASE_URL,
-  timeout: 60000, // Increased to 60s for very slow networks
+  timeout: 15000, // Reduced to 15s so it fails faster instead of hanging during App Review
   headers: {
     "Content-Type": "application/json",
     Accept: "application/json",
@@ -58,7 +58,7 @@ export const loginUser = async (
         "Content-Type": "application/json",
         Accept: "application/json",
       },
-      timeout: 60000,
+      timeout: 15000, // Reduced to 15s to fail faster
     },
   );
   return data;

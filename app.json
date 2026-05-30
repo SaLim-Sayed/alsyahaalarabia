@@ -2,7 +2,7 @@
   "expo": {
     "name": "مجلة السياحة العربية",
     "slug": "AlsyahaAlarabiya",
-    "version": "1.0.0",
+    "version": "1.0.2",
     "orientation": "portrait",
     "icon": "./assets/images/app-icon-1024.png",
     "scheme": "myapp",
@@ -13,10 +13,18 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
+    "androidStatusBar": {
+      "translucent": true,
+      "backgroundColor": "#00000000"
+    },
+    "androidNavigationBar": {
+      "visible": "sticky-immersive",
+      "backgroundColor": "#000000"
+    },
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.alsyahaalarabia2.app",
-      "supportsRTL": true,
+      "buildNumber": "6",
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false,
         "ExpoLocalization_supportsRTL": true
@@ -24,22 +32,13 @@
     },
     "android": {
       "package": "com.alsyahaalarabia2.app",
-      "versionCode": 4,
-      "supportsRTL": true,
+      "versionCode": 6,
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon-foreground.png",
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true,
-      "predictiveBackGestureEnabled": false,
-      "navigationBar": {
-        "visible": "sticky-immersive",
-        "backgroundColor": "#000000"
-      },
-      "statusBar": {
-        "translucent": true,
-        "backgroundColor": "transparent"
-      }
+      "predictiveBackGestureEnabled": false
     },
     "web": {
       "bundler": "metro",
@@ -48,7 +47,16 @@
     },
     "plugins": [
       "expo-router",
-      "expo-localization"
+      "expo-localization",
+      [
+        "expo-build-properties",
+        {
+          "ios": {
+            "useFrameworks": "static"
+          }
+        }
+      ],
+      "expo-web-browser"
     ],
     "experiments": {
       "typedRoutes": true

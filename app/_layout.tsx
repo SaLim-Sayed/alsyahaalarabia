@@ -8,7 +8,7 @@ import {
 import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import * as RN from "react-native";
 import "react-native-reanimated";
 import { SafeAreaProvider } from "react-native-safe-area-context";
@@ -42,6 +42,7 @@ export const unstable_settings = {
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
+  const state = useAppStore();
   const [loaded, error] = useFonts({
     Cairo_400Regular,
     Cairo_700Bold,
@@ -50,6 +51,8 @@ export default function RootLayout() {
   });
 
   const [splashFinished, setSplashFinished] = useState(false);
+  /** Bumps when `lastSyncTimestamp`-based gate may have expired (time alone doesn't re-render). */
+  const [rtlGateTick, setRtlGateTick] = useState(0);
 
   // Configure Native Navigation Bar (Android)
   useEffect(() => {
@@ -71,46 +74,61 @@ export default function RootLayout() {
     }
   }, [loaded]);
 
-  // Check for RTL/Language synchronization on boot
+  // If native direction doesn't match persisted language, delegate once — after a reload,
+  // lastSyncTimestamp is recent so we don't call setLanguage again (avoids reload loops).
   useEffect(() => {
-    const checkRTL = async () => {
-      const state = useAppStore.getState();
+    const checkRTL = () => {
       const language = state.language;
       const isRTL = language === "ar" || language === "ur";
+      const mismatch = RN.I18nManager.isRTL !== isRTL;
+      const recentlyRestartedForRtl =
+        state.lastSyncTimestamp > 0 &&
+        Date.now() - state.lastSyncTimestamp < 30_000;
 
-      // Sync i18n instance
-      if (i18n.language !== language) {
-        await i18n.changeLanguage(language);
-      }
-
-      // If native direction doesn't match our language, force a sync restart
-      // We only do this if it's not a fresh reboot to avoid loops
-      const lastSync = state.lastSyncTimestamp;
-      const freshReboot = Date.now() - lastSync < 5000;
-
-      if (RN.I18nManager.isRTL !== isRTL && !freshReboot) {
-        console.log("[Layout] Boot mismatch, fixing RTL direction...");
-        RN.I18nManager.allowRTL(isRTL);
-        RN.I18nManager.forceRTL(isRTL);
+      if (mismatch && !recentlyRestartedForRtl) {
+        console.log(
+          `[Layout] RTL mismatch (native ${RN.I18nManager.isRTL}). Delegating to setLanguage…`,
+        );
         state.setLanguage(language);
+      } else if (mismatch && recentlyRestartedForRtl) {
+        console.log(
+          "[Layout] RTL mismatch left as-is (recent sync; avoids reload loop).",
+        );
       }
     };
 
-    if (loaded) {
+    if (loaded && state.hasHydrated) {
       checkRTL();
     }
-  }, [loaded]);
+  }, [loaded, state.hasHydrated]);
 
-  const { language, lastSyncTimestamp } = useAppStore();
-  const isRebooting = Date.now() - lastSyncTimestamp < 800;
+  const { language, lastSyncTimestamp, hasHydrated } = state;
 
   useEffect(() => {
-    if (i18n.language !== language) {
+    if (lastSyncTimestamp <= 0) return;
+    const elapsed = Date.now() - lastSyncTimestamp;
+    if (elapsed >= 3200) return;
+    const id = setTimeout(
+      () => setRtlGateTick((n) => n + 1),
+      3300 - elapsed,
+    );
+    return () => clearTimeout(id);
+  }, [lastSyncTimestamp]);
+
+  // Cover the store's 2s delay before RNRestart; rtlGateTick makes the window expire (time isn't reactive).
+  const isRebooting = useMemo(
+    () =>
+      lastSyncTimestamp > 0 && Date.now() - lastSyncTimestamp < 3200,
+    [lastSyncTimestamp, rtlGateTick],
+  );
+
+  useEffect(() => {
+    if (hasHydrated && i18n.language !== language) {
       i18n.changeLanguage(language);
     }
-  }, [language]);
+  }, [language, hasHydrated]);
 
-  if (!loaded || isRebooting) {
+  if (!loaded || !hasHydrated || isRebooting) {
     return (
       <View
         style={{

@@ -54,6 +54,9 @@ export default function LoginScreen() {
 
   const resolveLoginError = (err: unknown): string => {
     if (axios.isAxiosError(err)) {
+      if (err.code === "ECONNABORTED" || err.message === "Network Error") {
+        return t("auth.resetNetworkError");
+      }
       const body = err.response?.data as { message?: string | string[] };
       if (typeof body?.message === "string") return body.message;
       if (Array.isArray(body?.message)) return body.message.join(" ");
