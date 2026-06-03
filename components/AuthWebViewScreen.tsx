@@ -96,6 +96,58 @@ export function AuthWebViewScreen({
             if (url.startsWith("mailto:") || url.startsWith("tel:")) {
               return false;
             }
+
+            const lowerUrl = url.toLowerCase();
+            const lowerUri = uri.toLowerCase();
+
+            // Allow the initial load
+            if (
+              lowerUrl === lowerUri ||
+              lowerUrl === lowerUri + "/" ||
+              lowerUri === lowerUrl + "/"
+            ) {
+              return true;
+            }
+
+            // Redirect standard login link to app's native login screen
+            if (
+              lowerUrl.includes("wp-login.php") &&
+              !lowerUrl.includes("action=register") &&
+              !lowerUrl.includes("action=lostpassword") &&
+              !lowerUrl.includes("action=rp") &&
+              !lowerUrl.includes("action=resetpass")
+            ) {
+              router.replace("/(auth)/login");
+              return false;
+            }
+
+            // Redirect lost password link to app's native forgot-password screen
+            if (
+              lowerUrl.includes("wp-login.php") &&
+              lowerUrl.includes("action=lostpassword")
+            ) {
+              router.replace("/(auth)/forgot-password");
+              return false;
+            }
+
+            // Redirect registration link to app's native register screen
+            if (
+              lowerUrl.includes("wp-login.php") &&
+              lowerUrl.includes("action=register")
+            ) {
+              router.replace("/(auth)/register");
+              return false;
+            }
+
+            // Redirect home page navigation back to the app's native tabs
+            if (
+              lowerUrl === "https://alsyahaalarabia.com" ||
+              lowerUrl === "https://alsyahaalarabia.com/"
+            ) {
+              router.replace("/(tabs)");
+              return false;
+            }
+
             return true;
           }}
         />

@@ -3,6 +3,7 @@ import { useRouter } from "expo-router";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { ActivityIndicator, Text, TouchableOpacity, View } from "react-native";
+import { Category } from "@/types/Article";
 import {
   BuildingLibraryIcon,
   GlobeAltIcon,
@@ -55,9 +56,9 @@ export const ExploreGrid = () => {
   }
 
   // Filter out uncategorized and sort by post count
-  const displayCategories = (categories || [])
-    .filter((c) => !c.name.toLowerCase().includes("uncategorized"))
-    .sort((a, b) => (b.count || 0) - (a.count || 0))
+  const displayCategories = (categories as Category[] || [])
+    .filter((c: Category) => !c.name.toLowerCase().includes("uncategorized"))
+    .sort((a: Category, b: Category) => (b.count || 0) - (a.count || 0))
     .slice(0, 4);
 
   if (displayCategories.length === 0) return null;
@@ -67,7 +68,7 @@ export const ExploreGrid = () => {
       <View
         className={`flex-row flex-wrap justify-between ${isRTL ? "flex-row-reverse" : ""}`}
       >
-        {displayCategories.map((cat, index) => {
+        {displayCategories.map((cat: Category, index: number) => {
           const Icon = ICON_MAP[cat.originalName || cat.name] || ICON_MAP["Default"];
           const bgColor = COLOR_PALETTE[index % COLOR_PALETTE.length];
 

@@ -5,20 +5,10 @@ import { createJSONStorage, persist } from "zustand/middleware";
 import * as Localization from "expo-localization";
 import { DevSettings, I18nManager } from "react-native";
 import RNRestart from "react-native-restart";
+import { Article } from "../types/Article";
 
 /** Skip stacking RTL reloads when layout/store retries same language before native catches up. */
 const RTL_RESTART_COOLDOWN_MS = 30_000;
-
-interface Article {
-  id: string;
-  title: string;
-  excerpt: string;
-  image: string;
-  category: string;
-  date: string;
-  author?: string;
-  content?: string;
-}
 
 interface User {
   id: string;

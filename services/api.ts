@@ -10,6 +10,8 @@ export const WP_SITE_ORIGIN = new URL(WP_JSON_ROOT).origin;
 export const WP_PASSWORD_RESET_PAGE_URL = `${WP_SITE_ORIGIN}/password-reset/`;
 /** WordPress registration (in-app WebView). */
 export const WP_REGISTER_PAGE_URL = `${WP_SITE_ORIGIN}/wp-login.php?action=register`;
+/** WordPress lost password (in-app WebView fallback). */
+export const WP_LOST_PASSWORD_URL = `${WP_SITE_ORIGIN}/wp-login.php?action=lostpassword`;
 
 export interface JwtAuthTokenResponse {
   token: string;

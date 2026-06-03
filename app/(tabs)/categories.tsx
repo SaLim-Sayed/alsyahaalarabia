@@ -42,7 +42,7 @@ export default function CategoriesScreen() {
         </Text>
 
         <View className="flex-row flex-wrap justify-between">
-          {categories?.map((cat) => (
+          {categories?.map((cat: any) => (
             <TouchableOpacity
               key={cat.id}
               className="w-[48%] h-40 mb-6 rounded-3xl overflow-hidden shadow-lg"
