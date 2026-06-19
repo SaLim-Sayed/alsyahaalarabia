@@ -29,7 +29,7 @@ export default function ContactScreen() {
     {
       title: t("contact.sections.technical"),
       person: t("contact.sections.beedco"),
-      email: "Support@alsyahaalarabia.com",
+      email: "info@d-arrow.com",
       phone: "0550442290",
       icon: WrenchScrewdriverIcon,
       color: "#fbbf24",
@@ -79,13 +79,13 @@ export default function ContactScreen() {
         </TouchableOpacity>
         {contactSections.map((section, index) => (
           <View key={index} className="mb-8">
-            <Text className="text-gray-400 font-[Cairo_700Bold] text-xs uppercase tracking-widest mb-4 px-2">
+            <Text className={`text-gray-400 font-[Cairo_700Bold] text-xs uppercase tracking-widest mb-4 px-2 ${isRTL ? "text-right" : "text-left"}`}>
               {section.title}
             </Text>
 
             <View className="bg-white rounded-[32px] p-6 shadow-sm border border-gray-100">
-              <View className="flex-row items-center mb-6">
-                <View className="w-12 h-12 rounded-2xl bg-secondary items-center justify-center me-4">
+              <View className={`flex-row items-center mb-6 ${isRTL ? "flex-row-reverse" : ""}`}>
+                <View className={`w-12 h-12 rounded-2xl bg-secondary items-center justify-center ${isRTL ? "ms-4" : "me-4"}`}>
                   <section.icon
                     size={26}
                     color={section.color}
@@ -94,11 +94,11 @@ export default function ContactScreen() {
                 </View>
                 <View className="flex-1">
                   {section.person && (
-                    <Text className="text-gray-800 font-[Cairo_700Bold] text-base mb-1">
+                    <Text className={`text-gray-800 font-[Cairo_700Bold] text-base mb-1 ${isRTL ? "text-right" : "text-left"}`}>
                       {section.person}
                     </Text>
                   )}
-                  <Text className="text-gray-400 font-[Cairo_400Regular] text-xs">
+                  <Text className={`text-gray-400 font-[Cairo_400Regular] text-xs ${isRTL ? "text-right" : "text-left"}`}>
                     {section.title}
                   </Text>
                 </View>
@@ -108,10 +108,10 @@ export default function ContactScreen() {
               <View className="space-y-3">
                 <TouchableOpacity
                   onPress={() => handleEmail(section.email)}
-                  className="flex-row items-center bg-secondary/50 p-4 rounded-2xl"
+                  className={`flex-row items-center bg-secondary/50 p-4 rounded-2xl ${isRTL ? "flex-row-reverse" : ""}`}
                 >
                   <EnvelopeIcon size={20} color="#1a3c34" />
-                  <Text className="text-primary font-[Cairo_700Bold] text-sm ms-3">
+                  <Text className={`text-primary font-[Cairo_700Bold] text-sm ${isRTL ? "me-3 text-right" : "ms-3 text-left"}`}>
                     {section.email}
                   </Text>
                 </TouchableOpacity>
@@ -119,10 +119,10 @@ export default function ContactScreen() {
                 {section.phone && (
                   <TouchableOpacity
                     onPress={() => handlePhone(section.phone!)}
-                    className="flex-row items-center bg-secondary/50 p-4 rounded-2xl mt-3"
+                    className={`flex-row items-center bg-secondary/50 p-4 rounded-2xl mt-3 ${isRTL ? "flex-row-reverse" : ""}`}
                   >
                     <PhoneIcon size={20} color="#1a3c34" />
-                    <Text className="text-primary font-[Cairo_700Bold] text-sm ms-3">
+                    <Text className={`text-primary font-[Cairo_700Bold] text-sm ${isRTL ? "me-3 text-right" : "ms-3 text-left"}`}>
                       {section.phone}
                     </Text>
                   </TouchableOpacity>
@@ -131,10 +131,10 @@ export default function ContactScreen() {
                 {section.website && (
                   <TouchableOpacity
                     onPress={() => Linking.openURL(section.website!)}
-                    className="flex-row items-center bg-secondary/50 p-4 rounded-2xl mt-3"
+                    className={`flex-row items-center bg-secondary/50 p-4 rounded-2xl mt-3 ${isRTL ? "flex-row-reverse" : ""}`}
                   >
                     <UserIcon size={20} color="#1a3c34" />
-                    <Text className="text-primary font-[Cairo_700Bold] text-sm ms-3">
+                    <Text className={`text-primary font-[Cairo_700Bold] text-sm ${isRTL ? "me-3 text-right" : "ms-3 text-left"}`}>
                       {section.website}
                     </Text>
                   </TouchableOpacity>

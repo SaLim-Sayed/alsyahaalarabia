@@ -78,42 +78,42 @@ export default function AboutScreen() {
         </TouchableOpacity>
         {/* Vision Card */}
         <View className="bg-white rounded-[32px] p-8 shadow-sm border border-gray-100 mb-6">
-          <Text className="text-gray-800 font-[Cairo_700Bold] text-2xl mb-6">
+          <Text className={`text-gray-800 font-[Cairo_700Bold] text-2xl mb-6 ${isRTL ? "text-right" : "text-left"}`}>
             {t("about.visionTitle")}
           </Text>
-          <Text className="text-gray-500 font-[Cairo_400Regular] leading-7 text-base">
+          <Text className={`text-gray-500 font-[Cairo_400Regular] leading-7 text-base ${isRTL ? "text-right" : "text-left"}`}>
             {t("about.visionContent")}
           </Text>
         </View>
 
         {/* History Card */}
         <View className="bg-white rounded-[32px] p-8 shadow-sm border border-gray-100 mb-8">
-          <Text className="text-gray-800 font-[Cairo_700Bold] text-2xl mb-6">
+          <Text className={`text-gray-800 font-[Cairo_700Bold] text-2xl mb-6 ${isRTL ? "text-right" : "text-left"}`}>
             {t("about.historyTitle")}
           </Text>
-          <Text className="text-gray-500 font-[Cairo_400Regular] leading-7 text-base">
+          <Text className={`text-gray-500 font-[Cairo_400Regular] leading-7 text-base ${isRTL ? "text-right" : "text-left"}`}>
             {t("about.historyContent")}
           </Text>
         </View>
 
         {/* Achievements Section */}
-        <Text className="text-primary font-[Cairo_700Bold] text-xl mb-6 px-2">
+        <Text className={`text-primary font-[Cairo_700Bold] text-xl mb-6 px-2 ${isRTL ? "text-right" : "text-left"}`}>
           {t("about.whyTitle")}
         </Text>
 
         {achievements.map((item, index) => (
           <View
             key={index}
-            className="flex-row items-center bg-white p-6 rounded-[28px] mb-4 shadow-sm border border-gray-100"
+            className={`flex-row items-center bg-white p-6 rounded-[28px] mb-4 shadow-sm border border-gray-100 ${isRTL ? "flex-row-reverse" : ""}`}
           >
-            <View className="w-12 h-12 rounded-2xl bg-accent/10 items-center justify-center me-4">
+            <View className={`w-12 h-12 rounded-2xl bg-accent/10 items-center justify-center ${isRTL ? "ms-4" : "me-4"}`}>
               <item.icon size={26} color="#fbbf24" strokeWidth={1.5} />
             </View>
             <View className="flex-1">
-              <Text className="text-gray-800 font-[Cairo_700Bold] text-base mb-1">
+              <Text className={`text-gray-800 font-[Cairo_700Bold] text-base mb-1 ${isRTL ? "text-right" : "text-left"}`}>
                 {item.title}
               </Text>
-              <Text className="text-gray-400 font-[Cairo_400Regular] text-xs leading-5">
+              <Text className={`text-gray-400 font-[Cairo_400Regular] text-xs leading-5 ${isRTL ? "text-right" : "text-left"}`}>
                 {item.desc}
               </Text>
             </View>

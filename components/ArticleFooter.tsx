@@ -17,7 +17,7 @@ export const ArticleFooter = () => {
     },
     {
       name: "tiktok",
-      icon: "music",
+      icon: "tiktok",
       url: "https://www.tiktok.com/@user2936811969632",
     },
     {

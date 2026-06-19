@@ -16,12 +16,16 @@ type AuthWebViewScreenProps = {
   uri: string;
   title: string;
   subtitle: string;
+  bottomButtonText?: string;
+  onBottomButtonPress?: () => void;
 };
 
 export function AuthWebViewScreen({
   uri,
   title,
   subtitle,
+  bottomButtonText,
+  onBottomButtonPress,
 }: AuthWebViewScreenProps) {
   const { t, i18n } = useTranslation();
   const isRTL = i18n.dir() === "rtl";
@@ -155,12 +159,18 @@ export function AuthWebViewScreen({
 
       <View className="px-4 py-3 border-t border-white/10 bg-primary">
         <TouchableOpacity
-          onPress={() => router.replace("/(auth)/login")}
+          onPress={() => {
+            if (onBottomButtonPress) {
+              onBottomButtonPress();
+            } else {
+              router.replace("/(auth)/login");
+            }
+          }}
           accessibilityRole="button"
           className="bg-accent h-12 rounded-2xl items-center justify-center"
         >
           <Text className="text-primary font-[Cairo_700Bold]">
-            {t("auth.backToLogin")}
+            {bottomButtonText || t("auth.backToLogin")}
           </Text>
         </TouchableOpacity>
       </View>

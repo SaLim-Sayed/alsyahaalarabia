@@ -28,6 +28,7 @@ import {
   DocumentTextIcon,
   EnvelopeIcon,
   ShieldCheckIcon,
+  TrashIcon,
   UserCircleIcon,
 } from "react-native-heroicons/outline";
 
@@ -56,16 +57,15 @@ function buildWpPatch(
   baseline: ReturnType<typeof baselineFromStores>,
 ): Record<string, unknown> {
   const payload: Record<string, unknown> = {};
-  if (data.name.trim() !== baseline.name.trim()) payload.name = data.name.trim();
+  if (data.name.trim() !== baseline.name.trim())
+    payload.name = data.name.trim();
   if (data.firstName.trim() !== baseline.first_name.trim())
     payload.first_name = data.firstName.trim();
   if (data.lastName.trim() !== baseline.last_name.trim())
     payload.last_name = data.lastName.trim();
   if (data.description.trim() !== baseline.description.trim())
     payload.description = data.description.trim();
-  if (
-    data.email.trim().toLowerCase() !== baseline.email.trim().toLowerCase()
-  ) {
+  if (data.email.trim().toLowerCase() !== baseline.email.trim().toLowerCase()) {
     payload.email = data.email.trim();
   }
   return payload;
@@ -145,32 +145,28 @@ export default function ProfileScreen() {
         );
       },
       onError: (error: unknown) => {
-        const msg =
-          error instanceof Error ? error.message : String(error);
-        Alert.alert(
-          t("common.error"),
-          msg || t("auth.profileUpdateFailed"),
-        );
+        const msg = error instanceof Error ? error.message : String(error);
+        Alert.alert(t("common.error"), msg || t("auth.profileUpdateFailed"));
       },
     });
   };
 
   const handleLogout = () => {
-    Alert.alert(
-      t("auth.logout"),
-      t("auth.logoutConfirmMessage"),
-      [
-        { text: t("common.goBack"), style: "cancel" },
-        {
-          text: t("auth.logout"),
-          style: "destructive",
-          onPress: () => {
-            logout();
-            router.replace("/(auth)/login");
-          },
+    Alert.alert(t("auth.logout"), t("auth.logoutConfirmMessage"), [
+      { text: t("common.goBack"), style: "cancel" },
+      {
+        text: t("auth.logout"),
+        style: "destructive",
+        onPress: () => {
+          logout();
+          router.replace("/(auth)/login");
         },
-      ],
-    );
+      },
+    ]);
+  };
+
+  const handleDeleteAccount = () => {
+    router.push("/settings/delete-account");
   };
 
   const fieldWrap = (
@@ -220,14 +216,12 @@ export default function ProfileScreen() {
     );
   }
 
-  const initialLetter = (
-    watchedName ||
-    user.name ||
-    ""
-  ).charAt(0).toUpperCase();
+  const initialLetter = (watchedName || user.name || "")
+    .charAt(0)
+    .toUpperCase();
 
   return (
-    <SafeAreaView className="flex-1 bg-secondary">
+    <SafeAreaView className="bg-secondary" style={{ flex: 1 }}>
       <View className="flex-row items-center justify-between px-6 py-12 bg-primary rounded-b-[40px] shadow-lg">
         <TouchableOpacity
           onPress={() => router.back()}
@@ -249,12 +243,16 @@ export default function ProfileScreen() {
           hitSlop={{ top: 12, bottom: 12, left: 12, right: 12 }}
           className="w-10 h-10 items-center justify-center rounded-full bg-white/10"
         >
-          <ArrowRightOnRectangleIcon size={22} color="#ffffff" strokeWidth={1.75} />
+          <ArrowRightOnRectangleIcon
+            size={22}
+            color="#ffffff"
+            strokeWidth={1.75}
+          />
         </TouchableOpacity>
       </View>
-
       <ScrollView
-        className="flex-[0.96] px-6 pt-10"
+        className="px-6 pt-10"
+        style={{ flex: 1 }}
         contentContainerStyle={{ paddingBottom: 40 }}
         showsVerticalScrollIndicator={false}
         keyboardShouldPersistTaps="handled"
@@ -272,7 +270,7 @@ export default function ProfileScreen() {
           </View>
         </View>
 
-        <View className="space-y-6 flex flex-col gap-4">
+        <View className="space-y-6  flex flex-col gap-4">
           {fieldWrap(
             t("auth.profileForm.displayName"),
             <Controller
@@ -375,7 +373,6 @@ export default function ProfileScreen() {
             errors.description?.message,
           )}
 
-
           <View className="my-3">
             <Text className="text-gray-400 font-[Cairo_700Bold] text-xs uppercase tracking-widest mb-2 px-1">
               {t("auth.profileForm.email")}
@@ -437,12 +434,32 @@ export default function ProfileScreen() {
             )}
           </TouchableOpacity>
 
+          <TouchableOpacity
+            onPress={handleDeleteAccount}
+            accessibilityRole="button"
+            accessibilityHint={t("auth.deleteAccountHint")}
+            className="flex-row items-center bg-red-50 border border-red-100 rounded-3xl p-4 shadow-sm active:opacity-90"
+          >
+            <TrashIcon size={22} color="#ef4444" strokeWidth={1.5} />
+            <Text
+              className={`flex-1 ms-3 text-red-500 font-[Cairo_700Bold] text-base ${isRTL ? "text-right" : "text-left"}`}
+            >
+              {t("auth.deleteAccount")}
+            </Text>
+            {isRTL ? (
+              <ArrowLeftIcon size={20} color="#ef4444" />
+            ) : (
+              <ArrowRightIcon size={20} color="#ef4444" />
+            )}
+          </TouchableOpacity>
         </View>
-      </ScrollView> <TouchableOpacity
+      </ScrollView>
+      <TouchableOpacity
         onPress={handleSubmit(onSubmit)}
         disabled={isSaving || !isDirty}
-        className={`h-16 rounded-[24px]  items-center justify-center shadow-lg m-6 ${isSaving || !isDirty ? "bg-gray-300" : "bg-primary"
-          }`}
+        className={`h-16 rounded-[24px]  items-center justify-center shadow-lg m-6 ${
+          isSaving || !isDirty ? "bg-gray-300" : "bg-primary"
+        }`}
       >
         <Text className="text-white text-lg font-[Cairo_700Bold]">
           {isSaving ? t("common.loading") : t("auth.profileForm.saveChanges")}
