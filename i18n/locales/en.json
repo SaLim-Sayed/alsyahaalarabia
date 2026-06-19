@@ -149,6 +149,10 @@
     "profileUpdatedTitle": "Success",
     "profileUpdatedBody": "Profile updated successfully",
     "profileUpdateFailed": "Failed to update profile",
+    "deleteAccount": "Delete Account",
+    "deleteAccountHint": "You will be redirected to our website to delete your account",
+    "deleteAccountConfirmTitle": "Delete Account",
+    "deleteAccountConfirmMessage": "Are you sure you want to delete your account? You will be redirected to our website to complete the process. This action cannot be undone.",
     "loginFooterNote": "Sign-in uses the JWT endpoint on our server. Sign up uses the site registration form in the app.",
     "copyright": "© 2024 Alsyaha Alarabiya",
     "showPassword": "Show password",
@@ -181,7 +185,7 @@
       "technical": "To contact technical support for technical problems",
       "privacy": "For inquiries regarding privacy policies",
       "abbas": "Professor: Abbas Al-Ibrahim",
-      "beedco": "Beedco: Ali Mohammed Al-Shaghab",
+      "beedco": "D-Arrow",
       "website": "Website"
     }
   },
